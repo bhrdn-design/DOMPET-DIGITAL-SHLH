@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#101623" />
-  <title>DompetRapi Finance Pro v17 - Produk Bisa Edit</title>
+  <title>DompetRapi Finance Pro v19 - Kasir Warung Lengkap</title>
 
   <style>
     :root {
@@ -1532,6 +1532,383 @@
     }
 
 
+
+    .warung-hero {
+      border-radius: 30px;
+      padding: 18px;
+      background:
+        radial-gradient(circle at 100% 0, rgba(255,107,97,.30), transparent 14rem),
+        radial-gradient(circle at 0 100%, rgba(251,191,36,.18), transparent 14rem),
+        linear-gradient(135deg, #b91c1c, #ef4444 55%, #fb7185);
+      color: white;
+      box-shadow: 0 22px 60px rgba(239,68,68,.28);
+      border: 1px solid rgba(255,255,255,.18);
+      margin-bottom: 14px;
+    }
+
+    .warung-hero h2 {
+      margin: 0;
+      font-size: 25px;
+      letter-spacing: -.045em;
+    }
+
+    .warung-hero p {
+      margin: 6px 0 0;
+      color: rgba(255,255,255,.82);
+      line-height: 1.45;
+      font-size: 13px;
+    }
+
+    .warung-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .warung-tab {
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.06);
+      color: var(--ink);
+      border-radius: 18px;
+      padding: 11px 9px;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    body.light .warung-tab {
+      background: #fff;
+    }
+
+    .warung-tab.active {
+      background: linear-gradient(135deg, #ef4444, #fb7185);
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 14px 28px rgba(239,68,68,.20);
+    }
+
+    .warung-grid {
+      display: grid;
+      grid-template-columns: 1fr .72fr;
+      gap: 12px;
+    }
+
+    .warung-card {
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 14px;
+      background: rgba(255,255,255,.035);
+    }
+
+    body.light .warung-card {
+      background: #fff;
+    }
+
+    .warung-products {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 9px;
+      max-height: 430px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .warung-product-btn {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 12px;
+      background:
+        radial-gradient(circle at 100% 0, rgba(239,68,68,.10), transparent 7rem),
+        rgba(255,255,255,.04);
+      color: var(--ink);
+      text-align: left;
+      display: grid;
+      gap: 7px;
+      min-height: 92px;
+    }
+
+    body.light .warung-product-btn {
+      background:
+        radial-gradient(circle at 100% 0, rgba(239,68,68,.10), transparent 7rem),
+        #fff;
+    }
+
+    .warung-product-btn b {
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .warung-product-btn span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.3;
+    }
+
+    .cart-list {
+      display: grid;
+      gap: 8px;
+      max-height: 330px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .cart-item {
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 10px;
+      background: rgba(255,255,255,.035);
+      display: grid;
+      gap: 8px;
+    }
+
+    body.light .cart-item {
+      background: #fff;
+    }
+
+    .cart-item-top {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: start;
+    }
+
+    .cart-item b {
+      font-size: 13px;
+    }
+
+    .cart-item span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .cart-actions {
+      display: grid;
+      grid-template-columns: 38px 1fr 38px 38px;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .cart-actions button {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--ink);
+      border-radius: 12px;
+      height: 34px;
+      font-weight: 950;
+    }
+
+    body.light .cart-actions button {
+      background: #fff;
+    }
+
+    .cart-total-box {
+      border-radius: 20px;
+      padding: 13px;
+      background: rgba(239,68,68,.12);
+      border: 1px solid rgba(239,68,68,.22);
+      display: grid;
+      gap: 7px;
+      margin: 10px 0;
+    }
+
+    .cart-total-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .cart-total-line strong {
+      color: var(--ink);
+      font-size: 18px;
+    }
+
+    .receipt-box {
+      border: 1px dashed rgba(255,255,255,.22);
+      background: rgba(255,255,255,.04);
+      border-radius: 20px;
+      padding: 14px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      white-space: pre-wrap;
+      font-size: 12px;
+      line-height: 1.45;
+      max-height: 360px;
+      overflow: auto;
+    }
+
+    body.light .receipt-box {
+      background: #fff;
+      border-color: #d7e1ec;
+    }
+
+    .warung-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .warung-stat {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 13px;
+      background: rgba(255,255,255,.035);
+    }
+
+    body.light .warung-stat {
+      background: #fff;
+    }
+
+    .warung-stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .warung-stat b {
+      display: block;
+      margin-top: 6px;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .red-soft-btn {
+      background: linear-gradient(135deg, #ef4444, #fb7185) !important;
+      color: white !important;
+    }
+
+    @media (max-width: 820px) {
+      .warung-grid,
+      .warung-stat-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .warung-products {
+        grid-template-columns: 1fr;
+      }
+
+      .warung-tabs {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+
+
+    .warung-feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    .warung-feature-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 13px;
+      background:
+        radial-gradient(circle at 100% 0, rgba(239,68,68,.11), transparent 7rem),
+        rgba(255,255,255,.035);
+      display: grid;
+      gap: 8px;
+      min-height: 110px;
+    }
+
+    body.light .warung-feature-card {
+      background:
+        radial-gradient(circle at 100% 0, rgba(239,68,68,.11), transparent 7rem),
+        #fff;
+    }
+
+    .warung-feature-card b {
+      font-size: 14px;
+      letter-spacing: -.02em;
+    }
+
+    .warung-feature-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .variant-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .variant-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 10px;
+      background: rgba(255,255,255,.035);
+    }
+
+    body.light .variant-item {
+      background: #fff;
+    }
+
+    .barcode-box {
+      width: 100%;
+      min-height: 72px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background:
+        repeating-linear-gradient(90deg, var(--ink) 0 2px, transparent 2px 5px, var(--ink) 5px 6px, transparent 6px 10px);
+      opacity: .78;
+    }
+
+    body.light .barcode-box {
+      background:
+        repeating-linear-gradient(90deg, #111827 0 2px, transparent 2px 5px, #111827 5px 6px, transparent 6px 10px);
+      opacity: .75;
+    }
+
+    .template-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .template-btn {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 13px;
+      background: rgba(255,255,255,.035);
+      color: var(--ink);
+      text-align: left;
+      display: grid;
+      gap: 5px;
+    }
+
+    body.light .template-btn {
+      background: #fff;
+    }
+
+    .template-btn b {
+      font-size: 14px;
+    }
+
+    .template-btn span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    @media (max-width: 820px) {
+      .warung-feature-grid,
+      .template-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
     .empty {
       min-height: 150px;
       display: grid;
@@ -1813,9 +2190,12 @@
 
         <form class="form hidden" id="registerForm">
           <div class="field"><label>Nama</label><input class="input" id="registerName" type="text" autocomplete="name" required></div>
+          <div class="field"><label>Nama Warung / Usaha</label><input class="input" id="registerBusiness" type="text" placeholder="Contoh: Warung Sinar Jaya"></div>
           <div class="field"><label>Email</label><input class="input" id="registerEmail" type="email" autocomplete="email" required></div>
           <div class="field"><label>Password</label><input class="input" id="registerPassword" type="password" autocomplete="new-password" required></div>
-          <button class="btn teal full" type="submit">Buat Akun</button>
+          <div class="field"><label>Konfirmasi Password</label><input class="input" id="registerConfirmPassword" type="password" autocomplete="new-password" required></div>
+          <div class="field"><label>Kode Referral</label><input class="input" id="registerReferral" type="text" placeholder="Opsional"></div>
+          <button class="btn teal full" type="submit">Daftar Akun</button>
         </form>
 
         <form class="form hidden" id="forgotForm">
@@ -1886,13 +2266,14 @@
 
           <div class="hybrid-note">
             <h3>Aplikasi keuangan dengan fitur kasir tambahan.</h3>
-            <p>Gunakan untuk catatan pribadi, kas harian, tabungan target barang, kasir manual, pesanan, pelanggan, karyawan, laporan, kalkulator, kurs lengkap, dan backup data.</p>
+            <p>Gunakan untuk catatan pribadi, kas harian, tabungan target barang, kasir manual, kasir warung merah, pesanan, pelanggan, karyawan, laporan, kalkulator, kurs lengkap, dan backup data.</p>
           </div>
         </section>
 
         <section id="dompetPanel" class="content-panel"></section>
         <section id="savingsPanel" class="content-panel"></section>
         <section id="kasirPanel" class="content-panel"></section>
+        <section id="warungPanel" class="content-panel"></section>
         <section id="produkPanel" class="content-panel"></section>
         <section id="ordersPanel" class="content-panel"></section>
         <section id="historyPanel" class="content-panel"></section>
@@ -1951,7 +2332,7 @@
 
         <div class="drawer-footer">
           <button class="drawer-logout" id="logoutBtn" type="button">Keluar</button>
-          <span class="version">v17.0</span>
+          <span class="version">v19.0</span>
         </div>
       </aside>
     </div>
@@ -1992,6 +2373,7 @@
       dashboard: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" stroke="currentColor" stroke-width="2"/></svg>',
       dompet: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16v11H4z" stroke="currentColor" stroke-width="2"/><path d="M16 12h4v4h-4a2 2 0 0 1 0-4Z" stroke="currentColor" stroke-width="2"/></svg>',
       kasir: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 5h2l2 12h10l2-8H8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10 21h.01M17 21h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
+      warung: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 10h16l-1 10H5L4 10Z" stroke="currentColor" stroke-width="2"/><path d="M7 10V6a5 5 0 0 1 10 0v4M8 14h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
       produk: '<svg viewBox="0 0 24 24" fill="none"><path d="m12 3 8 4-8 4-8-4 8-4Z" stroke="currentColor" stroke-width="2"/><path d="M4 7v10l8 4 8-4V7M12 11v10" stroke="currentColor" stroke-width="2"/></svg>',
       orders: '<svg viewBox="0 0 24 24" fill="none"><path d="M6 3h12v18l-2-1-2 1-2-1-2 1-2-1-2 1V3Z" stroke="currentColor" stroke-width="2"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
       history: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M16 7c-1-2-7-2-7 1s7 2 7 5-6 4-8 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 12a9 9 0 1 0 4-7" stroke="currentColor" stroke-width="2" stroke-dasharray="2 2"/></svg>',
@@ -2010,6 +2392,7 @@
       ["dompet", "Dompet", icons.dompet],
       ["savings", "Tabungan", icons.savings],
       ["kasir", "Kasir", icons.kasir],
+      ["warung", "Kasir Warung", icons.warung],
       ["produk", "Produk", icons.produk],
       ["orders", "Daftar Pesanan", icons.orders],
       ["history", "Riwayat Penjualan", icons.history],
@@ -2035,6 +2418,9 @@
       screen: "dashboard",
       txType: "income",
       editingProductId: null,
+      warungTab: "transaksi",
+      warungCart: [],
+      lastReceipt: "",
       transactions: [],
       products: [],
       orders: [],
@@ -2232,22 +2618,28 @@
       loadUsers();
 
       const name = $("#registerName").value.trim();
+      const businessName = $("#registerBusiness").value.trim();
       const email = normalizeEmail($("#registerEmail").value);
       const password = $("#registerPassword").value;
+      const confirmPassword = $("#registerConfirmPassword").value;
+      const referralCode = $("#registerReferral").value.trim();
 
       if (!name) return toast("Nama wajib diisi.");
       if (!email) return toast("Email wajib diisi.");
       if (password.length < 6) return toast("Password minimal 6 karakter.");
+      if (password !== confirmPassword) return toast("Konfirmasi password tidak sama.");
       if (state.users.some(u => u.email === email)) return toast("Email sudah terdaftar.");
 
       const user = {
         id: uid(),
         name,
+        businessName,
+        referralCode,
         email,
         role: "Admin",
         avatar: "",
-        profileCategory: "",
-        profileNote: "",
+        profileCategory: businessName ? "Warung / UMKM" : "",
+        profileNote: businessName ? `Akun usaha ${businessName}` : "",
         passwordHash: await hash(password),
         createdAt: nowISO()
       };
@@ -2266,8 +2658,11 @@
       $("#loginEmail").value = email;
       $("#loginPassword").value = "";
       $("#registerName").value = "";
+      $("#registerBusiness").value = "";
       $("#registerEmail").value = "";
       $("#registerPassword").value = "";
+      $("#registerConfirmPassword").value = "";
+      $("#registerReferral").value = "";
       setAuth("login");
       toast("Akun berhasil dibuat.");
     }
@@ -2470,6 +2865,7 @@
         dompet: renderDompet,
         savings: renderSavings,
         kasir: renderKasir,
+        warung: renderWarung,
         produk: renderProduk,
         orders: renderOrders,
         history: renderHistory,
@@ -3106,6 +3502,611 @@
     }
 
 
+
+    function renderWarung(tab = state.warungTab || "dashboard") {
+      state.warungTab = tab;
+
+      $("#warungPanel").innerHTML = `
+        <div class="warung-hero">
+          <h2>Kasir Warung Merah</h2>
+          <p>Transaksi cepat, keranjang, bayar, struk, piutang, stok menipis, dan tutup kasir harian.</p>
+        </div>
+
+        <div class="warung-tabs">
+          <button class="warung-tab ${tab === "dashboard" ? "active" : ""}" data-warung-tab="dashboard" type="button">Dasbor</button>
+          <button class="warung-tab ${tab === "transaksi" ? "active" : ""}" data-warung-tab="transaksi" type="button">Transaksi</button>
+          <button class="warung-tab ${tab === "piutang" ? "active" : ""}" data-warung-tab="piutang" type="button">Piutang</button>
+          <button class="warung-tab ${tab === "stok" ? "active" : ""}" data-warung-tab="stok" type="button">Stok</button>
+          <button class="warung-tab ${tab === "varian" ? "active" : ""}" data-warung-tab="varian" type="button">Varian</button>
+          <button class="warung-tab ${tab === "template" ? "active" : ""}" data-warung-tab="template" type="button">Template</button>
+          <button class="warung-tab ${tab === "export" ? "active" : ""}" data-warung-tab="export" type="button">Export</button>
+          <button class="warung-tab ${tab === "tutup" ? "active" : ""}" data-warung-tab="tutup" type="button">Tutup Kasir</button>
+        </div>
+
+        <div id="warungContent"></div>
+      `;
+
+      $$("[data-warung-tab]").forEach(btn => {
+        btn.onclick = () => renderWarung(btn.dataset.warungTab);
+      });
+
+      if (tab === "dashboard") renderWarungDashboard();
+      if (tab === "transaksi") renderWarungTransaction();
+      if (tab === "piutang") renderWarungDebt();
+      if (tab === "stok") renderWarungStock();
+      if (tab === "varian") renderWarungVariants();
+      if (tab === "template") renderWarungTemplates();
+      if (tab === "export") renderWarungExport();
+      if (tab === "tutup") renderWarungClose();
+    }
+
+
+    function renderWarungDashboard() {
+      const today = orderSummary("day");
+      const month = orderSummary("month");
+      const bestMap = {};
+      state.orders.forEach(o => {
+        if (Array.isArray(o.items)) {
+          o.items.forEach(item => {
+            bestMap[item.name] = (bestMap[item.name] || 0) + Number(item.qty || 0);
+          });
+        }
+      });
+      const bestProducts = Object.entries(bestMap).sort((a,b) => b[1]-a[1]).slice(0,5);
+      const low = state.products.filter(p => Number(p.stock || 0) <= 5);
+
+      $("#warungContent").innerHTML = `
+        <div class="warung-card">
+          <div class="panel-title">
+            <div><h2>Dasbor Warung</h2><p>Analisis penjualan, stok, dan aktivitas kasir.</p></div>
+          </div>
+
+          <div class="warung-stat-grid">
+            <div class="warung-stat"><span>Transaksi Hari Ini</span><b>${today.items.length}</b></div>
+            <div class="warung-stat"><span>Penjualan Hari Ini</span><b>${rupiah(today.total)}</b></div>
+            <div class="warung-stat"><span>Penjualan Bulan Ini</span><b>${rupiah(month.total)}</b></div>
+            <div class="warung-stat"><span>Stok Menipis</span><b>${low.length}</b></div>
+          </div>
+
+          <div class="warung-feature-grid">
+            <div class="warung-feature-card"><b>Manajemen Produk</b><span>Produk bisa ditambah, diedit, diberi satuan, stok, dan barcode.</span></div>
+            <div class="warung-feature-card"><b>Manajemen Varian</b><span>Tambahkan varian seperti rasa, ukuran, level, atau jenis kemasan.</span></div>
+            <div class="warung-feature-card"><b>Cetak Struk</b><span>Struk transaksi bisa disalin atau dicetak langsung.</span></div>
+            <div class="warung-feature-card"><b>Piutang</b><span>Transaksi piutang dipisahkan agar mudah dipantau.</span></div>
+            <div class="warung-feature-card"><b>Export Transaksi</b><span>Data transaksi bisa diekspor dalam format CSV dan XLS.</span></div>
+            <div class="warung-feature-card"><b>Karyawan</b><span>Kelola nama karyawan dan jabatan dari menu Karyawan.</span></div>
+          </div>
+        </div>
+
+        <div class="warung-card">
+          <div class="panel-title">
+            <div><h2>Produk Terlaris</h2><p>Berdasarkan jumlah item terjual.</p></div>
+          </div>
+          <div class="list">
+            ${bestProducts.length ? bestProducts.map(([name, qty]) => `
+              <div class="row-card">
+                <div class="row-icon">${icons.produk}</div>
+                <div class="row-main"><b>${esc(name)}</b><span>Total terjual</span></div>
+                <b>${qty}</b>
+              </div>
+            `).join("") : `<div class="empty">Belum ada data produk terjual.</div>`}
+          </div>
+        </div>`;
+    }
+
+
+    function renderWarungTransaction() {
+      const content = $("#warungContent");
+      content.innerHTML = `
+        <div class="warung-grid">
+          <div class="warung-card">
+            <div class="panel-title">
+              <div><h2>Produk Cepat</h2><p>Tekan produk untuk masuk keranjang.</p></div>
+            </div>
+
+            <div class="field">
+              <label>Cari produk</label>
+              <input class="input" id="warungProductSearch" placeholder="Cari nama produk">
+            </div>
+
+            <div class="warung-products" id="warungProductList"></div>
+          </div>
+
+          <div class="warung-card">
+            <div class="panel-title">
+              <div><h2>Keranjang</h2><p>Atur jumlah, diskon, pajak, dan pembayaran.</p></div>
+            </div>
+
+            <div class="cart-list" id="warungCartList"></div>
+
+            <div class="field">
+              <label>Diskon</label>
+              <input class="input" id="warungDiscount" inputmode="numeric" value="0">
+            </div>
+
+            <div class="field">
+              <label>Pajak / biaya lain</label>
+              <input class="input" id="warungTax" inputmode="numeric" value="0">
+            </div>
+
+            <div class="field">
+              <label>Metode bayar</label>
+              <select class="select" id="warungPayment">
+                <option>Tunai</option>
+                <option>QRIS</option>
+                <option>Transfer</option>
+                <option>Piutang</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Nama pelanggan</label>
+              <input class="input" id="warungCustomer" placeholder="Opsional">
+            </div>
+
+            <div class="cart-total-box" id="warungTotalBox"></div>
+
+            <div class="setting-actions">
+              <button class="btn coral full red-soft-btn" id="warungPayBtn" type="button">Bayar & Simpan</button>
+              <button class="btn light full" id="warungClearBtn" type="button">Kosongkan Keranjang</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-card">
+          <div class="panel-title">
+            <div><h2>Struk Terakhir</h2><p>Bisa dicetak atau disalin.</p></div>
+          </div>
+          <div class="receipt-box" id="receiptBox">${state.lastReceipt || "Belum ada struk."}</div>
+          <div class="setting-actions" style="margin-top:10px;">
+            <button class="btn light full" id="copyReceiptBtn" type="button">Salin Struk</button>
+            <button class="btn light full" id="printReceiptBtn" type="button">Cetak Struk</button>
+          </div>
+        </div>
+      `;
+
+      $("#warungProductSearch").oninput = renderWarungProductList;
+      $("#warungDiscount").oninput = renderWarungCart;
+      $("#warungTax").oninput = renderWarungCart;
+      $("#warungPayBtn").onclick = warungCheckout;
+      $("#warungClearBtn").onclick = () => {
+        state.warungCart = [];
+        renderWarungCart();
+      };
+      $("#copyReceiptBtn").onclick = copyReceipt;
+      $("#printReceiptBtn").onclick = printReceipt;
+
+      renderWarungProductList();
+      renderWarungCart();
+    }
+
+    function renderWarungProductList() {
+      const q = ($("#warungProductSearch")?.value || "").toLowerCase();
+      const list = $("#warungProductList");
+      if (!list) return;
+
+      const products = state.products.filter(p => !q || `${p.name} ${p.unit || ""}`.toLowerCase().includes(q));
+
+      list.innerHTML = products.length ? products.map(p => `
+        <button class="warung-product-btn" type="button" data-warung-product="${p.id}">
+          <b>${esc(p.name)}</b>
+          <span>${rupiah(p.price)} ${p.unit && p.unit !== "-" ? "/ " + esc(p.unit) : ""}</span>
+          <span>Stok: ${Number(p.stock || 0)}</span>
+        </button>
+      `).join("") : `<div class="empty">Produk belum ada atau tidak ditemukan.</div>`;
+
+      $$("[data-warung-product]").forEach(btn => {
+        btn.onclick = () => addProductToWarungCart(btn.dataset.warungProduct);
+      });
+    }
+
+    function addProductToWarungCart(productId) {
+      const product = state.products.find(p => p.id === productId);
+      if (!product) return;
+
+      const existing = state.warungCart.find(x => x.productId === productId);
+      if (existing) existing.qty += 1;
+      else state.warungCart.push({
+        productId,
+        name: product.name,
+        price: Number(product.price || 0),
+        unit: product.unit || "-",
+        qty: 1
+      });
+
+      renderWarungCart();
+      toast("Produk masuk keranjang.");
+    }
+
+    function renderWarungCart() {
+      const list = $("#warungCartList");
+      const totalBox = $("#warungTotalBox");
+      if (!list || !totalBox) return;
+
+      if (!state.warungCart.length) {
+        list.innerHTML = `<div class="empty">Keranjang kosong.</div>`;
+      } else {
+        list.innerHTML = state.warungCart.map((item, idx) => `
+          <div class="cart-item">
+            <div class="cart-item-top">
+              <div>
+                <b>${esc(item.name)}</b>
+                <span>${rupiah(item.price)} ${item.unit !== "-" ? "/ " + esc(item.unit) : ""}</span>
+              </div>
+              <b>${rupiah(item.price * item.qty)}</b>
+            </div>
+            <div class="cart-actions">
+              <button type="button" data-cart-minus="${idx}">-</button>
+              <span style="text-align:center;font-weight:950;">${item.qty}</span>
+              <button type="button" data-cart-plus="${idx}">+</button>
+              <button type="button" data-cart-remove="${idx}">×</button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      $$("[data-cart-minus]").forEach(btn => {
+        btn.onclick = () => {
+          const i = Number(btn.dataset.cartMinus);
+          if (!state.warungCart[i]) return;
+          state.warungCart[i].qty -= 1;
+          if (state.warungCart[i].qty <= 0) state.warungCart.splice(i, 1);
+          renderWarungCart();
+        };
+      });
+
+      $$("[data-cart-plus]").forEach(btn => {
+        btn.onclick = () => {
+          const i = Number(btn.dataset.cartPlus);
+          if (!state.warungCart[i]) return;
+          state.warungCart[i].qty += 1;
+          renderWarungCart();
+        };
+      });
+
+      $$("[data-cart-remove]").forEach(btn => {
+        btn.onclick = () => {
+          const i = Number(btn.dataset.cartRemove);
+          state.warungCart.splice(i, 1);
+          renderWarungCart();
+        };
+      });
+
+      const subtotal = state.warungCart.reduce((s, x) => s + x.price * x.qty, 0);
+      const discount = parseMoney($("#warungDiscount")?.value || "0");
+      const tax = parseMoney($("#warungTax")?.value || "0");
+      const total = Math.max(0, subtotal - discount + tax);
+
+      totalBox.innerHTML = `
+        <div class="cart-total-line"><span>Subtotal</span><b>${rupiah(subtotal)}</b></div>
+        <div class="cart-total-line"><span>Diskon</span><b>${rupiah(discount)}</b></div>
+        <div class="cart-total-line"><span>Pajak/Biaya</span><b>${rupiah(tax)}</b></div>
+        <div class="cart-total-line"><span>Total</span><strong>${rupiah(total)}</strong></div>
+      `;
+    }
+
+    function warungCheckout() {
+      if (!state.warungCart.length) return toast("Keranjang masih kosong.");
+
+      const subtotal = state.warungCart.reduce((s, x) => s + x.price * x.qty, 0);
+      const discount = parseMoney($("#warungDiscount")?.value || "0");
+      const tax = parseMoney($("#warungTax")?.value || "0");
+      const total = Math.max(0, subtotal - discount + tax);
+      const payment = $("#warungPayment").value;
+      const customer = $("#warungCustomer").value.trim();
+
+      const orderId = uid();
+      const createdAt = nowISO();
+      const orderName = state.warungCart.map(x => `${x.name} x${x.qty}`).join(", ");
+
+      state.orders.unshift({
+        id: orderId,
+        productId: "",
+        productName: orderName,
+        price: subtotal,
+        qty: 1,
+        total,
+        customer,
+        note: `Metode: ${payment}; Diskon: ${rupiah(discount)}; Pajak/Biaya: ${rupiah(tax)}`,
+        status: payment === "Piutang" ? "Belum Selesai" : "Selesai",
+        createdAt,
+        completedAt: payment === "Piutang" ? "" : createdAt,
+        payment,
+        source: "Kasir Warung",
+        items: JSON.parse(JSON.stringify(state.warungCart))
+      });
+
+      state.transactions.unshift({
+        id: uid(),
+        type: "income",
+        amount: total,
+        category: payment === "Piutang" ? "Piutang" : "Penjualan",
+        description: `Kasir Warung: ${orderName}`,
+        createdAt
+      });
+
+      state.warungCart.forEach(item => {
+        state.products = state.products.map(p => p.id === item.productId ? { ...p, stock: Math.max(0, Number(p.stock || 0) - item.qty), updatedAt: nowISO() } : p);
+      });
+
+      state.lastReceipt = buildReceipt({ orderId, createdAt, items: state.warungCart, subtotal, discount, tax, total, payment, customer });
+
+      state.warungCart = [];
+      saveData("orders");
+      saveData("transactions");
+      saveData("products");
+      addNotification(`Transaksi warung tersimpan: ${rupiah(total)}.`);
+      renderWarung("transaksi");
+      renderBalance();
+      toast("Transaksi warung tersimpan.");
+    }
+
+    function buildReceipt(data) {
+      const line = "-".repeat(32);
+      const items = data.items.map(x => `${x.name}\n  ${x.qty} x ${rupiah(x.price)} = ${rupiah(x.qty * x.price)}`).join("\n");
+      return `DOMPETRAPI WARUNG\n${line}\nNo: ${data.orderId}\nTanggal: ${dt(data.createdAt)}\nPelanggan: ${data.customer || "-"}\n${line}\n${items}\n${line}\nSubtotal : ${rupiah(data.subtotal)}\nDiskon   : ${rupiah(data.discount)}\nBiaya    : ${rupiah(data.tax)}\nTOTAL    : ${rupiah(data.total)}\nBayar    : ${data.payment}\n${line}\nTerima kasih`;
+    }
+
+    function copyReceipt() {
+      if (!state.lastReceipt) return toast("Belum ada struk.");
+      navigator.clipboard?.writeText(state.lastReceipt);
+      toast("Struk disalin.");
+    }
+
+    function printReceipt() {
+      if (!state.lastReceipt) return toast("Belum ada struk.");
+      const w = window.open("", "_blank");
+      w.document.write(`<pre style="font-family:monospace;font-size:12px;white-space:pre-wrap;">${esc(state.lastReceipt)}</pre>`);
+      w.document.close();
+      w.print();
+    }
+
+
+    function renderWarungVariants() {
+      $("#warungContent").innerHTML = `
+        <div class="warung-card">
+          <div class="panel-title">
+            <div><h2>Varian Produk</h2><p>Atur varian sederhana pada produk.</p></div>
+          </div>
+
+          <form class="form" id="variantForm">
+            <div class="field">
+              <label>Produk</label>
+              <select class="select" id="variantProduct">
+                ${state.products.map(p => `<option value="${p.id}">${esc(p.name)}</option>`).join("")}
+              </select>
+            </div>
+            <div class="field">
+              <label>Nama varian</label>
+              <input class="input" id="variantName" placeholder="Contoh: Pedas, Manis, 250 ml, Besar">
+            </div>
+            <div class="field">
+              <label>Tambahan harga</label>
+              <input class="input" id="variantPrice" inputmode="numeric" placeholder="0">
+            </div>
+            <button class="btn coral full red-soft-btn" type="submit">Tambah Varian</button>
+          </form>
+        </div>
+
+        <div class="warung-card">
+          <div class="panel-title">
+            <div><h2>Daftar Varian</h2></div>
+          </div>
+          <div class="variant-list">
+            ${state.products.length ? state.products.map(p => `
+              <div class="variant-item">
+                <div>
+                  <b>${esc(p.name)}</b>
+                  <div class="product-meta">
+                    ${(p.variants || []).length ? (p.variants || []).map(v => `<span class="product-chip">${esc(v.name)} ${v.price ? "+ " + rupiah(v.price) : ""}</span>`).join("") : `<span class="product-chip">Belum ada varian</span>`}
+                  </div>
+                </div>
+                <span class="product-chip">${(p.variants || []).length} varian</span>
+              </div>
+            `).join("") : `<div class="empty">Produk belum tersedia.</div>`}
+          </div>
+        </div>`;
+
+      $("#variantForm").onsubmit = e => {
+        e.preventDefault();
+        const productId = $("#variantProduct").value;
+        const name = $("#variantName").value.trim();
+        const price = parseMoney($("#variantPrice").value || "0");
+        if (!productId) return toast("Pilih produk.");
+        if (!name) return toast("Nama varian wajib diisi.");
+
+        state.products = state.products.map(p => {
+          if (p.id !== productId) return p;
+          const variants = Array.isArray(p.variants) ? p.variants : [];
+          variants.push({ id: uid(), name, price, createdAt: nowISO() });
+          return { ...p, variants, updatedAt: nowISO() };
+        });
+
+        saveData("products");
+        addNotification(`Varian ${name} ditambahkan.`);
+        renderWarungVariants();
+      };
+    }
+
+    function renderWarungTemplates() {
+      $("#warungContent").innerHTML = `
+        <div class="warung-card">
+          <div class="panel-title">
+            <div><h2>Template Produk</h2><p>Tambah produk contoh agar cepat mulai jualan.</p></div>
+          </div>
+
+          <div class="template-grid">
+            <button class="template-btn" data-template="warung" type="button"><b>Warung Sembako</b><span>Beras, minyak, gula, telur, mi instan.</span></button>
+            <button class="template-btn" data-template="minuman" type="button"><b>Minuman</b><span>Kopi, teh, es jeruk, air mineral.</span></button>
+            <button class="template-btn" data-template="makanan" type="button"><b>Makanan</b><span>Nasi, ayam, gorengan, camilan.</span></button>
+            <button class="template-btn" data-template="jasa" type="button"><b>Jasa</b><span>Servis, laundry, potong rambut, ongkir.</span></button>
+          </div>
+        </div>`;
+
+      $$("[data-template]").forEach(btn => {
+        btn.onclick = () => addProductTemplate(btn.dataset.template);
+      });
+    }
+
+    function addProductTemplate(type) {
+      const packs = {
+        warung: [
+          ["Beras 1 Kg", 15000, 20, "kg"],
+          ["Minyak Goreng 1 Liter", 18000, 15, "liter"],
+          ["Gula Pasir 1 Kg", 17000, 15, "kg"],
+          ["Telur Ayam 1 Kg", 28000, 10, "kg"],
+          ["Mi Instan", 3500, 50, "pcs"]
+        ],
+        minuman: [
+          ["Kopi Hitam", 5000, 30, "gelas"],
+          ["Teh Manis", 4000, 30, "gelas"],
+          ["Es Jeruk", 7000, 20, "gelas"],
+          ["Air Mineral", 4000, 40, "botol"]
+        ],
+        makanan: [
+          ["Nasi Ayam", 15000, 20, "porsi"],
+          ["Gorengan", 1500, 100, "pcs"],
+          ["Kerupuk", 2000, 50, "pcs"],
+          ["Camilan Pack", 8000, 25, "pack"]
+        ],
+        jasa: [
+          ["Jasa Servis", 50000, 999, "unit"],
+          ["Laundry 1 Kg", 8000, 999, "kg"],
+          ["Potong Rambut", 20000, 999, "orang"],
+          ["Ongkir Lokal", 10000, 999, "kali"]
+        ]
+      };
+
+      const items = packs[type] || [];
+      items.forEach(([name, price, stock, unit]) => {
+        state.products.unshift({ id: uid(), name, price, stock, unit, barcode: makeBarcode(), variants: [], createdAt: nowISO(), updatedAt: "" });
+      });
+
+      saveData("products");
+      addNotification(`Template produk ${type} ditambahkan.`);
+      toast("Template produk ditambahkan.");
+      renderWarungTemplates();
+    }
+
+    function renderWarungExport() {
+      $("#warungContent").innerHTML = `
+        <div class="warung-card">
+          <div class="panel-title">
+            <div><h2>Export Transaksi</h2><p>Unduh data transaksi kasir.</p></div>
+          </div>
+          <div class="setting-actions">
+            <button class="btn light full" id="exportWarungCsv" type="button">Export CSV</button>
+            <button class="btn light full" id="exportWarungXls" type="button">Export Excel .xls</button>
+            <button class="btn light full" id="exportWarungJson" type="button">Export JSON Backup</button>
+          </div>
+        </div>`;
+
+      $("#exportWarungCsv").onclick = exportCSV;
+      $("#exportWarungXls").onclick = exportXLS;
+      $("#exportWarungJson").onclick = exportJSON;
+    }
+
+    function exportXLS() {
+      const rows = [
+        ["Tanggal", "Pesanan", "Pelanggan", "Metode", "Status", "Total"],
+        ...state.orders.map(o => [dt(o.createdAt), o.productName, o.customer || "", o.payment || "", o.status || "", o.total || 0])
+      ];
+
+      const table = `<table>${rows.map(r => `<tr>${r.map(c => `<td>${String(c).replace(/[<>&]/g, "")}</td>`).join("")}</tr>`).join("")}</table>`;
+      download(table, `transaksi-warung-${state.user.email}.xls`, "application/vnd.ms-excel");
+    }
+
+    function makeBarcode() {
+      return String(Math.floor(100000000000 + Math.random() * 900000000000));
+    }
+
+
+    function renderWarungDebt() {
+      const debts = state.orders.filter(o => o.payment === "Piutang" || (o.note || "").includes("Metode: Piutang"));
+      $("#warungContent").innerHTML = `
+        <div class="warung-card">
+          <div class="panel-title">
+            <div><h2>Piutang</h2><p>Daftar transaksi belum lunas.</p></div>
+          </div>
+          <div class="list">
+            ${debts.length ? debts.map(o => `
+              <div class="row-card">
+                <div class="row-icon red">${icons.history}</div>
+                <div class="row-main">
+                  <b>${esc(o.customer || "Tanpa pelanggan")}</b>
+                  <span>${esc(o.productName)} • ${dt(o.createdAt)}</span>
+                  <div class="order-status ${o.status === "Selesai" ? "done" : ""}">${o.status}</div>
+                </div>
+                <b>${rupiah(o.total)}</b>
+              </div>
+            `).join("") : `<div class="empty">Tidak ada piutang.</div>`}
+          </div>
+        </div>`;
+    }
+
+    function renderWarungStock() {
+      const low = state.products.filter(p => Number(p.stock || 0) <= 5);
+      $("#warungContent").innerHTML = `
+        <div class="warung-card">
+          <div class="panel-title">
+            <div><h2>Stok Menipis</h2><p>Produk dengan stok 5 atau kurang.</p></div>
+          </div>
+          <div class="list">
+            ${low.length ? low.map(p => `
+              <div class="product-card">
+                <div class="row-icon red">${icons.produk}</div>
+                <div class="row-main">
+                  <b>${esc(p.name)}</b>
+                  <span>${rupiah(p.price)} ${p.unit && p.unit !== "-" ? "/ " + esc(p.unit) : ""}</span>
+                  <div class="product-meta">
+                    <span class="product-chip">Stok: ${Number(p.stock || 0)}</span>
+                    <span class="product-chip">Satuan: ${esc(p.unit || "-")}</span>
+                  </div>
+                </div>
+                <div class="product-actions">
+                  <button class="edit" type="button" data-screen="produk">Atur</button>
+                </div>
+              </div>
+            `).join("") : `<div class="empty">Stok aman.</div>`}
+          </div>
+        </div>`;
+    }
+
+    function renderWarungClose() {
+      const sum = orderSummary("day");
+      const cash = sum.items.filter(o => (o.payment || "").toLowerCase() === "tunai").reduce((s,o) => s + Number(o.total || 0), 0);
+      const qris = sum.items.filter(o => (o.payment || "").toLowerCase() === "qris").reduce((s,o) => s + Number(o.total || 0), 0);
+      const transfer = sum.items.filter(o => (o.payment || "").toLowerCase() === "transfer").reduce((s,o) => s + Number(o.total || 0), 0);
+      const debt = sum.items.filter(o => (o.payment || "").toLowerCase() === "piutang").reduce((s,o) => s + Number(o.total || 0), 0);
+
+      $("#warungContent").innerHTML = `
+        <div class="warung-card">
+          <div class="panel-title">
+            <div><h2>Tutup Kasir Hari Ini</h2><p>Kesimpulan otomatis transaksi hari ini.</p></div>
+          </div>
+
+          <div class="warung-stat-grid">
+            <div class="warung-stat"><span>Transaksi</span><b>${sum.items.length}</b></div>
+            <div class="warung-stat"><span>Total</span><b>${rupiah(sum.total)}</b></div>
+            <div class="warung-stat"><span>Selesai</span><b>${sum.done}</b></div>
+            <div class="warung-stat"><span>Belum</span><b>${sum.pending}</b></div>
+            <div class="warung-stat"><span>Tunai</span><b>${rupiah(cash)}</b></div>
+            <div class="warung-stat"><span>QRIS</span><b>${rupiah(qris)}</b></div>
+            <div class="warung-stat"><span>Transfer</span><b>${rupiah(transfer)}</b></div>
+            <div class="warung-stat"><span>Piutang</span><b>${rupiah(debt)}</b></div>
+          </div>
+
+          <button class="btn coral full red-soft-btn" style="margin-top:12px;" id="copyClosingBtn" type="button">Salin Laporan Tutup Kasir</button>
+        </div>`;
+
+      $("#copyClosingBtn").onclick = () => {
+        const text = `TUTUP KASIR\nTanggal: ${dt(nowISO())}\nTransaksi: ${sum.items.length}\nTotal: ${rupiah(sum.total)}\nTunai: ${rupiah(cash)}\nQRIS: ${rupiah(qris)}\nTransfer: ${rupiah(transfer)}\nPiutang: ${rupiah(debt)}`;
+        navigator.clipboard?.writeText(text);
+        toast("Laporan tutup kasir disalin.");
+      };
+    }
+
+
     function renderProduk() {
       const editing = state.products.find(p => p.id === state.editingProductId) || null;
       const unit = editing?.unit || "-";
@@ -3172,7 +4173,7 @@
           state.editingProductId = null;
           toast("Produk diperbarui.");
         } else {
-          state.products.unshift({ id:uid(), name, price, stock, unit: selectedUnit, createdAt:nowISO(), updatedAt:"" });
+          state.products.unshift({ id:uid(), name, price, stock, unit: selectedUnit, barcode: makeBarcode(), variants: [], createdAt:nowISO(), updatedAt:"" });
           addNotification(`Produk ${name} ditambahkan.`);
           toast("Produk ditambahkan.");
         }
@@ -3792,6 +4793,8 @@
               <div class="product-meta">
                 <span class="product-chip">Stok: ${Number(p.stock || 0)}</span>
                 <span class="product-chip">Satuan: ${esc(unit)}</span>
+                <span class="product-chip">Barcode: ${esc(p.barcode || "-")}</span>
+                <span class="product-chip">Varian: ${(p.variants || []).length}</span>
                 <span class="product-chip">Dibuat: ${created}</span>
                 ${updated ? `<span class="product-chip">Update: ${updated}</span>` : ""}
               </div>
@@ -3941,8 +4944,8 @@
 
     function seedProducts() {
       return [
-        {id:uid(),name:"Produk Contoh A",price:15000,stock:20,unit:"pcs",createdAt:nowISO(),updatedAt:""},
-        {id:uid(),name:"Produk Contoh B",price:25000,stock:12,unit:"kg",createdAt:nowISO(),updatedAt:""}
+        {id:uid(),name:"Produk Contoh A",price:15000,stock:20,unit:"pcs",barcode:makeBarcode(),variants:[],createdAt:nowISO(),updatedAt:""},
+        {id:uid(),name:"Produk Contoh B",price:25000,stock:12,unit:"kg",barcode:makeBarcode(),variants:[],createdAt:nowISO(),updatedAt:""}
       ];
     }
 

@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#101623" />
-  <title>DompetRapi Finance Pro v10</title>
+  <title>DompetRapi Finance Pro v12 - Tabungan Reminder</title>
 
   <style>
     :root {
@@ -892,6 +892,325 @@
       font-size: 14px;
     }
 
+
+    .savings-form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .savings-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .saving-card {
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      background:
+        radial-gradient(circle at 100% 0, rgba(94,234,212,.12), transparent 12rem),
+        radial-gradient(circle at 0 100%, rgba(96,165,250,.10), transparent 12rem),
+        rgba(255,255,255,.04);
+      padding: 15px;
+      box-shadow: 0 14px 34px rgba(0,0,0,.13);
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      align-items: start;
+    }
+
+    body.light .saving-card {
+      background:
+        radial-gradient(circle at 100% 0, rgba(20,184,166,.12), transparent 12rem),
+        radial-gradient(circle at 0 100%, rgba(96,165,250,.10), transparent 12rem),
+        #fff;
+      box-shadow: 0 14px 34px rgba(15,23,42,.06);
+    }
+
+    .saving-image {
+      width: 92px;
+      min-height: 136px;
+      display: grid;
+      gap: 9px;
+      align-content: start;
+      justify-items: center;
+    }
+
+    .saving-photo {
+      width: 86px;
+      height: 86px;
+      border-radius: 24px;
+      object-fit: cover;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+    }
+
+    .saving-photo.placeholder {
+      display: grid;
+      place-items: center;
+      color: var(--teal);
+      font-weight: 950;
+      font-size: 30px;
+      object-fit: unset;
+    }
+
+    .saving-jar {
+      width: 62px;
+      height: 86px;
+      border: 3px solid rgba(94,234,212,.54);
+      border-top: 8px solid rgba(94,234,212,.54);
+      border-radius: 14px 14px 24px 24px;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255,255,255,.035);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.05);
+    }
+
+    .saving-fill {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 0%;
+      background:
+        linear-gradient(180deg, rgba(96,165,250,.88), rgba(94,234,212,.92));
+      transition: height .4s ease;
+    }
+
+    .saving-fill::before {
+      content: "";
+      position: absolute;
+      left: -20%;
+      right: -20%;
+      top: -7px;
+      height: 14px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.30);
+    }
+
+    .saving-body {
+      min-width: 0;
+    }
+
+    .saving-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .saving-head b {
+      display: block;
+      font-size: 17px;
+      letter-spacing: -.03em;
+      word-break: break-word;
+    }
+
+    .saving-head span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 4px;
+      line-height: 1.35;
+    }
+
+    .saving-percent {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 7px 9px;
+      background: rgba(94,234,212,.12);
+      color: var(--teal);
+      border: 1px solid rgba(94,234,212,.20);
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .saving-progress {
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      margin: 10px 0 12px;
+    }
+
+    body.light .saving-progress {
+      background: #edf3f8;
+    }
+
+    .saving-progress > span {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--teal), var(--blue), var(--coral));
+      border-radius: inherit;
+      transition: width .35s ease;
+    }
+
+    .saving-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .saving-metric {
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 10px;
+      background: rgba(255,255,255,.035);
+      min-width: 0;
+    }
+
+    body.light .saving-metric {
+      background: #fff;
+    }
+
+    .saving-metric span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+    }
+
+    .saving-metric b {
+      display: block;
+      margin-top: 4px;
+      font-size: 13px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .saving-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    @media (max-width: 620px) {
+      .savings-form-grid,
+      .saving-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .saving-card {
+        grid-template-columns: 1fr;
+      }
+
+      .saving-image {
+        width: 100%;
+        grid-template-columns: 92px 1fr;
+        align-items: center;
+        justify-items: start;
+      }
+    }
+
+
+    .saving-note-line {
+      display: none;
+    }
+
+    .saving-history {
+      margin-top: 12px;
+      border-top: 1px solid var(--line);
+      padding-top: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .saving-history-title {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 950;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .saving-history-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      border-radius: 15px;
+      padding: 9px 10px;
+      font-size: 12px;
+    }
+
+    body.light .saving-history-item {
+      background: #fff;
+    }
+
+    .saving-history-item span {
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .saving-history-item b {
+      color: var(--green);
+      white-space: nowrap;
+    }
+
+    .saving-reminder-pill {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      max-width: 100%;
+      border: 1px solid rgba(94,234,212,.22);
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: rgba(94,234,212,.09);
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 950;
+      margin: 4px 0 10px;
+      line-height: 1.3;
+    }
+
+    .saving-reminder-off {
+      border-color: var(--line);
+      background: rgba(255,255,255,.035);
+      color: var(--muted);
+    }
+
+    .saving-detail-toggle {
+      border: 0;
+      background: transparent;
+      color: var(--teal);
+      font-weight: 950;
+      padding: 0;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    .saving-card.compact .saving-history {
+      display: none;
+    }
+
+    .saving-reminder-box {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 12px;
+      background: rgba(255,255,255,.035);
+    }
+
+    body.light .saving-reminder-box {
+      background: #fff;
+    }
+
+    .saving-reminder-box-title {
+      font-size: 13px;
+      font-weight: 950;
+      color: var(--ink);
+      margin-bottom: 10px;
+    }
+
+
     .empty {
       min-height: 150px;
       display: grid;
@@ -1245,11 +1564,12 @@
 
           <div class="hybrid-note">
             <h3>Aplikasi keuangan dengan fitur kasir tambahan.</h3>
-            <p>Gunakan untuk catatan pribadi, usaha kecil, kas harian, produk, pesanan, pelanggan, karyawan, laporan, kalkulator, kurs, dan backup data.</p>
+            <p>Gunakan untuk catatan pribadi, usaha kecil, kas harian, tabungan target barang, produk, pesanan, pelanggan, karyawan, laporan, kalkulator, kurs, dan backup data.</p>
           </div>
         </section>
 
         <section id="dompetPanel" class="content-panel"></section>
+        <section id="savingsPanel" class="content-panel"></section>
         <section id="kasirPanel" class="content-panel"></section>
         <section id="produkPanel" class="content-panel"></section>
         <section id="ordersPanel" class="content-panel"></section>
@@ -1309,7 +1629,7 @@
 
         <div class="drawer-footer">
           <button class="drawer-logout" id="logoutBtn" type="button">Keluar</button>
-          <span class="version">v10.0</span>
+          <span class="version">v12.0</span>
         </div>
       </aside>
     </div>
@@ -1338,6 +1658,7 @@
       ORDERS: "dompetrapi_v10_orders_",
       CUSTOMERS: "dompetrapi_v10_customers_",
       EMPLOYEES: "dompetrapi_v10_employees_",
+      SAVINGS: "dompetrapi_v10_savings_",
       NOTIF: "dompetrapi_v10_notif_",
       APPSET: "dompetrapi_v10_appset_"
     };
@@ -1355,12 +1676,14 @@
       calculator: '<svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="3" stroke="currentColor" stroke-width="2"/><path d="M8 7h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
       currency: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" stroke="currentColor" stroke-width="2"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9S9.6 5.5 12 3Z" stroke="currentColor" stroke-width="2"/></svg>',
       storage: '<svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="6" rx="7" ry="3" stroke="currentColor" stroke-width="2"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6" stroke="currentColor" stroke-width="2"/></svg>',
+      savings: '<svg viewBox="0 0 24 24" fill="none"><path d="M7 6h10l-1 15H8L7 6Z" stroke="currentColor" stroke-width="2"/><path d="M9 6V4h6v2M8 15h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10 11c1.2-1.2 2.8-1.2 4 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
       settings: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="2"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.5-2.4 1a8 8 0 0 0-1.7-1L14.5 3h-5l-.3 3a8 8 0 0 0-1.7 1L5 6 3 9.5 5 11a7 7 0 0 0 0 2l-2 1.5L5 18l2.5-1a8 8 0 0 0 1.7 1l.3 3h5l.3-3a8 8 0 0 0 1.7-1l2.5 1 2-3.5-2-1.5c.1-.3.1-.7.1-1Z" stroke="currentColor" stroke-width="2"/></svg>'
     };
 
     const screens = [
       ["dashboard", "Dasbor", icons.dashboard],
       ["dompet", "Dompet", icons.dompet],
+      ["savings", "Tabungan", icons.savings],
       ["kasir", "Kasir", icons.kasir],
       ["produk", "Produk", icons.produk],
       ["orders", "Daftar Pesanan", icons.orders],
@@ -1389,6 +1712,7 @@
       orders: [],
       customers: [],
       employees: [],
+      savings: [],
       notifications: [],
       calc: "0",
       resetEmail: null,
@@ -1475,6 +1799,7 @@
       state.orders = readJSON(key(STORAGE.ORDERS), []);
       state.customers = readJSON(key(STORAGE.CUSTOMERS), []);
       state.employees = readJSON(key(STORAGE.EMPLOYEES), []);
+      state.savings = readJSON(key(STORAGE.SAVINGS), []);
       state.notifications = readJSON(key(STORAGE.NOTIF), []);
       state.settings = { ...state.settings, ...readJSON(key(STORAGE.APPSET), {}) };
       applyTheme();
@@ -1486,6 +1811,7 @@
         orders:[STORAGE.ORDERS,state.orders],
         customers:[STORAGE.CUSTOMERS,state.customers],
         employees:[STORAGE.EMPLOYEES,state.employees],
+        savings:[STORAGE.SAVINGS,state.savings],
         notifications:[STORAGE.NOTIF,state.notifications],
         settings:[STORAGE.APPSET,state.settings]
       };
@@ -1538,6 +1864,7 @@
       writeJSON(STORAGE.ORDERS + user.id, []);
       writeJSON(STORAGE.CUSTOMERS + user.id, []);
       writeJSON(STORAGE.EMPLOYEES + user.id, []);
+      writeJSON(STORAGE.SAVINGS + user.id, []);
       writeJSON(STORAGE.NOTIF + user.id, [{ id:uid(), text:"Akun berhasil dibuat.", createdAt: nowISO() }]);
       writeJSON(STORAGE.APPSET + user.id, state.settings);
 
@@ -1731,6 +2058,7 @@
     function renderPanel(screen) {
       const map = {
         dompet: renderDompet,
+        savings: renderSavings,
         kasir: renderKasir,
         produk: renderProduk,
         orders: renderOrders,
@@ -1785,6 +2113,397 @@
       renderDompet(type);
       toast("Transaksi disimpan.");
     }
+
+
+
+    function savingWeeks(goal) {
+      const target = Number(goal.targetAmount || 0);
+      const current = Number(goal.currentAmount || 0);
+      const plan = Number(goal.planAmount || 0);
+      const remaining = Math.max(0, target - current);
+      if (remaining <= 0) return { periods: 0, weeks: 0, date: new Date(), text: "Tercapai" };
+      if (!plan || plan <= 0) return { periods: 0, weeks: 0, date: null, text: "-" };
+
+      const periods = Math.ceil(remaining / plan);
+      const date = new Date();
+
+      if (goal.frequency === "daily") {
+        date.setDate(date.getDate() + periods);
+        return { periods, weeks: Math.ceil(periods / 7), date, text: `${Math.ceil(periods / 7)} minggu` };
+      }
+
+      if (goal.frequency === "weekly") {
+        date.setDate(date.getDate() + periods * 7);
+        return { periods, weeks: periods, date, text: `${periods} minggu` };
+      }
+
+      date.setMonth(date.getMonth() + periods);
+      const weeks = Math.ceil(periods * 4.345);
+      return { periods, weeks, date, text: `${weeks} minggu` };
+    }
+
+    function frequencyLabel(value) {
+      return value === "daily" ? "hari" : value === "weekly" ? "minggu" : "bulan";
+    }
+
+    function reminderFrequencyLabel(value) {
+      return value === "daily" ? "Setiap hari" : value === "monthly" ? "Setiap bulan" : "Setiap minggu";
+    }
+
+    function weekdayLabel(value) {
+      const map = {
+        "0":"Minggu", "1":"Senin", "2":"Selasa", "3":"Rabu", "4":"Kamis", "5":"Jumat", "6":"Sabtu"
+      };
+      return map[String(value)] || "Senin";
+    }
+
+    function percentSaving(goal) {
+      const target = Number(goal.targetAmount || 0);
+      if (!target) return 0;
+      return Math.max(0, Math.min(100, (Number(goal.currentAmount || 0) / target) * 100));
+    }
+
+    function formatDateShort(date) {
+      if (!date) return "-";
+      return new Intl.DateTimeFormat("id-ID", { day:"2-digit", month:"short", year:"numeric" }).format(date);
+    }
+
+    function formatFullDateTime(iso) {
+      return new Intl.DateTimeFormat("id-ID", {
+        weekday:"long",
+        day:"2-digit",
+        month:"long",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+      }).format(new Date(iso));
+    }
+
+    function fileToDataURL(file) {
+      return new Promise((resolve, reject) => {
+        if (!file) return resolve("");
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function reminderText(goal) {
+      if (!goal.reminderOn) return "Pengingat mati";
+      const time = goal.reminderTime || "08:00";
+      if (goal.reminderFrequency === "daily") return `Pengingat: setiap hari, ${time}`;
+      if (goal.reminderFrequency === "monthly") return `Pengingat: setiap bulan tanggal ${goal.reminderDate || 1}, ${time}`;
+      return `Pengingat: tiap ${weekdayLabel(goal.reminderDay ?? 1)}, ${time}`;
+    }
+
+    function renderSavings() {
+      $("#savingsPanel").innerHTML = panelStart("Tabungan", "Target barang, progres, jadwal, dan riwayat setor.") + `
+        <form class="form" id="savingForm">
+          <div class="savings-form-grid">
+            <div class="field">
+              <label>Nama barang</label>
+              <input class="input" id="savingName" placeholder="iPhone" required>
+            </div>
+            <div class="field">
+              <label>Harga target</label>
+              <input class="input" id="savingTarget" inputmode="numeric" placeholder="2000000" required>
+            </div>
+            <div class="field">
+              <label>Nominal tabungan</label>
+              <input class="input" id="savingPlan" inputmode="numeric" placeholder="50000" required>
+            </div>
+            <div class="field">
+              <label>Periode</label>
+              <select class="select" id="savingFrequency">
+                <option value="monthly">Per bulan</option>
+                <option value="weekly">Per minggu</option>
+                <option value="daily">Per hari</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Gambar barang</label>
+            <input class="input" id="savingImage" type="file" accept="image/png,image/jpeg,image/webp">
+          </div>
+
+          <div class="saving-reminder-box">
+            <div class="saving-reminder-box-title">Pengingat menabung</div>
+            <div class="savings-form-grid">
+              <div class="field">
+                <label>Status</label>
+                <select class="select" id="savingReminderOn">
+                  <option value="on">Aktif</option>
+                  <option value="off">Nonaktif</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Frekuensi</label>
+                <select class="select" id="savingReminderFrequency">
+                  <option value="weekly">Mingguan</option>
+                  <option value="daily">Harian</option>
+                  <option value="monthly">Bulanan</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Hari menabung</label>
+                <select class="select" id="savingReminderDay">
+                  <option value="1">Senin</option>
+                  <option value="2">Selasa</option>
+                  <option value="3">Rabu</option>
+                  <option value="4">Kamis</option>
+                  <option value="5">Jumat</option>
+                  <option value="6">Sabtu</option>
+                  <option value="0">Minggu</option>
+                </select>
+              </div>
+              <div class="field">
+                <label>Jam</label>
+                <input class="input" id="savingReminderTime" type="time" value="08:00">
+              </div>
+            </div>
+          </div>
+
+          <button class="btn teal full" type="submit">Buat Target</button>
+        </form>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">
+          <div><h2>Daftar Tabungan</h2><p>Progres dan riwayat setor.</p></div>
+        </div>
+        <div class="savings-list" id="savingsList">${savingListHTML()}</div>
+      </div>`;
+
+      $("#savingForm").onsubmit = async e => {
+        e.preventDefault();
+        const name = $("#savingName").value.trim();
+        const targetAmount = parseMoney($("#savingTarget").value);
+        const planAmount = parseMoney($("#savingPlan").value);
+        const frequency = $("#savingFrequency").value;
+        const file = $("#savingImage").files?.[0];
+
+        if (!name) return toast("Nama tabungan wajib diisi.");
+        if (!targetAmount || targetAmount <= 0) return toast("Harga target belum benar.");
+        if (!planAmount || planAmount <= 0) return toast("Nominal tabungan belum benar.");
+        if (file && !["image/jpeg","image/png","image/webp"].includes(file.type)) return toast("Gambar harus JPG, PNG, atau WEBP.");
+        if (file && file.size > 2 * 1024 * 1024) return toast("Gambar maksimal 2 MB.");
+
+        const image = await fileToDataURL(file);
+
+        const reminderOn = $("#savingReminderOn").value === "on";
+        const reminderFrequency = $("#savingReminderFrequency").value;
+        const reminderDay = $("#savingReminderDay").value;
+        const reminderTime = $("#savingReminderTime").value || "08:00";
+
+        if (reminderOn) requestNotificationPermission();
+
+        state.savings.unshift({
+          id: uid(),
+          name,
+          targetAmount,
+          planAmount,
+          frequency,
+          currentAmount: 0,
+          image,
+          reminderOn,
+          reminderFrequency,
+          reminderDay,
+          reminderDate: 1,
+          reminderTime,
+          lastReminderKey: "",
+          deposits: [],
+          createdAt: nowISO()
+        });
+
+        saveData("savings");
+        addNotification(`Target tabungan ${name} dibuat.`);
+        renderSavings();
+        toast("Target tabungan dibuat.");
+      };
+
+      bindSavingButtons();
+    }
+
+    function savingListHTML() {
+      if (!state.savings.length) {
+        return `<div class="empty">Belum ada tabungan.</div>`;
+      }
+
+      return state.savings.map(goal => {
+        const percent = percentSaving(goal);
+        const calc = savingWeeks(goal);
+        const complete = percent >= 100;
+        const remaining = Math.max(0, Number(goal.targetAmount || 0) - Number(goal.currentAmount || 0));
+        const photo = goal.image
+          ? `<img class="saving-photo" src="${goal.image}" alt="${esc(goal.name)}">`
+          : `<div class="saving-photo placeholder">${icons.savings}</div>`;
+        const reminderClass = goal.reminderOn ? "" : " saving-reminder-off";
+        const deposits = Array.isArray(goal.deposits) ? goal.deposits : [];
+        const history = deposits.length
+          ? deposits.slice(0, 6).map(dep => `
+              <div class="saving-history-item">
+                <span>${formatFullDateTime(dep.createdAt)}</span>
+                <b>+${rupiah(dep.amount)}</b>
+              </div>
+            `).join("")
+          : `<div class="saving-history-item"><span>Belum ada setor tabungan.</span><b>-</b></div>`;
+
+        return `
+          <article class="saving-card compact">
+            <div class="saving-image">
+              ${photo}
+              <div class="saving-jar" title="${percent.toFixed(1)}%">
+                <div class="saving-fill" style="height:${percent}%"></div>
+              </div>
+            </div>
+
+            <div class="saving-body">
+              <div class="saving-head">
+                <div>
+                  <b>${esc(goal.name)}</b>
+                  <span>${rupiah(goal.currentAmount)} / ${rupiah(goal.targetAmount)}</span>
+                </div>
+                <div class="saving-percent">${percent.toFixed(1)}%</div>
+              </div>
+
+              <div class="saving-reminder-pill${reminderClass}">${reminderText(goal)}</div>
+
+              <div class="saving-progress">
+                <span style="width:${percent}%"></span>
+              </div>
+
+              <div class="saving-metrics">
+                <div class="saving-metric"><span>Sisa</span><b>${rupiah(remaining)}</b></div>
+                <div class="saving-metric"><span>Rencana</span><b>${rupiah(goal.planAmount)} / ${frequencyLabel(goal.frequency)}</b></div>
+                <div class="saving-metric"><span>Estimasi</span><b>${complete ? "Tercapai" : calc.text}</b></div>
+                <div class="saving-metric"><span>Dapat pada</span><b>${complete ? "Sekarang" : formatDateShort(calc.date)}</b></div>
+              </div>
+
+              <div class="saving-actions">
+                <button class="btn teal full" type="button" data-saving-add="${goal.id}">Tambah</button>
+                <button class="btn light full" type="button" data-saving-detail="${goal.id}">Riwayat</button>
+                <button class="btn light full" type="button" data-saving-reminder="${goal.id}">Pengingat</button>
+                <button class="btn danger full" type="button" data-saving-delete="${goal.id}">Hapus</button>
+              </div>
+
+              <div class="saving-history" id="saving-history-${goal.id}">
+                <div class="saving-history-title">
+                  <span>Riwayat setor</span>
+                  <button class="saving-detail-toggle" type="button" data-saving-close="${goal.id}">Sembunyikan</button>
+                </div>
+                ${history}
+              </div>
+            </div>
+          </article>
+        `;
+      }).join("");
+    }
+
+    function bindSavingButtons() {
+      $$("[data-saving-add]").forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.savingAdd;
+          const goal = state.savings.find(x => x.id === id);
+          if (!goal) return;
+
+          const raw = prompt(`Tambah nominal untuk ${goal.name}:`, String(goal.planAmount || ""));
+          if (raw === null) return;
+
+          const amount = parseMoney(raw);
+          if (!amount || amount <= 0) return toast("Nominal tambahan belum benar.");
+
+          goal.currentAmount = Number(goal.currentAmount || 0) + amount;
+          goal.deposits = Array.isArray(goal.deposits) ? goal.deposits : [];
+          goal.deposits.unshift({ id: uid(), amount, createdAt: nowISO() });
+
+          saveData("savings");
+          addNotification(`Tabungan ${goal.name} bertambah ${rupiah(amount)}.`);
+          renderSavings();
+          toast("Nominal tabungan ditambahkan.");
+        };
+      });
+
+      $$("[data-saving-detail]").forEach(btn => {
+        btn.onclick = () => {
+          const card = btn.closest(".saving-card");
+          if (!card) return;
+          card.classList.toggle("compact");
+        };
+      });
+
+      $$("[data-saving-close]").forEach(btn => {
+        btn.onclick = () => {
+          const card = btn.closest(".saving-card");
+          if (!card) return;
+          card.classList.add("compact");
+        };
+      });
+
+      $$("[data-saving-reminder]").forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.savingReminder;
+          const goal = state.savings.find(x => x.id === id);
+          if (!goal) return;
+
+          const status = prompt("Pengingat aktif? ketik: on / off", goal.reminderOn ? "on" : "off");
+          if (status === null) return;
+          const normalized = status.trim().toLowerCase();
+          if (!["on","off"].includes(normalized)) return toast("Isi on atau off.");
+
+          goal.reminderOn = normalized === "on";
+
+          if (goal.reminderOn) {
+            const freq = prompt("Frekuensi: daily / weekly / monthly", goal.reminderFrequency || "weekly");
+            if (freq === null) return;
+            const f = freq.trim().toLowerCase();
+            if (!["daily","weekly","monthly"].includes(f)) return toast("Frekuensi tidak valid.");
+            goal.reminderFrequency = f;
+
+            if (f === "weekly") {
+              const day = prompt("Hari menabung: 0 Minggu, 1 Senin, 2 Selasa, 3 Rabu, 4 Kamis, 5 Jumat, 6 Sabtu", String(goal.reminderDay ?? 1));
+              if (day === null) return;
+              if (!["0","1","2","3","4","5","6"].includes(day.trim())) return toast("Hari tidak valid.");
+              goal.reminderDay = day.trim();
+            }
+
+            if (f === "monthly") {
+              const date = prompt("Tanggal menabung setiap bulan: 1-28", String(goal.reminderDate || 1));
+              if (date === null) return;
+              const n = Number(date);
+              if (!Number.isFinite(n) || n < 1 || n > 28) return toast("Tanggal harus 1 sampai 28.");
+              goal.reminderDate = n;
+            }
+
+            const time = prompt("Jam pengingat, format 24 jam. Contoh 08:00", goal.reminderTime || "08:00");
+            if (time === null) return;
+            if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(time.trim())) return toast("Format jam tidak valid.");
+            goal.reminderTime = time.trim();
+            requestNotificationPermission();
+          }
+
+          saveData("savings");
+          renderSavings();
+          toast("Pengingat diperbarui.");
+        };
+      });
+
+      $$("[data-saving-delete]").forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.savingDelete;
+          const goal = state.savings.find(x => x.id === id);
+          if (!goal) return;
+          if (!confirm(`Hapus target tabungan "${goal.name}"?`)) return;
+
+          state.savings = state.savings.filter(x => x.id !== id);
+          saveData("savings");
+          addNotification(`Target tabungan ${goal.name} dihapus.`);
+          renderSavings();
+        };
+      });
+    }
+
 
     function renderKasir() {
       $("#kasirPanel").innerHTML = panelStart("Kasir", "Buat pesanan dari produk.") + `
@@ -2100,7 +2819,7 @@
           <div><h2>Pengertian Aplikasi</h2><p>Ringkasan fungsi DompetRapi.</p></div>
         </div>
         <div class="info-box">
-          DompetRapi Finance Pro adalah aplikasi pencatatan keuangan dan kasir ringan berbasis web. Aplikasi ini membantu pengguna mencatat pemasukan, pengeluaran, produk, pesanan, pelanggan, karyawan, laporan, kalkulator, kurs mata uang, serta backup data langsung dari perangkat.
+          DompetRapi Finance Pro adalah aplikasi pencatatan keuangan dan kasir ringan berbasis web. Aplikasi ini membantu pengguna mencatat pemasukan, pengeluaran, produk, pesanan, pelanggan, karyawan, target tabungan, laporan, kalkulator, kurs mata uang, serta backup data langsung dari perangkat.
         </div>
       </div>
 
@@ -2207,7 +2926,7 @@
     }
 
     function exportJSON() {
-      const payload={user:{name:state.user.name,email:state.user.email,profileCategory:state.user.profileCategory,profileNote:state.user.profileNote},settings:state.settings,transactions:state.transactions,products:state.products,orders:state.orders,customers:state.customers,employees:state.employees,exportedAt:nowISO()};
+      const payload={user:{name:state.user.name,email:state.user.email,profileCategory:state.user.profileCategory,profileNote:state.user.profileNote},settings:state.settings,transactions:state.transactions,products:state.products,orders:state.orders,customers:state.customers,employees:state.employees,savings:state.savings,exportedAt:nowISO()};
       download(JSON.stringify(payload,null,2), `dompetrapi-backup-${state.user.email}.json`, "application/json");
     }
 
@@ -2225,10 +2944,11 @@
           state.orders=Array.isArray(data.orders)?data.orders:[];
           state.customers=Array.isArray(data.customers)?data.customers:[];
           state.employees=Array.isArray(data.employees)?data.employees:[];
+          state.savings=Array.isArray(data.savings)?data.savings:[];
 
           if (data.settings) state.settings = { ...state.settings, ...data.settings };
 
-          ["transactions","products","orders","customers","employees","settings"].forEach(saveData);
+          ["transactions","products","orders","customers","employees","savings","settings"].forEach(saveData);
           applyTheme();
           renderShell();
           renderStorage();
@@ -2244,7 +2964,8 @@
       state.orders=[];
       state.customers=[];
       state.employees=[];
-      ["transactions","orders","customers","employees"].forEach(saveData);
+      state.savings=[];
+      ["transactions","orders","customers","employees","savings"].forEach(saveData);
       renderShell();
       renderStorage();
       toast("Data dihapus.");
@@ -2290,6 +3011,71 @@
     function closeDrawer(){ els.drawerBackdrop.classList.remove("show"); }
     function openNotif(){ renderNotifications(); els.notifModal.classList.add("show"); }
 
+    function requestNotificationPermission() {
+      if (!("Notification" in window)) return;
+      if (Notification.permission === "default") {
+        Notification.requestPermission().catch(() => {});
+      }
+    }
+
+    function pushBrowserNotification(title, body) {
+      try {
+        if ("Notification" in window && Notification.permission === "granted") {
+          new Notification(title, { body });
+        }
+      } catch {}
+    }
+
+    function reminderDueKey(goal, date) {
+      const y = date.getFullYear();
+      const m = String(date.getMonth() + 1).padStart(2, "0");
+      const d = String(date.getDate()).padStart(2, "0");
+      const h = String(date.getHours()).padStart(2, "0");
+      const min = String(date.getMinutes()).padStart(2, "0");
+
+      if (!goal.reminderOn) return "";
+      const targetTime = goal.reminderTime || "08:00";
+      if (`${h}:${min}` !== targetTime) return "";
+
+      if (goal.reminderFrequency === "daily") {
+        return `${goal.id}-${y}-${m}-${d}-${targetTime}`;
+      }
+
+      if (goal.reminderFrequency === "monthly") {
+        if (date.getDate() !== Number(goal.reminderDate || 1)) return "";
+        return `${goal.id}-${y}-${m}-${targetTime}`;
+      }
+
+      if (date.getDay() !== Number(goal.reminderDay ?? 1)) return "";
+      return `${goal.id}-${y}-${m}-${d}-${targetTime}`;
+    }
+
+    function checkSavingsReminders() {
+      if (!state.user || !Array.isArray(state.savings)) return;
+      const now = new Date();
+      let changed = false;
+
+      state.savings.forEach(goal => {
+        const key = reminderDueKey(goal, now);
+        if (!key || goal.lastReminderKey === key) return;
+
+        goal.lastReminderKey = key;
+        changed = true;
+
+        const message = `Waktunya menabung untuk ${goal.name}. Target: ${rupiah(goal.targetAmount)}.`;
+        state.notifications.unshift({ id: uid(), text: message, createdAt: nowISO() });
+        pushBrowserNotification("Pengingat Tabungan", message);
+      });
+
+      if (changed) {
+        saveData("savings");
+        saveData("notifications");
+        renderNotifications();
+        if (state.screen === "savings") renderSavings();
+      }
+    }
+
+
     function bindEvents(){
       els.loginTab.onclick=()=>setAuth("login");
       els.registerTab.onclick=()=>setAuth("register");
@@ -2331,7 +3117,9 @@
       bindEvents();
       tickClock();
       setInterval(tickClock, 10000);
+      setInterval(checkSavingsReminders, 60000);
       if(!restoreSession()) showAuth();
+      checkSavingsReminders();
     }
 
     boot();

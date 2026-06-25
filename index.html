@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#101623" />
-  <title>DompetRapi Finance Pro v12 - Tabungan Reminder</title>
+  <title>DompetRapi Finance Pro v13 - Email Reset</title>
 
   <style>
     :root {
@@ -1211,6 +1211,43 @@
     }
 
 
+
+    .email-config-status {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      max-width: 100%;
+      border-radius: 999px;
+      padding: 7px 10px;
+      font-size: 12px;
+      font-weight: 950;
+      border: 1px solid rgba(94,234,212,.24);
+      background: rgba(94,234,212,.10);
+      color: var(--teal);
+      margin-bottom: 12px;
+    }
+
+    .email-config-status.off {
+      border-color: rgba(255,107,97,.28);
+      background: rgba(255,107,97,.10);
+      color: var(--coral);
+    }
+
+    .email-config-help {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 12px;
+      color: var(--muted);
+      background: rgba(255,255,255,.035);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    body.light .email-config-help {
+      background: #fff;
+    }
+
+
     .empty {
       min-height: 150px;
       display: grid;
@@ -1629,7 +1666,7 @@
 
         <div class="drawer-footer">
           <button class="drawer-logout" id="logoutBtn" type="button">Keluar</button>
-          <span class="version">v12.0</span>
+          <span class="version">v13.0</span>
         </div>
       </aside>
     </div>
@@ -1647,6 +1684,8 @@
     <div class="toast" id="toast"></div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
   <script>
     "use strict";
 
@@ -1660,7 +1699,8 @@
       EMPLOYEES: "dompetrapi_v10_employees_",
       SAVINGS: "dompetrapi_v10_savings_",
       NOTIF: "dompetrapi_v10_notif_",
-      APPSET: "dompetrapi_v10_appset_"
+      APPSET: "dompetrapi_v10_appset_",
+      EMAILCFG: "dompetrapi_v13_email_config"
     };
 
     const icons = {
@@ -1717,6 +1757,7 @@
       calc: "0",
       resetEmail: null,
       resetOtp: null,
+      emailConfig: null,
       settings: { theme: "dark", accent: "teal", compact: "no", defaultCurrency: "IDR", notifications: "on" },
       rates: { USD:1, IDR:16400, EUR:.92, JPY:157, GBP:.78, SGD:1.35, MYR:4.7, AUD:1.52, SAR:3.75, AED:3.67, CNY:7.25, KRW:1380, THB:36.7 }
     };
@@ -1790,6 +1831,72 @@
     function monthKey(iso) { const d = new Date(iso); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`; }
     function monthLabel(key) { const [y,m] = key.split("-").map(Number); return new Intl.DateTimeFormat("id-ID", { month:"short" }).format(new Date(y, m-1, 1)); }
     function key(prefix) { return prefix + state.user.id; }
+
+    function loadEmailConfig() {
+      state.emailConfig = readJSON(STORAGE.EMAILCFG, {
+        publicKey: "",
+        serviceId: "",
+        templateId: "",
+        fromName: "DompetRapi Finance Pro"
+      });
+    }
+
+    function saveEmailConfig() {
+      writeJSON(STORAGE.EMAILCFG, state.emailConfig || {});
+    }
+
+    function hasEmailConfig() {
+      return Boolean(
+        state.emailConfig &&
+        state.emailConfig.publicKey &&
+        state.emailConfig.serviceId &&
+        state.emailConfig.templateId
+      );
+    }
+
+    async function sendResetCodeToEmail(email, code) {
+      loadEmailConfig();
+
+      if (!hasEmailConfig()) {
+        return {
+          ok: false,
+          reason: "EMAIL_CONFIG_MISSING"
+        };
+      }
+
+      if (!window.emailjs) {
+        return {
+          ok: false,
+          reason: "EMAIL_LIBRARY_NOT_LOADED"
+        };
+      }
+
+      try {
+        emailjs.init({ publicKey: state.emailConfig.publicKey });
+
+        await emailjs.send(
+          state.emailConfig.serviceId,
+          state.emailConfig.templateId,
+          {
+            to_email: email,
+            user_email: email,
+            reset_code: code,
+            app_name: "DompetRapi Finance Pro",
+            from_name: state.emailConfig.fromName || "DompetRapi Finance Pro",
+            message: `Kode reset password DompetRapi Finance Pro Anda adalah ${code}. Jangan bagikan kode ini kepada siapa pun.`
+          }
+        );
+
+        return { ok: true };
+      } catch (error) {
+        console.error("Email reset gagal:", error);
+        return {
+          ok: false,
+          reason: "EMAIL_SEND_FAILED",
+          error
+        };
+      }
+    }
 
     function loadUsers() { state.users = readJSON(STORAGE.USERS, []); }
     function saveUsers() { writeJSON(STORAGE.USERS, state.users); }
@@ -1894,7 +2001,7 @@
       toast("Berhasil masuk.");
     }
 
-    function forgot(e) {
+    async function forgot(e) {
       e.preventDefault();
       loadUsers();
 
@@ -1903,14 +2010,48 @@
 
       state.resetEmail = email;
       state.resetOtp = String(Math.floor(100000 + Math.random() * 900000));
+
+      els.emailInfo.classList.remove("hidden");
+      els.emailInfo.innerHTML = `Mengirim kode reset ke <b>${esc(email)}</b>...`;
+
+      const sendResult = await sendResetCodeToEmail(email, state.resetOtp);
+
+      if (sendResult.ok) {
+        els.emailInfo.innerHTML = `Kode reset sudah dikirim ke <b>${esc(email)}</b>. Silakan buka Gmail/email tujuan, lalu masukkan kode pada kolom reset.`;
+        addNotification(`Kode reset dikirim ke ${email}.`);
+        setTimeout(() => setAuth("reset"), 900);
+        toast("Kode reset berhasil dikirim.");
+        return;
+      }
+
       const subject = encodeURIComponent("Kode Reset Password DompetRapi");
       const body = encodeURIComponent(`Kode reset password DompetRapi Anda adalah: ${state.resetOtp}\n\nMasukkan kode ini di halaman reset.`);
       const mailto = `mailto:${email}?subject=${subject}&body=${body}`;
 
-      els.emailInfo.classList.remove("hidden");
-      els.emailInfo.innerHTML = `Kode reset disiapkan untuk <b>${esc(email)}</b>.<br><a href="${mailto}" style="color:var(--teal);font-weight:950;">Buka email untuk meminta kode</a><br><small>Kode demo: <b>${state.resetOtp}</b></small>`;
-      setTimeout(() => setAuth("reset"), 1200);
-      toast("Kode reset dibuat.");
+      if (sendResult.reason === "EMAIL_CONFIG_MISSING") {
+        els.emailInfo.innerHTML = `
+          Pengiriman otomatis belum aktif karena konfigurasi email belum diisi.<br>
+          Buka <b>Seting → Konfigurasi Email Reset</b>, lalu isi Public Key, Service ID, dan Template ID dari EmailJS.<br><br>
+          Untuk mode darurat, tekan link ini:
+          <a href="${mailto}" style="color:var(--teal);font-weight:950;">Buka Gmail/email</a><br>
+          <small>Kode reset demo: <b>${state.resetOtp}</b></small>
+        `;
+      } else if (sendResult.reason === "EMAIL_LIBRARY_NOT_LOADED") {
+        els.emailInfo.innerHTML = `
+          Library email belum termuat. Pastikan perangkat online, lalu coba lagi.<br>
+          <a href="${mailto}" style="color:var(--teal);font-weight:950;">Buka Gmail/email manual</a><br>
+          <small>Kode reset demo: <b>${state.resetOtp}</b></small>
+        `;
+      } else {
+        els.emailInfo.innerHTML = `
+          Email otomatis gagal dikirim. Periksa konfigurasi EmailJS di Seting.<br>
+          <a href="${mailto}" style="color:var(--teal);font-weight:950;">Buka Gmail/email manual</a><br>
+          <small>Kode reset demo: <b>${state.resetOtp}</b></small>
+        `;
+      }
+
+      setTimeout(() => setAuth("reset"), 1500);
+      toast("Kode reset dibuat. Cek info pengiriman.");
     }
 
     async function resetPassword(e) {
@@ -2825,6 +2966,47 @@
 
       <div class="panel-card">
         <div class="panel-title">
+          <div><h2>Konfigurasi Email Reset</h2><p>Aktifkan pengiriman kode reset langsung ke email tujuan.</p></div>
+        </div>
+
+        <div class="email-config-status ${hasEmailConfig() ? "" : "off"}">
+          ${hasEmailConfig() ? "Email reset otomatis aktif" : "Email reset otomatis belum aktif"}
+        </div>
+
+        <form class="form" id="emailConfigForm">
+          <div class="field">
+            <label>EmailJS Public Key</label>
+            <input class="input" id="emailPublicKey" value="${esc(state.emailConfig?.publicKey || "")}" placeholder="Contoh: xxxxxxxxxxxxx">
+          </div>
+
+          <div class="field">
+            <label>EmailJS Service ID</label>
+            <input class="input" id="emailServiceId" value="${esc(state.emailConfig?.serviceId || "")}" placeholder="Contoh: service_xxxxxxx">
+          </div>
+
+          <div class="field">
+            <label>EmailJS Template ID</label>
+            <input class="input" id="emailTemplateId" value="${esc(state.emailConfig?.templateId || "")}" placeholder="Contoh: template_xxxxxxx">
+          </div>
+
+          <div class="field">
+            <label>Nama Pengirim</label>
+            <input class="input" id="emailFromName" value="${esc(state.emailConfig?.fromName || "DompetRapi Finance Pro")}" placeholder="DompetRapi Finance Pro">
+          </div>
+
+          <button class="btn teal full" type="submit">Simpan Konfigurasi Email</button>
+          <button class="btn light full" id="testEmailConfig" type="button">Tes Kirim ke Email Saya</button>
+        </form>
+
+        <div class="email-config-help" style="margin-top:12px;">
+          Template EmailJS wajib memiliki variabel: <b>to_email</b>, <b>reset_code</b>, <b>app_name</b>, <b>from_name</b>, dan <b>message</b>. 
+          Setelah Public Key, Service ID, dan Template ID disimpan, tombol Lupa Password akan mengirim kode reset langsung ke email tujuan.
+        </div>
+      </div>
+
+
+      <div class="panel-card">
+        <div class="panel-title">
           <div><h2>Tutorial Aplikasi</h2><p>Tekan salah satu kolom tutorial.</p></div>
         </div>
 
@@ -2862,6 +3044,45 @@
         toast("Seting profil disimpan.");
       };
 
+      const emailForm = $("#emailConfigForm");
+      if (emailForm) {
+        emailForm.onsubmit = e => {
+          e.preventDefault();
+          state.emailConfig = {
+            publicKey: $("#emailPublicKey").value.trim(),
+            serviceId: $("#emailServiceId").value.trim(),
+            templateId: $("#emailTemplateId").value.trim(),
+            fromName: $("#emailFromName").value.trim() || "DompetRapi Finance Pro"
+          };
+          saveEmailConfig();
+          renderSettings();
+          toast("Konfigurasi email reset disimpan.");
+        };
+      }
+
+      const testEmailButton = $("#testEmailConfig");
+      if (testEmailButton) {
+        testEmailButton.onclick = async () => {
+          state.emailConfig = {
+            publicKey: $("#emailPublicKey").value.trim(),
+            serviceId: $("#emailServiceId").value.trim(),
+            templateId: $("#emailTemplateId").value.trim(),
+            fromName: $("#emailFromName").value.trim() || "DompetRapi Finance Pro"
+          };
+          saveEmailConfig();
+
+          const testCode = String(Math.floor(100000 + Math.random() * 900000));
+          toast("Mengirim email tes...");
+          const result = await sendResetCodeToEmail(state.user.email, testCode);
+          if (result.ok) {
+            addNotification(`Email tes reset dikirim ke ${state.user.email}.`);
+            toast("Email tes berhasil dikirim.");
+          } else {
+            toast("Email tes gagal. Periksa konfigurasi.");
+          }
+        };
+      }
+
       $("#openStorageFromSetting").onclick = () => setScreen("storage");
       $("#logout2").onclick = logout;
 
@@ -2881,7 +3102,7 @@
 
     function showTutorial(key) {
       const content = {
-        mulai: "<b>Mulai Pakai</b><br>1. Buat akun atau login. 2. Buka Seting untuk memasang foto profil dan kategori akun. 3. Cek saldo pada Home. 4. Gunakan menu Dompet atau Kasir sesuai kebutuhan.",
+        mulai: "<b>Mulai Pakai</b><br>1. Buat akun atau login. 2. Buka Seting untuk memasang foto profil, kategori akun, dan konfigurasi email reset. 3. Cek saldo pada Home. 4. Gunakan menu Dompet atau Kasir sesuai kebutuhan.",
         dompet: "<b>Catat Dompet</b><br>Buka menu Dompet, pilih Pemasukan atau Pengeluaran, masukkan nominal secara manual, pilih kategori, isi deskripsi, lalu tekan Simpan. Saldo akan berubah otomatis.",
         kasir: "<b>Kasir & Produk</b><br>Masuk ke Produk untuk menambah barang atau jasa. Setelah produk tersedia, buka Kasir, pilih produk, isi jumlah, lalu buat pesanan. Pesanan otomatis masuk ke Riwayat dan menambah pemasukan.",
         backup: "<b>Backup Data</b><br>Buka Seting lalu tekan Backup Data, atau buka menu Storage. Gunakan Export JSON untuk menyimpan backup. Gunakan Import JSON jika ingin memulihkan data ke perangkat lain."
@@ -3114,6 +3335,7 @@
     }
 
     function boot(){
+      loadEmailConfig();
       bindEvents();
       tickClock();
       setInterval(tickClock, 10000);

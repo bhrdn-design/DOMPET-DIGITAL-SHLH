@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#101623" />
-  <title>DompetRapi Finance Pro v13 - Email Reset</title>
+  <title>DompetRapi Finance Pro v14 - Reset Sandi Langsung</title>
 
   <style>
     :root {
@@ -351,6 +351,18 @@
       font-weight: 900;
       padding: 0;
       text-align: left;
+    }
+
+
+    .reset-direct-note {
+      border: 1px solid rgba(94,234,212,.24);
+      background: rgba(94,234,212,.08);
+      color: var(--teal);
+      border-radius: 18px;
+      padding: 12px;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 800;
     }
 
     .info-box {
@@ -1536,15 +1548,16 @@
 
         <form class="form hidden" id="forgotForm">
           <div class="field"><label>Email akun</label><input class="input" id="forgotEmail" type="email" required></div>
-          <button class="btn teal full" type="submit">Minta Kode Reset</button>
+          <button class="btn teal full" type="submit">Lanjut Ganti Password</button>
           <button class="text-btn" id="backLogin1" type="button">Kembali ke login</button>
           <div class="info-box hidden" id="emailInfo"></div>
         </form>
 
         <form class="form hidden" id="resetForm">
-          <div class="field"><label>Kode reset</label><input class="input" id="resetCode" inputmode="numeric" required></div>
-          <div class="field"><label>Password baru</label><input class="input" id="newPassword" type="password" required></div>
-          <button class="btn teal full" type="submit">Ganti Password</button>
+          <div class="reset-direct-note">Buat password baru, lalu ulangi di kolom konfirmasi. Tidak perlu kode Gmail.</div>
+          <div class="field"><label>Password baru</label><input class="input" id="newPassword" type="password" autocomplete="new-password" required></div>
+          <div class="field"><label>Konfirmasi password baru</label><input class="input" id="confirmPassword" type="password" autocomplete="new-password" required></div>
+          <button class="btn teal full" type="submit">Simpan Password Baru</button>
           <button class="text-btn" id="backLogin2" type="button">Kembali ke login</button>
         </form>
       </section>
@@ -1666,7 +1679,7 @@
 
         <div class="drawer-footer">
           <button class="drawer-logout" id="logoutBtn" type="button">Keluar</button>
-          <span class="version">v13.0</span>
+          <span class="version">v14.0</span>
         </div>
       </aside>
     </div>
@@ -2006,75 +2019,56 @@
       loadUsers();
 
       const email = normalizeEmail($("#forgotEmail").value);
-      if (!state.users.some(u => u.email === email)) return toast("Email tidak ditemukan.");
+      const exists = state.users.some(u => u.email === email);
+
+      if (!exists) {
+        els.emailInfo.classList.remove("hidden");
+        els.emailInfo.innerHTML = `Email <b>${esc(email)}</b> tidak ditemukan. Periksa kembali email akun Anda.`;
+        return toast("Email tidak ditemukan.");
+      }
 
       state.resetEmail = email;
-      state.resetOtp = String(Math.floor(100000 + Math.random() * 900000));
+      state.resetOtp = null;
 
       els.emailInfo.classList.remove("hidden");
-      els.emailInfo.innerHTML = `Mengirim kode reset ke <b>${esc(email)}</b>...`;
+      els.emailInfo.innerHTML = `Email ditemukan. Silakan isi password baru dan konfirmasi password.`;
 
-      const sendResult = await sendResetCodeToEmail(email, state.resetOtp);
+      $("#newPassword").value = "";
+      $("#confirmPassword").value = "";
 
-      if (sendResult.ok) {
-        els.emailInfo.innerHTML = `Kode reset sudah dikirim ke <b>${esc(email)}</b>. Silakan buka Gmail/email tujuan, lalu masukkan kode pada kolom reset.`;
-        addNotification(`Kode reset dikirim ke ${email}.`);
-        setTimeout(() => setAuth("reset"), 900);
-        toast("Kode reset berhasil dikirim.");
-        return;
-      }
-
-      const subject = encodeURIComponent("Kode Reset Password DompetRapi");
-      const body = encodeURIComponent(`Kode reset password DompetRapi Anda adalah: ${state.resetOtp}\n\nMasukkan kode ini di halaman reset.`);
-      const mailto = `mailto:${email}?subject=${subject}&body=${body}`;
-
-      if (sendResult.reason === "EMAIL_CONFIG_MISSING") {
-        els.emailInfo.innerHTML = `
-          Pengiriman otomatis belum aktif karena konfigurasi email belum diisi.<br>
-          Buka <b>Seting → Konfigurasi Email Reset</b>, lalu isi Public Key, Service ID, dan Template ID dari EmailJS.<br><br>
-          Untuk mode darurat, tekan link ini:
-          <a href="${mailto}" style="color:var(--teal);font-weight:950;">Buka Gmail/email</a><br>
-          <small>Kode reset demo: <b>${state.resetOtp}</b></small>
-        `;
-      } else if (sendResult.reason === "EMAIL_LIBRARY_NOT_LOADED") {
-        els.emailInfo.innerHTML = `
-          Library email belum termuat. Pastikan perangkat online, lalu coba lagi.<br>
-          <a href="${mailto}" style="color:var(--teal);font-weight:950;">Buka Gmail/email manual</a><br>
-          <small>Kode reset demo: <b>${state.resetOtp}</b></small>
-        `;
-      } else {
-        els.emailInfo.innerHTML = `
-          Email otomatis gagal dikirim. Periksa konfigurasi EmailJS di Seting.<br>
-          <a href="${mailto}" style="color:var(--teal);font-weight:950;">Buka Gmail/email manual</a><br>
-          <small>Kode reset demo: <b>${state.resetOtp}</b></small>
-        `;
-      }
-
-      setTimeout(() => setAuth("reset"), 1500);
-      toast("Kode reset dibuat. Cek info pengiriman.");
+      setTimeout(() => setAuth("reset"), 450);
+      toast("Silakan buat password baru.");
     }
 
     async function resetPassword(e) {
       e.preventDefault();
 
-      if ($("#resetCode").value.trim() !== state.resetOtp) return toast("Kode reset salah.");
-
       const newPassword = $("#newPassword").value;
+      const confirmPassword = $("#confirmPassword").value;
+
+      if (!state.resetEmail) return toast("Email reset belum dipilih.");
       if (newPassword.length < 6) return toast("Password minimal 6 karakter.");
+      if (newPassword !== confirmPassword) return toast("Konfirmasi password tidak sama.");
 
       loadUsers();
       const passwordHash = await hash(newPassword);
+
+      const found = state.users.some(u => u.email === state.resetEmail);
+      if (!found) return toast("Email reset tidak ditemukan.");
+
       state.users = state.users.map(u => u.email === state.resetEmail ? { ...u, passwordHash } : u);
       saveUsers();
 
       $("#loginEmail").value = state.resetEmail;
       $("#loginPassword").value = "";
-      $("#resetCode").value = "";
       $("#newPassword").value = "";
+      $("#confirmPassword").value = "";
+
       state.resetEmail = null;
       state.resetOtp = null;
+
       setAuth("login");
-      toast("Password berhasil diganti.");
+      toast("Password berhasil diganti. Silakan login.");
     }
 
     function restoreSession() {
@@ -2960,17 +2954,17 @@
           <div><h2>Pengertian Aplikasi</h2><p>Ringkasan fungsi DompetRapi.</p></div>
         </div>
         <div class="info-box">
-          DompetRapi Finance Pro adalah aplikasi pencatatan keuangan dan kasir ringan berbasis web. Aplikasi ini membantu pengguna mencatat pemasukan, pengeluaran, produk, pesanan, pelanggan, karyawan, target tabungan, laporan, kalkulator, kurs mata uang, serta backup data langsung dari perangkat.
+          DompetRapi Finance Pro adalah aplikasi pencatatan keuangan dan kasir ringan berbasis web. Aplikasi ini membantu pengguna mencatat pemasukan, pengeluaran, produk, pesanan, pelanggan, karyawan, target tabungan, laporan, kalkulator, kurs mata uang, reset sandi langsung, serta backup data langsung dari perangkat.
         </div>
       </div>
 
       <div class="panel-card">
         <div class="panel-title">
-          <div><h2>Konfigurasi Email Reset</h2><p>Aktifkan pengiriman kode reset langsung ke email tujuan.</p></div>
+          <div><h2>Konfigurasi Email Opsional</h2><p>Opsional. Reset sandi utama sekarang langsung memakai konfirmasi password.</p></div>
         </div>
 
         <div class="email-config-status ${hasEmailConfig() ? "" : "off"}">
-          ${hasEmailConfig() ? "Email reset otomatis aktif" : "Email reset otomatis belum aktif"}
+          ${hasEmailConfig() ? "Email opsional aktif" : "Email opsional belum aktif"}
         </div>
 
         <form class="form" id="emailConfigForm">
@@ -3000,7 +2994,7 @@
 
         <div class="email-config-help" style="margin-top:12px;">
           Template EmailJS wajib memiliki variabel: <b>to_email</b>, <b>reset_code</b>, <b>app_name</b>, <b>from_name</b>, dan <b>message</b>. 
-          Setelah Public Key, Service ID, dan Template ID disimpan, tombol Lupa Password akan mengirim kode reset langsung ke email tujuan.
+          Reset sandi utama tidak lagi membutuhkan Gmail. Konfigurasi ini hanya disimpan sebagai fitur tambahan opsional jika nanti ingin memakai pengiriman email.
         </div>
       </div>
 
@@ -3102,7 +3096,7 @@
 
     function showTutorial(key) {
       const content = {
-        mulai: "<b>Mulai Pakai</b><br>1. Buat akun atau login. 2. Buka Seting untuk memasang foto profil, kategori akun, dan konfigurasi email reset. 3. Cek saldo pada Home. 4. Gunakan menu Dompet atau Kasir sesuai kebutuhan.",
+        mulai: "<b>Mulai Pakai</b><br>1. Buat akun atau login. 2. Buka Seting untuk memasang foto profil, kategori akun, dan menyesuaikan tampilan aplikasi. 3. Cek saldo pada Home. 4. Gunakan menu Dompet atau Kasir sesuai kebutuhan.",
         dompet: "<b>Catat Dompet</b><br>Buka menu Dompet, pilih Pemasukan atau Pengeluaran, masukkan nominal secara manual, pilih kategori, isi deskripsi, lalu tekan Simpan. Saldo akan berubah otomatis.",
         kasir: "<b>Kasir & Produk</b><br>Masuk ke Produk untuk menambah barang atau jasa. Setelah produk tersedia, buka Kasir, pilih produk, isi jumlah, lalu buat pesanan. Pesanan otomatis masuk ke Riwayat dan menambah pemasukan.",
         backup: "<b>Backup Data</b><br>Buka Seting lalu tekan Backup Data, atau buka menu Storage. Gunakan Export JSON untuk menyimpan backup. Gunakan Import JSON jika ingin memulihkan data ke perangkat lain."

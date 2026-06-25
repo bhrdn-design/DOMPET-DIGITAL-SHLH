@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#101623" />
-  <title>DompetRapi Finance Pro v14 - Reset Sandi Langsung</title>
+  <title>DompetRapi Finance Pro v17 - Produk Bisa Edit</title>
 
   <style>
     :root {
@@ -1260,6 +1260,278 @@
     }
 
 
+
+    .cashier-summary-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .cashier-summary-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 13px;
+      background: rgba(255,255,255,.035);
+      min-width: 0;
+    }
+
+    body.light .cashier-summary-card {
+      background: #fff;
+    }
+
+    .cashier-summary-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .cashier-summary-card b {
+      display: block;
+      margin-top: 7px;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .order-status {
+      width: fit-content;
+      max-width: 100%;
+      border-radius: 999px;
+      padding: 6px 9px;
+      font-size: 11px;
+      font-weight: 950;
+      margin-top: 5px;
+      color: var(--teal);
+      background: rgba(94,234,212,.11);
+      border: 1px solid rgba(94,234,212,.22);
+    }
+
+    .order-status.done {
+      color: var(--green);
+      background: rgba(52,211,153,.12);
+      border-color: rgba(52,211,153,.24);
+    }
+
+    .order-actions {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      margin-top: 9px;
+    }
+
+    .small-action {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.045);
+      color: var(--ink);
+      padding: 9px 10px;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    body.light .small-action {
+      background: #fff;
+    }
+
+    .small-action.done {
+      color: var(--green);
+      border-color: rgba(52,211,153,.26);
+      background: rgba(52,211,153,.10);
+    }
+
+    .small-action.danger {
+      color: var(--danger);
+      border-color: rgba(251,113,133,.26);
+      background: rgba(251,113,133,.10);
+    }
+
+    .currency-search-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+
+    .currency-picker-card {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 13px;
+      background: rgba(255,255,255,.035);
+      display: grid;
+      gap: 10px;
+    }
+
+    body.light .currency-picker-card {
+      background: #fff;
+    }
+
+    .currency-direction-label {
+      display: inline-flex;
+      align-items: center;
+      width: fit-content;
+      border-radius: 999px;
+      padding: 6px 10px;
+      background: rgba(94,234,212,.10);
+      color: var(--teal);
+      border: 1px solid rgba(94,234,212,.22);
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .currency-direction-label.to {
+      background: rgba(96,165,250,.10);
+      color: var(--blue);
+      border-color: rgba(96,165,250,.24);
+    }
+
+    .currency-warning {
+      border: 1px solid rgba(251,113,133,.28);
+      background: rgba(251,113,133,.10);
+      color: var(--danger);
+      border-radius: 18px;
+      padding: 12px;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 850;
+    }
+
+
+    .currency-result-box {
+      border: 1px solid rgba(94,234,212,.22);
+      background: rgba(94,234,212,.08);
+      color: var(--ink);
+      border-radius: 22px;
+      padding: 15px;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .currency-meta {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 7px;
+      line-height: 1.4;
+    }
+
+    .currency-two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 620px) {
+      .cashier-summary-grid,
+      .currency-two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+
+
+    .product-card {
+      padding: 14px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(circle at 100% 0, rgba(96,165,250,.10), transparent 9rem),
+        rgba(255,255,255,.035);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: start;
+      gap: 12px;
+    }
+
+    body.light .product-card {
+      background:
+        radial-gradient(circle at 100% 0, rgba(96,165,250,.10), transparent 9rem),
+        #fff;
+    }
+
+    .product-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 7px;
+    }
+
+    .product-chip {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 5px 8px;
+      font-size: 11px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    body.light .product-chip {
+      background: #f8fbfd;
+    }
+
+    .product-actions {
+      display: grid;
+      gap: 7px;
+      min-width: 86px;
+    }
+
+    .product-actions button {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,.045);
+      color: var(--ink);
+      padding: 9px 10px;
+      font-size: 12px;
+      font-weight: 950;
+      white-space: nowrap;
+    }
+
+    body.light .product-actions button {
+      background: #fff;
+    }
+
+    .product-actions button.edit {
+      color: var(--teal);
+      border-color: rgba(94,234,212,.24);
+      background: rgba(94,234,212,.09);
+    }
+
+    .product-actions button.delete {
+      color: var(--danger);
+      border-color: rgba(251,113,133,.26);
+      background: rgba(251,113,133,.10);
+    }
+
+    .product-form-state {
+      display: inline-flex;
+      width: fit-content;
+      max-width: 100%;
+      border-radius: 999px;
+      padding: 7px 10px;
+      background: rgba(96,165,250,.10);
+      color: var(--blue);
+      border: 1px solid rgba(96,165,250,.24);
+      font-size: 12px;
+      font-weight: 950;
+      margin-bottom: 2px;
+    }
+
+    @media (max-width: 620px) {
+      .product-card {
+        grid-template-columns: auto 1fr;
+      }
+
+      .product-actions {
+        grid-column: 1 / -1;
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+
     .empty {
       min-height: 150px;
       display: grid;
@@ -1614,7 +1886,7 @@
 
           <div class="hybrid-note">
             <h3>Aplikasi keuangan dengan fitur kasir tambahan.</h3>
-            <p>Gunakan untuk catatan pribadi, usaha kecil, kas harian, tabungan target barang, produk, pesanan, pelanggan, karyawan, laporan, kalkulator, kurs, dan backup data.</p>
+            <p>Gunakan untuk catatan pribadi, kas harian, tabungan target barang, kasir manual, pesanan, pelanggan, karyawan, laporan, kalkulator, kurs lengkap, dan backup data.</p>
           </div>
         </section>
 
@@ -1679,7 +1951,7 @@
 
         <div class="drawer-footer">
           <button class="drawer-logout" id="logoutBtn" type="button">Keluar</button>
-          <span class="version">v14.0</span>
+          <span class="version">v17.0</span>
         </div>
       </aside>
     </div>
@@ -1755,11 +2027,14 @@
       expense: ["Belanja Produk", "Operasional", "Transportasi", "Tagihan", "Gaji Karyawan", "Lainnya"]
     };
 
+    const currencyCatalog = {"USD": {"name": "United States Dollar", "countries": "United States, Ecuador, El Salvador, Panama, Zimbabwe, Timor-Leste"}, "IDR": {"name": "Indonesian Rupiah", "countries": "Indonesia"}, "EUR": {"name": "Euro", "countries": "Eurozone: Germany, France, Italy, Spain, Netherlands, Belgium, Austria, Ireland, Portugal, Greece, Finland, Slovakia, Slovenia, Croatia, Cyprus, Estonia, Latvia, Lithuania, Luxembourg, Malta"}, "JPY": {"name": "Japanese Yen", "countries": "Japan"}, "GBP": {"name": "Pound Sterling", "countries": "United Kingdom, Jersey, Guernsey, Isle of Man"}, "AUD": {"name": "Australian Dollar", "countries": "Australia, Kiribati, Nauru, Tuvalu"}, "CAD": {"name": "Canadian Dollar", "countries": "Canada"}, "CHF": {"name": "Swiss Franc", "countries": "Switzerland, Liechtenstein"}, "CNY": {"name": "Chinese Yuan Renminbi", "countries": "China"}, "HKD": {"name": "Hong Kong Dollar", "countries": "Hong Kong"}, "SGD": {"name": "Singapore Dollar", "countries": "Singapore"}, "MYR": {"name": "Malaysian Ringgit", "countries": "Malaysia"}, "THB": {"name": "Thai Baht", "countries": "Thailand"}, "PHP": {"name": "Philippine Peso", "countries": "Philippines"}, "VND": {"name": "Vietnamese Dong", "countries": "Vietnam"}, "KRW": {"name": "South Korean Won", "countries": "South Korea"}, "INR": {"name": "Indian Rupee", "countries": "India, Bhutan"}, "PKR": {"name": "Pakistani Rupee", "countries": "Pakistan"}, "BDT": {"name": "Bangladeshi Taka", "countries": "Bangladesh"}, "LKR": {"name": "Sri Lankan Rupee", "countries": "Sri Lanka"}, "NPR": {"name": "Nepalese Rupee", "countries": "Nepal"}, "MMK": {"name": "Myanmar Kyat", "countries": "Myanmar"}, "KHR": {"name": "Cambodian Riel", "countries": "Cambodia"}, "LAK": {"name": "Lao Kip", "countries": "Laos"}, "BND": {"name": "Brunei Dollar", "countries": "Brunei"}, "NZD": {"name": "New Zealand Dollar", "countries": "New Zealand, Cook Islands, Niue, Tokelau, Pitcairn Islands"}, "FJD": {"name": "Fijian Dollar", "countries": "Fiji"}, "PGK": {"name": "Papua New Guinean Kina", "countries": "Papua New Guinea"}, "WST": {"name": "Samoan Tala", "countries": "Samoa"}, "TOP": {"name": "Tongan Paʻanga", "countries": "Tonga"}, "VUV": {"name": "Vanuatu Vatu", "countries": "Vanuatu"}, "SBD": {"name": "Solomon Islands Dollar", "countries": "Solomon Islands"}, "AED": {"name": "UAE Dirham", "countries": "United Arab Emirates"}, "SAR": {"name": "Saudi Riyal", "countries": "Saudi Arabia"}, "QAR": {"name": "Qatari Riyal", "countries": "Qatar"}, "KWD": {"name": "Kuwaiti Dinar", "countries": "Kuwait"}, "BHD": {"name": "Bahraini Dinar", "countries": "Bahrain"}, "OMR": {"name": "Omani Rial", "countries": "Oman"}, "JOD": {"name": "Jordanian Dinar", "countries": "Jordan"}, "ILS": {"name": "Israeli New Shekel", "countries": "Israel, Palestinian territories"}, "TRY": {"name": "Turkish Lira", "countries": "Turkey, Northern Cyprus"}, "IRR": {"name": "Iranian Rial", "countries": "Iran"}, "IQD": {"name": "Iraqi Dinar", "countries": "Iraq"}, "SYP": {"name": "Syrian Pound", "countries": "Syria"}, "LBP": {"name": "Lebanese Pound", "countries": "Lebanon"}, "YER": {"name": "Yemeni Rial", "countries": "Yemen"}, "EGP": {"name": "Egyptian Pound", "countries": "Egypt"}, "MAD": {"name": "Moroccan Dirham", "countries": "Morocco, Western Sahara"}, "DZD": {"name": "Algerian Dinar", "countries": "Algeria"}, "TND": {"name": "Tunisian Dinar", "countries": "Tunisia"}, "LYD": {"name": "Libyan Dinar", "countries": "Libya"}, "SDG": {"name": "Sudanese Pound", "countries": "Sudan"}, "ETB": {"name": "Ethiopian Birr", "countries": "Ethiopia"}, "KES": {"name": "Kenyan Shilling", "countries": "Kenya"}, "TZS": {"name": "Tanzanian Shilling", "countries": "Tanzania"}, "UGX": {"name": "Ugandan Shilling", "countries": "Uganda"}, "RWF": {"name": "Rwandan Franc", "countries": "Rwanda"}, "BIF": {"name": "Burundian Franc", "countries": "Burundi"}, "DJF": {"name": "Djiboutian Franc", "countries": "Djibouti"}, "SOS": {"name": "Somali Shilling", "countries": "Somalia"}, "ERN": {"name": "Eritrean Nakfa", "countries": "Eritrea"}, "NGN": {"name": "Nigerian Naira", "countries": "Nigeria"}, "GHS": {"name": "Ghanaian Cedi", "countries": "Ghana"}, "XOF": {"name": "West African CFA Franc", "countries": "Benin, Burkina Faso, Côte d’Ivoire, Guinea-Bissau, Mali, Niger, Senegal, Togo"}, "XAF": {"name": "Central African CFA Franc", "countries": "Cameroon, Central African Republic, Chad, Republic of Congo, Equatorial Guinea, Gabon"}, "ZAR": {"name": "South African Rand", "countries": "South Africa, Lesotho, Namibia, Eswatini"}, "NAD": {"name": "Namibian Dollar", "countries": "Namibia"}, "BWP": {"name": "Botswana Pula", "countries": "Botswana"}, "ZMW": {"name": "Zambian Kwacha", "countries": "Zambia"}, "MWK": {"name": "Malawian Kwacha", "countries": "Malawi"}, "MZN": {"name": "Mozambican Metical", "countries": "Mozambique"}, "AOA": {"name": "Angolan Kwanza", "countries": "Angola"}, "SCR": {"name": "Seychellois Rupee", "countries": "Seychelles"}, "MUR": {"name": "Mauritian Rupee", "countries": "Mauritius"}, "MGA": {"name": "Malagasy Ariary", "countries": "Madagascar"}, "KMF": {"name": "Comorian Franc", "countries": "Comoros"}, "CVE": {"name": "Cape Verdean Escudo", "countries": "Cape Verde"}, "BRL": {"name": "Brazilian Real", "countries": "Brazil"}, "ARS": {"name": "Argentine Peso", "countries": "Argentina"}, "CLP": {"name": "Chilean Peso", "countries": "Chile"}, "COP": {"name": "Colombian Peso", "countries": "Colombia"}, "PEN": {"name": "Peruvian Sol", "countries": "Peru"}, "BOB": {"name": "Bolivian Boliviano", "countries": "Bolivia"}, "PYG": {"name": "Paraguayan Guarani", "countries": "Paraguay"}, "UYU": {"name": "Uruguayan Peso", "countries": "Uruguay"}, "VES": {"name": "Venezuelan Bolívar", "countries": "Venezuela"}, "GYD": {"name": "Guyanese Dollar", "countries": "Guyana"}, "SRD": {"name": "Surinamese Dollar", "countries": "Suriname"}, "MXN": {"name": "Mexican Peso", "countries": "Mexico"}, "GTQ": {"name": "Guatemalan Quetzal", "countries": "Guatemala"}, "BZD": {"name": "Belize Dollar", "countries": "Belize"}, "HNL": {"name": "Honduran Lempira", "countries": "Honduras"}, "NIO": {"name": "Nicaraguan Córdoba", "countries": "Nicaragua"}, "CRC": {"name": "Costa Rican Colón", "countries": "Costa Rica"}, "PAB": {"name": "Panamanian Balboa", "countries": "Panama"}, "DOP": {"name": "Dominican Peso", "countries": "Dominican Republic"}, "HTG": {"name": "Haitian Gourde", "countries": "Haiti"}, "JMD": {"name": "Jamaican Dollar", "countries": "Jamaica"}, "TTD": {"name": "Trinidad and Tobago Dollar", "countries": "Trinidad and Tobago"}, "BBD": {"name": "Barbadian Dollar", "countries": "Barbados"}, "BSD": {"name": "Bahamian Dollar", "countries": "Bahamas"}, "BMD": {"name": "Bermudian Dollar", "countries": "Bermuda"}, "XCD": {"name": "East Caribbean Dollar", "countries": "Antigua and Barbuda, Dominica, Grenada, Saint Kitts and Nevis, Saint Lucia, Saint Vincent and the Grenadines, Anguilla, Montserrat"}, "RUB": {"name": "Russian Ruble", "countries": "Russia"}, "UAH": {"name": "Ukrainian Hryvnia", "countries": "Ukraine"}, "PLN": {"name": "Polish Złoty", "countries": "Poland"}, "CZK": {"name": "Czech Koruna", "countries": "Czech Republic"}, "HUF": {"name": "Hungarian Forint", "countries": "Hungary"}, "RON": {"name": "Romanian Leu", "countries": "Romania"}, "BGN": {"name": "Bulgarian Lev", "countries": "Bulgaria"}, "RSD": {"name": "Serbian Dinar", "countries": "Serbia"}, "MKD": {"name": "Macedonian Denar", "countries": "North Macedonia"}, "ALL": {"name": "Albanian Lek", "countries": "Albania"}, "BAM": {"name": "Bosnia-Herzegovina Convertible Mark", "countries": "Bosnia and Herzegovina"}, "ISK": {"name": "Icelandic Króna", "countries": "Iceland"}, "NOK": {"name": "Norwegian Krone", "countries": "Norway"}, "SEK": {"name": "Swedish Krona", "countries": "Sweden"}, "DKK": {"name": "Danish Krone", "countries": "Denmark, Greenland, Faroe Islands"}, "GEL": {"name": "Georgian Lari", "countries": "Georgia"}, "AMD": {"name": "Armenian Dram", "countries": "Armenia"}, "AZN": {"name": "Azerbaijani Manat", "countries": "Azerbaijan"}, "KZT": {"name": "Kazakhstani Tenge", "countries": "Kazakhstan"}, "UZS": {"name": "Uzbekistani Som", "countries": "Uzbekistan"}, "KGS": {"name": "Kyrgyzstani Som", "countries": "Kyrgyzstan"}, "TJS": {"name": "Tajikistani Somoni", "countries": "Tajikistan"}, "TMT": {"name": "Turkmenistani Manat", "countries": "Turkmenistan"}, "MNT": {"name": "Mongolian Tögrög", "countries": "Mongolia"}, "TWD": {"name": "New Taiwan Dollar", "countries": "Taiwan"}, "MOP": {"name": "Macanese Pataca", "countries": "Macau"}, "AFN": {"name": "Afghan Afghani", "countries": "Afghanistan"}, "BTN": {"name": "Bhutanese Ngultrum", "countries": "Bhutan"}, "MVR": {"name": "Maldivian Rufiyaa", "countries": "Maldives"}};
+
     const state = {
       users: [],
       user: null,
       screen: "dashboard",
       txType: "income",
+      editingProductId: null,
       transactions: [],
       products: [],
       orders: [],
@@ -1772,7 +2047,7 @@
       resetOtp: null,
       emailConfig: null,
       settings: { theme: "dark", accent: "teal", compact: "no", defaultCurrency: "IDR", notifications: "on" },
-      rates: { USD:1, IDR:16400, EUR:.92, JPY:157, GBP:.78, SGD:1.35, MYR:4.7, AUD:1.52, SAR:3.75, AED:3.67, CNY:7.25, KRW:1380, THB:36.7 }
+      rates: {"USD": 1, "IDR": 16400, "EUR": 0.92, "JPY": 157, "GBP": 0.78, "AUD": 1.52, "CAD": 1.37, "CHF": 0.89, "CNY": 7.25, "HKD": 7.81, "SGD": 1.35, "MYR": 4.7, "THB": 36.7, "PHP": 58.7, "VND": 25400, "KRW": 1380, "INR": 83.5, "PKR": 278, "BDT": 117, "LKR": 302, "NPR": 134, "MMK": 2100, "KHR": 4100, "LAK": 21500, "BND": 1.35, "NZD": 1.65, "AED": 3.67, "SAR": 3.75, "QAR": 3.64, "KWD": 0.31, "BHD": 0.38, "OMR": 0.38, "JOD": 0.71, "ILS": 3.7, "TRY": 33, "EGP": 48, "MAD": 9.9, "DZD": 134, "TND": 3.1, "ZAR": 18.2, "NGN": 1500, "GHS": 15, "KES": 129, "TZS": 2600, "UGX": 3700, "BRL": 5.5, "ARS": 930, "CLP": 940, "COP": 4100, "PEN": 3.75, "MXN": 18.3, "RUB": 88, "UAH": 41, "PLN": 4.0, "CZK": 23.2, "HUF": 360, "RON": 4.57, "BGN": 1.8, "NOK": 10.7, "SEK": 10.5, "DKK": 6.9, "TWD": 32.5, "MOP": 8.05}
     };
 
     const $ = q => document.querySelector(q);
@@ -2640,64 +2915,287 @@
     }
 
 
+
+    function orderPeriodKey(date, period) {
+      const d = new Date(date);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, "0");
+      const day = String(d.getDate()).padStart(2, "0");
+
+      if (period === "day") return `${y}-${m}-${day}`;
+      if (period === "month") return `${y}-${m}`;
+      if (period === "year") return `${y}`;
+
+      const temp = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+      const dayNum = temp.getUTCDay() || 7;
+      temp.setUTCDate(temp.getUTCDate() + 4 - dayNum);
+      const yearStart = new Date(Date.UTC(temp.getUTCFullYear(), 0, 1));
+      const weekNo = Math.ceil((((temp - yearStart) / 86400000) + 1) / 7);
+      return `${temp.getUTCFullYear()}-W${String(weekNo).padStart(2, "0")}`;
+    }
+
+    function orderPeriodLabel(period) {
+      return period === "day" ? "Hari ini" : period === "week" ? "Minggu ini" : period === "month" ? "Bulan ini" : "Tahun ini";
+    }
+
+    function orderSummary(period = "day") {
+      const nowKey = orderPeriodKey(new Date(), period);
+      const items = state.orders.filter(o => orderPeriodKey(o.createdAt, period) === nowKey);
+      const total = items.reduce((s, o) => s + Number(o.total || 0), 0);
+      const done = items.filter(o => o.status === "Selesai").length;
+      const pending = items.filter(o => o.status !== "Selesai").length;
+      return { items, total, done, pending };
+    }
+
     function renderKasir() {
-      $("#kasirPanel").innerHTML = panelStart("Kasir", "Buat pesanan dari produk.") + `
+      $("#kasirPanel").innerHTML = panelStart("Kasir Manual", "Ketik pesanan dan harga sendiri.") + `
         <form class="form" id="orderForm">
-          <div class="field"><label>Produk</label><select class="select" id="orderProduct">${state.products.map(p => `<option value="${p.id}">${esc(p.name)} — ${rupiah(p.price)}</option>`).join("")}</select></div>
-          <div class="field"><label>Jumlah</label><input class="input" id="orderQty" type="number" min="1" value="1"></div>
-          <div class="field"><label>Pelanggan</label><input class="input" id="orderCustomer" placeholder="Opsional"></div>
-          <button class="btn coral full" type="submit">Buat Pesanan</button>
+          <div class="field">
+            <label>Nama pesanan</label>
+            <input class="input" id="manualOrderName" placeholder="Contoh: Nasi ayam, jasa servis, kopi susu" required>
+          </div>
+
+          <div class="savings-form-grid">
+            <div class="field">
+              <label>Harga satuan</label>
+              <input class="input" id="manualOrderPrice" inputmode="numeric" placeholder="15000" required>
+            </div>
+            <div class="field">
+              <label>Jumlah</label>
+              <input class="input" id="manualOrderQty" type="number" min="1" value="1" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Nama pelanggan</label>
+            <input class="input" id="manualOrderCustomer" placeholder="Opsional">
+          </div>
+
+          <div class="field">
+            <label>Catatan</label>
+            <textarea class="textarea" id="manualOrderNote" placeholder="Opsional"></textarea>
+          </div>
+
+          <button class="btn coral full" type="submit">Simpan Pesanan</button>
         </form>
       </div>
-      <div class="panel-card"><div class="panel-title"><div><h2>Pesanan Baru</h2></div></div><div class="list">${orderList(state.orders.slice(0,5))}</div></div>`;
+
+      <div class="panel-card">
+        <div class="panel-title">
+          <div><h2>Kesimpulan Kasir</h2><p>Ringkasan otomatis berdasarkan waktu.</p></div>
+        </div>
+        <div class="field">
+          <label>Periode ringkasan</label>
+          <select class="select" id="cashierSummaryPeriod">
+            <option value="day">Hari ini</option>
+            <option value="week">Minggu ini</option>
+            <option value="month">Bulan ini</option>
+            <option value="year">Tahun ini</option>
+          </select>
+        </div>
+        <div id="cashierSummaryBox"></div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">
+          <div><h2>Daftar Pesanan</h2><p>Bisa diceklis selesai atau dihapus.</p></div>
+        </div>
+        <div class="list" id="manualOrderList">${orderList(state.orders)}</div>
+      </div>`;
 
       $("#orderForm").onsubmit = e => {
         e.preventDefault();
-        const product = state.products.find(p => p.id === $("#orderProduct").value);
-        if (!product) return toast("Produk belum tersedia.");
 
-        const qty = Math.max(1, Number($("#orderQty").value || 1));
-        const total = product.price * qty;
+        const productName = $("#manualOrderName").value.trim();
+        const price = parseMoney($("#manualOrderPrice").value);
+        const qty = Math.max(1, Number($("#manualOrderQty").value || 1));
+        const customer = $("#manualOrderCustomer").value.trim();
+        const note = $("#manualOrderNote").value.trim();
 
-        state.orders.unshift({ id:uid(), productId:product.id, productName:product.name, qty, total, customer:$("#orderCustomer").value.trim(), status:"Selesai", createdAt:nowISO() });
-        state.transactions.unshift({ id:uid(), type:"income", amount:total, category:"Penjualan", description:`Kasir: ${product.name} x${qty}`, createdAt:nowISO() });
+        if (!productName) return toast("Nama pesanan wajib diisi.");
+        if (!price || price <= 0) return toast("Harga belum benar.");
+
+        const total = price * qty;
+        const order = {
+          id: uid(),
+          productId: "",
+          productName,
+          price,
+          qty,
+          total,
+          customer,
+          note,
+          status: "Belum Selesai",
+          createdAt: nowISO(),
+          completedAt: ""
+        };
+
+        state.orders.unshift(order);
+        state.transactions.unshift({
+          id: uid(),
+          type: "income",
+          amount: total,
+          category: "Penjualan",
+          description: `Kasir: ${productName} x${qty}`,
+          createdAt: order.createdAt
+        });
 
         saveData("orders");
         saveData("transactions");
-        addNotification("Pesanan kasir disimpan.");
+        addNotification(`Pesanan kasir disimpan: ${productName}.`);
         renderKasir();
         renderBalance();
+        toast("Pesanan disimpan.");
       };
+
+      $("#cashierSummaryPeriod").onchange = renderCashierSummary;
+      renderCashierSummary();
+      bindOrderActions();
     }
 
+    function renderCashierSummary() {
+      const period = $("#cashierSummaryPeriod")?.value || "day";
+      const sum = orderSummary(period);
+      const box = $("#cashierSummaryBox");
+      if (!box) return;
+
+      box.innerHTML = `
+        <div class="cashier-summary-grid">
+          <div class="cashier-summary-card"><span>Periode</span><b>${orderPeriodLabel(period)}</b></div>
+          <div class="cashier-summary-card"><span>Jumlah Pesanan</span><b>${sum.items.length}</b></div>
+          <div class="cashier-summary-card"><span>Total Penjualan</span><b>${rupiah(sum.total)}</b></div>
+          <div class="cashier-summary-card"><span>Selesai / Belum</span><b>${sum.done} / ${sum.pending}</b></div>
+        </div>
+      `;
+    }
+
+    function bindOrderActions() {
+      $$("[data-order-toggle]").forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.orderToggle;
+          const order = state.orders.find(o => o.id === id);
+          if (!order) return;
+
+          if (order.status === "Selesai") {
+            order.status = "Belum Selesai";
+            order.completedAt = "";
+          } else {
+            order.status = "Selesai";
+            order.completedAt = nowISO();
+          }
+
+          saveData("orders");
+          addNotification(`Pesanan ${order.productName} ditandai ${order.status}.`);
+          renderKasir();
+        };
+      });
+
+      $$("[data-order-delete]").forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.orderDelete;
+          const order = state.orders.find(o => o.id === id);
+          if (!order) return;
+          if (!confirm(`Hapus pesanan "${order.productName}"?`)) return;
+
+          state.orders = state.orders.filter(o => o.id !== id);
+          saveData("orders");
+          addNotification(`Pesanan ${order.productName} dihapus.`);
+          renderKasir();
+        };
+      });
+    }
+
+
     function renderProduk() {
-      $("#produkPanel").innerHTML = panelStart("Produk", "Kelola produk jualan.") + `
+      const editing = state.products.find(p => p.id === state.editingProductId) || null;
+      const unit = editing?.unit || "-";
+
+      $("#produkPanel").innerHTML = panelStart("Produk", "Kelola produk, harga, stok, dan satuan.") + `
         <form class="form" id="productForm">
-          <div class="field"><label>Nama produk</label><input class="input" id="productName" required></div>
-          <div class="field"><label>Harga</label><input class="input" id="productPrice" inputmode="numeric" required></div>
-          <div class="field"><label>Stok</label><input class="input" id="productStock" type="number" min="0" value="0"></div>
-          <button class="btn coral full" type="submit">Tambah Produk</button>
+          <div class="product-form-state">${editing ? "Mode edit produk" : "Mode tambah produk"}</div>
+
+          <div class="field">
+            <label>Nama produk</label>
+            <input class="input" id="productName" value="${esc(editing?.name || "")}" placeholder="Contoh: Beras, gula, kopi, jasa servis" required>
+          </div>
+
+          <div class="savings-form-grid">
+            <div class="field">
+              <label>Harga</label>
+              <input class="input" id="productPrice" value="${editing ? editing.price : ""}" inputmode="numeric" placeholder="15000" required>
+            </div>
+            <div class="field">
+              <label>Stok</label>
+              <input class="input" id="productStock" type="number" min="0" value="${editing ? Number(editing.stock || 0) : 0}">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Satuan</label>
+            <select class="select" id="productUnit">
+              ${["-","pcs","kg","gram","liter","ml","meter","cm","dus","box","pack","botol","kaleng","sachet","porsi","unit","lusin"].map(x => `<option value="${x}" ${unit === x ? "selected" : ""}>${x}</option>`).join("")}
+            </select>
+          </div>
+
+          <div class="setting-actions">
+            <button class="btn coral full" type="submit">${editing ? "Simpan Perubahan" : "Tambah Produk"}</button>
+            ${editing ? `<button class="btn light full" id="cancelProductEdit" type="button">Batal Edit</button>` : ""}
+          </div>
         </form>
       </div>
-      <div class="panel-card"><div class="panel-title"><div><h2>Daftar Produk</h2></div></div><div class="list">${productList()}</div></div>`;
+
+      <div class="panel-card">
+        <div class="panel-title">
+          <div><h2>Daftar Produk</h2><p>Produk bisa diedit, diatur ulang, atau dihapus.</p></div>
+        </div>
+        <div class="list">${productList()}</div>
+      </div>`;
 
       $("#productForm").onsubmit = e => {
         e.preventDefault();
+
         const name = $("#productName").value.trim();
         const price = parseMoney($("#productPrice").value);
         const stock = Number($("#productStock").value || 0);
+        const selectedUnit = $("#productUnit").value || "-";
 
-        if (!name || price <= 0) return toast("Produk belum lengkap.");
+        if (!name) return toast("Nama produk wajib diisi.");
+        if (!price || price <= 0) return toast("Harga belum benar.");
+        if (stock < 0) return toast("Stok tidak boleh kurang dari 0.");
 
-        state.products.unshift({ id:uid(), name, price, stock, createdAt:nowISO() });
+        if (state.editingProductId) {
+          state.products = state.products.map(p => p.id === state.editingProductId
+            ? { ...p, name, price, stock, unit: selectedUnit, updatedAt: nowISO() }
+            : p
+          );
+          addNotification(`Produk ${name} diperbarui.`);
+          state.editingProductId = null;
+          toast("Produk diperbarui.");
+        } else {
+          state.products.unshift({ id:uid(), name, price, stock, unit: selectedUnit, createdAt:nowISO(), updatedAt:"" });
+          addNotification(`Produk ${name} ditambahkan.`);
+          toast("Produk ditambahkan.");
+        }
+
         saveData("products");
-        addNotification("Produk ditambahkan.");
         renderProduk();
       };
+
+      const cancel = $("#cancelProductEdit");
+      if (cancel) {
+        cancel.onclick = () => {
+          state.editingProductId = null;
+          renderProduk();
+        };
+      }
+
+      bindProductActions();
     }
+
 
     function renderOrders() {
       $("#ordersPanel").innerHTML = panelStart("Daftar Pesanan", "Pesanan dari kasir.") + `<div class="list">${orderList(state.orders)}</div></div>`;
+      bindOrderActions();
     }
 
     function renderHistory() {
@@ -2838,27 +3336,198 @@
       if(display) display.textContent=state.calc;
     }
 
+
+    async function loadLiveRates() {
+      try {
+        const res = await fetch("https://open.er-api.com/v6/latest/USD", { cache: "no-store" });
+        if (!res.ok) throw new Error("network");
+        const data = await res.json();
+        if (!data || data.result !== "success" || !data.rates) throw new Error("invalid");
+        state.rates = { ...state.rates, ...data.rates, USD: 1 };
+        const meta = $("#currencyMeta");
+        if (meta) meta.textContent = `Kurs online diperbarui: ${data.time_last_update_utc || new Date().toUTCString()}`;
+        return true;
+      } catch {
+        const meta = $("#currencyMeta");
+        if (meta) meta.textContent = "Memakai kurs fallback lokal. Sambungkan internet untuk kurs terbaru.";
+        return false;
+      }
+    }
+
+    function currencyOptionsHTML(selected = "IDR", query = "") {
+      const q = String(query || "").toLowerCase();
+      const codes = Object.keys(currencyCatalog).sort();
+      return codes
+        .filter(code => {
+          const item = currencyCatalog[code];
+          const hay = `${code} ${item.name} ${item.countries}`.toLowerCase();
+          return !q || hay.includes(q);
+        })
+        .map(code => {
+          const item = currencyCatalog[code];
+          return `<option value="${code}" ${code === selected ? "selected" : ""}>${code} — ${item.name} — ${item.countries}</option>`;
+        })
+        .join("");
+    }
+
+    function currencyLabel(code) {
+      const item = currencyCatalog[code];
+      return item ? `${code} — ${item.name} (${item.countries})` : code;
+    }
+
+
+
+    function currencySelectHasValue(select, value) {
+      return Array.from(select.options).some(opt => opt.value === value);
+    }
+
+    function refreshCurrencySelect(selectId, queryId, fallbackValue) {
+      const select = $(selectId);
+      const query = $(queryId)?.value || "";
+      const current = select.value || fallbackValue;
+
+      select.innerHTML = currencyOptionsHTML(current, query);
+
+      if (currencySelectHasValue(select, current)) {
+        select.value = current;
+      } else {
+        select.innerHTML = currencyOptionsHTML(fallbackValue, "");
+        select.value = fallbackValue;
+      }
+    }
+
+    function ensureDifferentCurrencies(changedSide = "") {
+      const from = $("#curFrom");
+      const to = $("#curTo");
+      if (!from || !to) return;
+
+      if (from.value !== to.value) return;
+
+      const preferred = from.value === "IDR" ? "USD" : "IDR";
+
+      if (changedSide === "from") {
+        $("#currencySearchTo").value = "";
+        to.innerHTML = currencyOptionsHTML(preferred, "");
+        to.value = preferred;
+      } else {
+        $("#currencySearchFrom").value = "";
+        from.innerHTML = currencyOptionsHTML(preferred, "");
+        from.value = preferred;
+      }
+    }
+
     function renderCurrencyPage() {
-      const codes = Object.keys(state.rates).sort();
-      $("#currencyPanel").innerHTML = panelStart("Mata Uang", "Konversi kurs fallback.") + `
+      $("#currencyPanel").innerHTML = panelStart("Mata Uang", "Cari negara asal dan negara tujuan secara terpisah.") + `
         <div class="form">
-          <div class="field"><label>Nominal</label><input class="input" id="curAmount" value="1" inputmode="decimal"></div>
-          <div class="field"><label>Dari</label><select class="select" id="curFrom">${codes.map(c=>`<option ${c==="USD"?"selected":""}>${c}</option>`).join("")}</select></div>
-          <div class="field"><label>Ke</label><select class="select" id="curTo">${codes.map(c=>`<option ${c==="IDR"?"selected":""}>${c}</option>`).join("")}</select></div>
-          <button class="btn blue full" id="curBtn" type="button">Konversi</button>
-          <div class="info-box" id="curResult">-</div>
+          <div class="field">
+            <label>Nominal</label>
+            <input class="input" id="curAmount" value="1" inputmode="decimal">
+          </div>
+
+          <div class="currency-two-col">
+            <div class="currency-picker-card">
+              <span class="currency-direction-label">Dari Negara / Mata Uang</span>
+              <div class="field">
+                <label>Cari asal</label>
+                <input class="input" id="currencySearchFrom" placeholder="Contoh: Indonesia, Rupiah, IDR, Jepang">
+              </div>
+              <div class="field">
+                <label>Pilih asal</label>
+                <select class="select" id="curFrom">${currencyOptionsHTML("USD")}</select>
+              </div>
+            </div>
+
+            <div class="currency-picker-card">
+              <span class="currency-direction-label to">Ke Negara / Mata Uang Tujuan</span>
+              <div class="field">
+                <label>Cari tujuan</label>
+                <input class="input" id="currencySearchTo" placeholder="Contoh: Malaysia, Ringgit, MYR, Dollar">
+              </div>
+              <div class="field">
+                <label>Pilih tujuan</label>
+                <select class="select" id="curTo">${currencyOptionsHTML("IDR")}</select>
+              </div>
+            </div>
+          </div>
+
+          <div class="currency-warning hidden" id="currencyWarning">
+            Mata uang asal dan tujuan tidak boleh sama. Sistem akan mengganti salah satunya otomatis.
+          </div>
+
+          <button class="btn blue full" id="reloadRatesBtn" type="button">Update Kurs Online</button>
+          <button class="btn teal full" id="curBtn" type="button">Konversi</button>
+
+          <div class="currency-result-box" id="curResult">-</div>
+          <div class="currency-meta" id="currencyMeta">Memuat kurs online jika tersedia. Fallback lokal tetap bisa dipakai tanpa internet.</div>
         </div>
       </div>`;
+
+      $("#currencySearchFrom").oninput = () => {
+        refreshCurrencySelect("#curFrom", "#currencySearchFrom", "USD");
+        ensureDifferentCurrencies("from");
+        convertCurrency();
+      };
+
+      $("#currencySearchTo").oninput = () => {
+        refreshCurrencySelect("#curTo", "#currencySearchTo", "IDR");
+        ensureDifferentCurrencies("to");
+        convertCurrency();
+      };
+
+      $("#curFrom").onchange = () => {
+        ensureDifferentCurrencies("from");
+        convertCurrency();
+      };
+
+      $("#curTo").onchange = () => {
+        ensureDifferentCurrencies("to");
+        convertCurrency();
+      };
+
+      $("#reloadRatesBtn").onclick = async () => {
+        $("#currencyMeta").textContent = "Mengambil kurs online...";
+        await loadLiveRates();
+        convertCurrency();
+      };
+
       $("#curBtn").onclick = convertCurrency;
+      $("#curAmount").oninput = convertCurrency;
+
+      loadLiveRates().then(() => convertCurrency());
     }
 
     function convertCurrency() {
-      const amount = parseMoney($("#curAmount").value);
-      const from=$("#curFrom").value;
-      const to=$("#curTo").value;
-      const result = amount / state.rates[from] * state.rates[to];
-      $("#curResult").textContent = `${amount.toLocaleString("id-ID")} ${from} ≈ ${result.toLocaleString("id-ID", {maximumFractionDigits:2})} ${to}`;
+      const amount = parseMoney($("#curAmount")?.value || "0");
+      const from = $("#curFrom")?.value || "USD";
+      const to = $("#curTo")?.value || "IDR";
+
+      if (from === to) {
+        $("#currencyWarning")?.classList.remove("hidden");
+        ensureDifferentCurrencies("to");
+        return convertCurrency();
+      }
+
+      $("#currencyWarning")?.classList.add("hidden");
+
+      const fromRate = state.rates[from];
+      const toRate = state.rates[to];
+
+      if (!fromRate || !toRate) {
+        $("#curResult").innerHTML = `
+          Kurs untuk <b>${esc(from)}</b> atau <b>${esc(to)}</b> belum tersedia di data lokal.
+          Tekan <b>Update Kurs Online</b> agar aplikasi mengambil kurs terbaru.
+        `;
+        return;
+      }
+
+      const result = amount / fromRate * toRate;
+      $("#curResult").innerHTML = `
+        <b>${amount.toLocaleString("id-ID")} ${from}</b> ≈ <b>${result.toLocaleString("id-ID", { maximumFractionDigits: 2 })} ${to}</b><br>
+        <span style="color:var(--muted);font-size:12px;">Dari: ${esc(currencyLabel(from))}</span><br>
+        <span style="color:var(--muted);font-size:12px;">Tujuan: ${esc(currencyLabel(to))}</span>
+      `;
     }
+
 
     function renderStorage() {
       $("#storagePanel").innerHTML = panelStart("Storage", "Backup dan pemindahan data.") + `
@@ -3106,14 +3775,88 @@
     }
 
     function productList() {
-      return state.products.length
-        ? state.products.map(p=>`<div class="row-card"><div class="row-icon">${icons.produk}</div><div class="row-main"><b>${esc(p.name)}</b><span>Stok ${p.stock}</span></div><b>${rupiah(p.price)}</b></div>`).join("")
-        : `<div class="empty">Belum ada produk.</div>`;
+      if (!state.products.length) return `<div class="empty">Belum ada produk.</div>`;
+
+      return state.products.map(p => {
+        const unit = p.unit || "-";
+        const created = p.createdAt ? dt(p.createdAt) : "-";
+        const updated = p.updatedAt ? dt(p.updatedAt) : "";
+
+        return `
+          <div class="product-card">
+            <div class="row-icon">${icons.produk}</div>
+
+            <div class="row-main">
+              <b>${esc(p.name)}</b>
+              <span>${rupiah(p.price)} ${unit !== "-" ? "/ " + esc(unit) : ""}</span>
+              <div class="product-meta">
+                <span class="product-chip">Stok: ${Number(p.stock || 0)}</span>
+                <span class="product-chip">Satuan: ${esc(unit)}</span>
+                <span class="product-chip">Dibuat: ${created}</span>
+                ${updated ? `<span class="product-chip">Update: ${updated}</span>` : ""}
+              </div>
+            </div>
+
+            <div class="product-actions">
+              <button class="edit" type="button" data-product-edit="${p.id}">Edit</button>
+              <button class="delete" type="button" data-product-delete="${p.id}">Hapus</button>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function bindProductActions() {
+      $$("[data-product-edit]").forEach(btn => {
+        btn.onclick = () => {
+          state.editingProductId = btn.dataset.productEdit;
+          renderProduk();
+          toast("Mode edit produk aktif.");
+        };
+      });
+
+      $$("[data-product-delete]").forEach(btn => {
+        btn.onclick = () => {
+          const id = btn.dataset.productDelete;
+          const product = state.products.find(p => p.id === id);
+          if (!product) return;
+
+          if (!confirm(`Hapus produk "${product.name}"?`)) return;
+
+          state.products = state.products.filter(p => p.id !== id);
+          if (state.editingProductId === id) state.editingProductId = null;
+
+          saveData("products");
+          addNotification(`Produk ${product.name} dihapus.`);
+          renderProduk();
+          toast("Produk dihapus.");
+        };
+      });
     }
 
     function orderList(items) {
       return items.length
-        ? items.map(o=>`<div class="row-card"><div class="row-icon">${icons.orders}</div><div class="row-main"><b>${esc(o.productName)} x${o.qty}</b><span>${esc(o.customer||"Tanpa pelanggan")} • ${dt(o.createdAt)}</span></div><b>${rupiah(o.total)}</b></div>`).join("")
+        ? items.map(o => {
+            const done = o.status === "Selesai";
+            const statusText = done ? "Selesai" : "Belum Selesai";
+            const completedText = done && o.completedAt ? `<br>Selesai: ${dt(o.completedAt)}` : "";
+            return `
+              <div class="row-card">
+                <div class="row-icon ${done ? "" : "red"}">${done ? "✓" : icons.orders}</div>
+                <div class="row-main">
+                  <b>${esc(o.productName)} x${o.qty}</b>
+                  <span>${esc(o.customer || "Tanpa pelanggan")} • ${dt(o.createdAt)}${completedText}</span>
+                  <div class="order-status ${done ? "done" : ""}">${statusText}</div>
+                  ${o.note ? `<span>Catatan: ${esc(o.note)}</span>` : ""}
+                  <div class="order-actions">
+                    <button class="small-action done" type="button" data-order-toggle="${o.id}">${done ? "Batalkan Ceklis" : "Ceklis Selesai"}</button>
+                    <button class="small-action danger" type="button" data-order-delete="${o.id}">Hapus</button>
+                  </div>
+                </div>
+                <b>${rupiah(o.total)}</b>
+              </div>
+            `;
+          }).join("")
         : `<div class="empty">Belum ada pesanan.</div>`;
     }
 
@@ -3198,8 +3941,8 @@
 
     function seedProducts() {
       return [
-        {id:uid(),name:"Produk Contoh A",price:15000,stock:20,createdAt:nowISO()},
-        {id:uid(),name:"Produk Contoh B",price:25000,stock:12,createdAt:nowISO()}
+        {id:uid(),name:"Produk Contoh A",price:15000,stock:20,unit:"pcs",createdAt:nowISO(),updatedAt:""},
+        {id:uid(),name:"Produk Contoh B",price:25000,stock:12,unit:"kg",createdAt:nowISO(),updatedAt:""}
       ];
     }
 

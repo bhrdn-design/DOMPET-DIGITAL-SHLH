@@ -1,0 +1,2340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#101623" />
+  <title>DompetRapi Finance Pro v10</title>
+
+  <style>
+    :root {
+      --bg: #101623;
+      --bg2: #151c2b;
+      --panel: #1b2435;
+      --panel2: #202b3f;
+      --card: #111827;
+      --ink: #eef5ff;
+      --muted: #9ca8ba;
+      --line: rgba(255,255,255,.10);
+      --teal: #5eead4;
+      --teal2: #14b8a6;
+      --coral: #ff6b61;
+      --coral2: #f05246;
+      --blue: #60a5fa;
+      --violet: #a78bfa;
+      --amber: #fbbf24;
+      --green: #34d399;
+      --danger: #fb7185;
+      --shadow: 0 24px 70px rgba(0,0,0,.32);
+      --soft-shadow: 0 16px 42px rgba(0,0,0,.22);
+      --radius: 28px;
+      --font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --max: 1120px;
+    }
+
+    body.light {
+      --bg: #f7fafc;
+      --bg2: #ffffff;
+      --panel: #ffffff;
+      --panel2: #f8fbfd;
+      --card: #ffffff;
+      --ink: #1f2937;
+      --muted: #6b7280;
+      --line: #e5edf4;
+      --shadow: 0 24px 70px rgba(15,23,42,.12);
+      --soft-shadow: 0 16px 42px rgba(15,23,42,.08);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: var(--font);
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 0 0, rgba(94,234,212,.17), transparent 26rem),
+        radial-gradient(circle at 100% 0, rgba(255,107,97,.16), transparent 28rem),
+        radial-gradient(circle at 50% 100%, rgba(96,165,250,.12), transparent 30rem),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+    }
+
+    button, input, select, textarea { font: inherit; }
+    button { cursor: pointer; }
+    .hidden { display: none !important; }
+
+    .shell {
+      width: min(var(--max), 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      position: relative;
+      overflow-x: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    }
+
+    @media (min-width: 900px) {
+      .shell {
+        margin: 18px auto;
+        min-height: calc(100vh - 36px);
+        border-radius: 36px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--line);
+      }
+    }
+
+    .statusbar {
+      height: 32px;
+      padding: 8px 22px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--ink);
+      font-weight: 850;
+      font-size: 13px;
+      background: rgba(0,0,0,.10);
+    }
+
+    body.light .statusbar { background: rgba(255,255,255,.80); }
+
+    .status-icons {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .topbar {
+      height: 76px;
+      padding: 0 22px;
+      display: grid;
+      grid-template-columns: 46px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      background: rgba(16,22,35,.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    body.light .topbar {
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 8px 24px rgba(15,23,42,.06);
+    }
+
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      border: 0;
+      border-radius: 16px;
+      background: transparent;
+      color: var(--teal);
+      display: grid;
+      place-items: center;
+      transition: .18s ease;
+    }
+
+    .icon-btn:hover { background: rgba(94,234,212,.12); }
+
+    .screen-title {
+      text-align: center;
+      font-size: 25px;
+      letter-spacing: -.04em;
+      font-weight: 850;
+    }
+
+    .top-right {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .top-add {
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: #06131a;
+      background: linear-gradient(135deg, var(--teal), var(--blue));
+      font-weight: 950;
+      box-shadow: 0 12px 30px rgba(94,234,212,.20);
+    }
+
+    .auth-view {
+      min-height: calc(100vh - 32px);
+      display: grid;
+      grid-template-columns: 1.1fr .75fr;
+      gap: 24px;
+      padding: 28px;
+      align-items: center;
+    }
+
+    .auth-hero {
+      min-height: 560px;
+      border-radius: 34px;
+      padding: 34px;
+      background:
+        radial-gradient(circle at 90% 8%, rgba(94,234,212,.16), transparent 18rem),
+        radial-gradient(circle at 16% 88%, rgba(255,107,97,.14), transparent 18rem),
+        var(--panel);
+      border: 1px solid var(--line);
+      box-shadow: var(--soft-shadow);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .brand-mark {
+      width: 70px;
+      height: 70px;
+      border-radius: 26px;
+      display: grid;
+      place-items: center;
+      color: #06131a;
+      background: linear-gradient(135deg, var(--teal), var(--blue) 55%, var(--coral));
+      box-shadow: 0 20px 42px rgba(94,234,212,.22);
+    }
+
+    .auth-hero h1 {
+      margin: 24px 0 0;
+      max-width: 780px;
+      font-size: clamp(38px, 5vw, 66px);
+      line-height: .96;
+      letter-spacing: -.075em;
+    }
+
+    .auth-hero p {
+      max-width: 660px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      line-height: 1.66;
+    }
+
+    .hero-strip {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 13px;
+    }
+
+    .hero-mini {
+      padding: 18px;
+      border-radius: 23px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      box-shadow: 0 12px 28px rgba(0,0,0,.10);
+    }
+
+    body.light .hero-mini { background: #fff; }
+
+    .hero-mini:nth-child(1) { border-top: 4px solid var(--teal); }
+    .hero-mini:nth-child(2) { border-top: 4px solid var(--coral); }
+    .hero-mini:nth-child(3) { border-top: 4px solid var(--blue); }
+
+    .hero-mini b {
+      display: block;
+      letter-spacing: -.035em;
+      font-size: 21px;
+    }
+
+    .hero-mini span {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .auth-card {
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: var(--panel);
+      padding: 22px;
+      box-shadow: var(--soft-shadow);
+    }
+
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 7px;
+      background: rgba(255,255,255,.07);
+      border-radius: 999px;
+      padding: 5px;
+      margin-bottom: 16px;
+    }
+
+    body.light .auth-tabs { background: #edf2f7; }
+
+    .auth-tabs button {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 900;
+    }
+
+    .auth-tabs button.active {
+      background: var(--card);
+      color: var(--teal);
+      box-shadow: 0 8px 18px rgba(0,0,0,.10);
+    }
+
+    body.light .auth-tabs button.active {
+      background: #fff;
+      color: var(--teal2);
+    }
+
+    .form { display: grid; gap: 12px; }
+    .field { display: grid; gap: 7px; }
+
+    .field label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 850;
+    }
+
+    .input, .select, .textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 17px;
+      padding: 14px;
+      background: rgba(255,255,255,.045);
+      color: var(--ink);
+      outline: none;
+      transition: .18s ease;
+    }
+
+    body.light .input,
+    body.light .select,
+    body.light .textarea {
+      background: #fff;
+    }
+
+    .textarea { min-height: 94px; resize: vertical; }
+
+    .input:focus, .select:focus, .textarea:focus {
+      border-color: rgba(94,234,212,.62);
+      box-shadow: 0 0 0 5px rgba(94,234,212,.10);
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 17px;
+      padding: 14px 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--ink);
+      color: var(--bg);
+      font-weight: 950;
+      box-shadow: 0 14px 28px rgba(0,0,0,.18);
+      transition: .18s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn.teal { background: linear-gradient(135deg, var(--teal), var(--blue)); color: #06131a; }
+    .btn.coral { background: linear-gradient(135deg, var(--coral), var(--amber)); color: #1f1110; }
+    .btn.blue { background: var(--blue); color: #06131a; }
+    .btn.light { background: rgba(255,255,255,.06); color: var(--ink); border: 1px solid var(--line); }
+    body.light .btn.light { background: #fff; }
+    .btn.danger { background: var(--danger); color: #26050b; }
+    .btn.full { width: 100%; }
+
+    .text-btn {
+      border: 0;
+      background: transparent;
+      color: var(--teal);
+      font-weight: 900;
+      padding: 0;
+      text-align: left;
+    }
+
+    .info-box {
+      border-radius: 18px;
+      padding: 13px;
+      background: rgba(94,234,212,.10);
+      color: var(--teal);
+      border: 1px solid rgba(94,234,212,.24);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .main-app { display: none; }
+    .main-app.active { display: block; }
+
+    .page {
+      padding: 22px 22px 118px;
+      max-width: 980px;
+      margin: 0 auto;
+    }
+
+    .user-strip {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .avatar {
+      width: 58px;
+      height: 58px;
+      border-radius: 21px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--line);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    body.light .avatar { background: #eef2f5; }
+
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .user-strip b { display: block; font-size: 17px; }
+    .user-strip span { color: var(--muted); font-size: 13px; display: block; margin-top: 3px; word-break: break-word; }
+
+    .balance-card {
+      overflow: visible;
+      border-radius: 30px;
+      background:
+        radial-gradient(circle at 100% 0, rgba(96,165,250,.22), transparent 14rem),
+        radial-gradient(circle at 0 100%, rgba(94,234,212,.18), transparent 14rem),
+        linear-gradient(135deg, #172033, #111827);
+      border: 1px solid rgba(255,255,255,.12);
+      box-shadow: var(--soft-shadow);
+      margin-bottom: 18px;
+    }
+
+    body.light .balance-card {
+      background:
+        radial-gradient(circle at 100% 0, rgba(96,165,250,.16), transparent 14rem),
+        radial-gradient(circle at 0 100%, rgba(20,184,166,.16), transparent 14rem),
+        linear-gradient(135deg, #ffffff, #f8fffd);
+      border: 1px solid #eef1f5;
+    }
+
+    .balance-top {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .balance-top span {
+      color: var(--coral);
+      display: block;
+      font-size: 17px;
+      font-weight: 950;
+    }
+
+    .balance-top strong {
+      display: block;
+      margin-top: 6px;
+      font-size: clamp(28px, 8vw, 42px);
+      letter-spacing: -.06em;
+      line-height: 1;
+      white-space: normal;
+      word-break: break-word;
+      color: #f8fbff;
+    }
+
+    body.light .balance-top strong { color: var(--ink); }
+
+    .wallet-btn {
+      border: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--coral), var(--amber));
+      color: #20100f;
+      font-weight: 950;
+      padding: 13px 23px;
+      box-shadow: 0 13px 30px rgba(255,107,97,.20);
+      white-space: nowrap;
+    }
+
+    .flow-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: rgba(255,255,255,.04);
+      border-top: 1px solid rgba(255,255,255,.08);
+      padding: 18px 10px 20px;
+    }
+
+    body.light .flow-row { background: linear-gradient(90deg, rgba(20,184,166,.06), rgba(96,165,250,.06)); }
+
+    .flow-btn {
+      border: 0;
+      background: transparent;
+      display: grid;
+      justify-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-weight: 850;
+    }
+
+    .round-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--line);
+      color: var(--teal);
+      box-shadow: 0 12px 26px rgba(0,0,0,.12);
+      display: grid;
+      place-items: center;
+      font-size: 26px;
+    }
+
+    body.light .round-icon { background: #fff; }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 13px;
+      margin-bottom: 18px;
+    }
+
+    .menu-tile {
+      min-height: 100px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(255,255,255,.045);
+      color: var(--teal);
+      box-shadow: 0 14px 30px rgba(0,0,0,.10);
+      display: grid;
+      place-items: center;
+      gap: 7px;
+      padding: 12px 7px;
+      text-align: center;
+      transition: .18s ease;
+    }
+
+    body.light .menu-tile { background: #fff; box-shadow: 0 14px 30px rgba(15,23,42,.05); }
+
+    .menu-tile:hover, .menu-tile.active {
+      transform: translateY(-2px);
+      background: rgba(94,234,212,.10);
+      border-color: rgba(94,234,212,.32);
+    }
+
+    .menu-tile svg { width: 29px; height: 29px; }
+    .menu-tile span {
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 850;
+      line-height: 1.22;
+    }
+
+    .hybrid-note {
+      border-radius: 28px;
+      padding: 20px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid var(--line);
+      box-shadow: var(--soft-shadow);
+    }
+
+    body.light .hybrid-note { background: #fff; }
+
+    .hybrid-note h3 {
+      margin: 0;
+      font-size: 23px;
+      line-height: 1.2;
+      letter-spacing: -.04em;
+    }
+
+    .hybrid-note p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      line-height: 1.48;
+      font-size: 14px;
+    }
+
+    .content-panel { display: none; animation: fade .18s ease both; }
+    .content-panel.active { display: block; }
+
+    .panel-card {
+      border-radius: 28px;
+      padding: 18px;
+      background: rgba(255,255,255,.045);
+      border: 1px solid var(--line);
+      box-shadow: var(--soft-shadow);
+      margin-bottom: 18px;
+    }
+
+    body.light .panel-card { background: #fff; }
+
+    .panel-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+
+    .panel-title h2 {
+      margin: 0;
+      font-size: 23px;
+      letter-spacing: -.04em;
+    }
+
+    .panel-title p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .segmented {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      padding: 5px;
+      background: rgba(255,255,255,.07);
+      border-radius: 999px;
+    }
+
+    body.light .segmented { background: #edf2f7; }
+
+    .segmented button {
+      border: 0;
+      border-radius: 999px;
+      padding: 11px;
+      color: var(--muted);
+      background: transparent;
+      font-weight: 950;
+    }
+
+    .segmented button.active {
+      background: var(--card);
+      color: var(--teal);
+      box-shadow: 0 8px 18px rgba(0,0,0,.12);
+    }
+
+    body.light .segmented button.active { background: #fff; color: var(--teal2); }
+
+    .list { display: grid; gap: 10px; }
+
+    .row-card {
+      padding: 13px;
+      border-radius: 20px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.035);
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 12px;
+    }
+
+    body.light .row-card { background: #fff; }
+
+    .row-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 17px;
+      background: rgba(94,234,212,.12);
+      color: var(--teal);
+      display: grid;
+      place-items: center;
+    }
+
+    .row-icon.red {
+      background: rgba(255,107,97,.12);
+      color: var(--coral);
+    }
+
+    .row-main { min-width: 0; }
+    .row-main b {
+      display: block;
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .row-main span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .amount {
+      color: var(--green);
+      font-weight: 950;
+      white-space: nowrap;
+    }
+    .amount.out { color: var(--coral); }
+
+    .filters {
+      display: grid;
+      grid-template-columns: 1fr 130px;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .mini-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .mini-stat {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 13px;
+      background: rgba(255,255,255,.035);
+    }
+
+    body.light .mini-stat { background: #fff; }
+
+    .mini-stat span {
+      color: var(--muted);
+      display: block;
+      font-size: 12px;
+      font-weight: 850;
+    }
+
+    .mini-stat b {
+      display: block;
+      margin-top: 7px;
+      font-size: 17px;
+      letter-spacing: -.04em;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .chart {
+      height: 180px;
+      display: flex;
+      align-items: end;
+      gap: 10px;
+      border-radius: 22px;
+      border: 1px solid var(--line);
+      padding: 13px;
+      background: rgba(255,255,255,.035);
+    }
+
+    body.light .chart { background: linear-gradient(180deg, #fff, #f9fbfd); }
+
+    .bar-wrap {
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+      display: grid;
+      justify-items: center;
+      align-items: end;
+      gap: 8px;
+    }
+
+    .bar {
+      width: 100%;
+      max-width: 34px;
+      min-height: 8px;
+      border-radius: 999px 999px 6px 6px;
+      background: linear-gradient(180deg, var(--teal), var(--blue));
+    }
+
+    .bar.red { background: linear-gradient(180deg, var(--coral), var(--amber)); }
+    .bar-label { color: var(--muted); font-size: 11px; font-weight: 900; }
+
+    .calc-display {
+      min-height: 86px;
+      border-radius: 24px;
+      background: #07111d;
+      color: white;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      padding: 18px;
+      font-size: 31px;
+      font-weight: 950;
+      letter-spacing: -.05em;
+      word-break: break-all;
+    }
+
+    .calc-grid {
+      margin-top: 11px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 9px;
+    }
+
+    .calc-grid button {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255,255,255,.05);
+      color: var(--ink);
+      padding: 15px 0;
+      font-weight: 950;
+    }
+
+    body.light .calc-grid button { background: #fff; }
+
+    .calc-grid .op { background: rgba(94,234,212,.12); color: var(--teal); }
+    .calc-grid .clear { background: rgba(255,255,255,.08); color: var(--muted); }
+    .calc-grid .equal { background: linear-gradient(135deg, var(--teal), var(--blue)); color: #06131a; border-color: transparent; }
+
+    .setting-profile-box {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: center;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 100% 0, rgba(0,184,217,.10), transparent 10rem),
+        radial-gradient(circle at 0 100%, rgba(0,168,143,.08), transparent 10rem),
+        rgba(255,255,255,.035);
+      margin-bottom: 14px;
+      box-shadow: 0 12px 30px rgba(0,0,0,.10);
+    }
+
+    body.light .setting-profile-box { background: #fff; }
+
+    .setting-avatar {
+      width: 86px;
+      height: 86px;
+      border-radius: 30px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, rgba(96,165,250,.18), rgba(94,234,212,.16));
+      color: var(--muted);
+      border: 1px solid var(--line);
+      cursor: pointer;
+      box-shadow: 0 12px 26px rgba(0,0,0,.12);
+    }
+
+    .setting-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .setting-avatar-text b {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 4px;
+    }
+
+    .setting-avatar-text span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .setting-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    .tutorial-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+
+    .tutorial-card {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color: var(--ink);
+      border-radius: 22px;
+      min-height: 118px;
+      padding: 14px;
+      text-align: left;
+      display: grid;
+      align-content: space-between;
+      gap: 10px;
+      transition: .18s ease;
+    }
+
+    body.light .tutorial-card { background: #fff; }
+
+    .tutorial-card:hover,
+    .tutorial-card.active {
+      transform: translateY(-2px);
+      border-color: rgba(94,234,212,.35);
+      background: rgba(94,234,212,.10);
+    }
+
+    .tutorial-card b {
+      display: block;
+      font-size: 15px;
+    }
+
+    .tutorial-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .tutorial-result {
+      margin-top: 12px;
+      border: 1px solid rgba(94,234,212,.22);
+      background: rgba(94,234,212,.08);
+      color: var(--ink);
+      border-radius: 22px;
+      padding: 15px;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .empty {
+      min-height: 150px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: var(--muted);
+      border: 1px dashed var(--line);
+      background: rgba(255,255,255,.035);
+      border-radius: 22px;
+      padding: 18px;
+    }
+
+    body.light .empty { background: #fbfcfe; }
+
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      background: rgba(0,0,0,.50);
+    }
+
+    .drawer-backdrop.show { display: block; }
+
+    .drawer {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: min(84%, 430px);
+      height: 100%;
+      background: #161d2b;
+      border-radius: 0 30px 30px 0;
+      padding: 26px 18px 22px;
+      transform: translateX(-102%);
+      transition: transform .24s ease;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 18px 0 50px rgba(0,0,0,.28);
+    }
+
+    body.light .drawer { background: #f5f8fb; }
+
+    .drawer-backdrop.show .drawer { transform: translateX(0); }
+
+    .drawer-profile {
+      display: grid;
+      grid-template-columns: 64px 1fr 42px;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+
+    .drawer-profile b { display: block; }
+    .drawer-profile span { color: var(--muted); display: block; font-size: 13px; word-break: break-word; margin-top: 3px; }
+    .role { color: var(--coral) !important; font-weight: 900; }
+
+    .drawer .balance-card {
+      margin-bottom: 14px;
+      box-shadow: none;
+      overflow: visible;
+    }
+
+    .drawer .balance-top {
+      padding: 16px 17px;
+      grid-template-columns: 1fr;
+    }
+
+    .drawer .wallet-btn {
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .drawer-menu {
+      display: grid;
+      gap: 6px;
+      overflow: auto;
+      padding-right: 2px;
+    }
+
+    .drawer-item {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      border-radius: 28px;
+      min-height: 59px;
+      padding: 0 14px;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      align-items: center;
+      gap: 12px;
+      text-align: left;
+      font-weight: 850;
+      font-size: 15px;
+    }
+
+    .drawer-item.active {
+      background: rgba(94,234,212,.12);
+      color: var(--teal);
+    }
+
+    .drawer-footer {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 2px 0;
+    }
+
+    .drawer-logout {
+      border: 0;
+      background: transparent;
+      color: var(--coral);
+      font-weight: 950;
+      font-size: 15px;
+    }
+
+    .version { color: var(--muted); font-weight: 850; }
+
+    .bottom-nav {
+      position: fixed;
+      left: 50%;
+      bottom: max(12px, env(safe-area-inset-bottom));
+      transform: translateX(-50%);
+      width: min(440px, calc(100% - 24px));
+      min-height: 74px;
+      z-index: 60;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      padding: 8px;
+      background: rgba(15,23,42,.82);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--line);
+      box-shadow: 0 18px 48px rgba(0,0,0,.22);
+      border-radius: 28px;
+    }
+
+    body.light .bottom-nav { background: rgba(255,255,255,.94); }
+
+    .bottom-nav button {
+      border: 0;
+      border-radius: 22px;
+      background: transparent;
+      display: grid;
+      place-items: center;
+      gap: 3px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 950;
+      padding: 8px;
+    }
+
+    .bottom-nav button.active {
+      color: var(--teal);
+      background: rgba(94,234,212,.13);
+    }
+
+    .bottom-nav svg { width: 20px; height: 20px; }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 94px;
+      transform: translateX(-50%) translateY(20px);
+      z-index: 120;
+      width: min(460px, calc(100% - 32px));
+      background: #07111d;
+      color: white;
+      padding: 14px 16px;
+      border-radius: 18px;
+      opacity: 0;
+      pointer-events: none;
+      transition: .2s ease;
+      box-shadow: 0 20px 50px rgba(0,0,0,.28);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0,0,0,.50);
+    }
+
+    .modal.show { display: flex; }
+
+    .modal-card {
+      width: min(520px, 100%);
+      max-height: calc(100vh - 36px);
+      overflow: auto;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 20px;
+      box-shadow: 0 28px 80px rgba(0,0,0,.28);
+    }
+
+    @keyframes fade {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 860px) {
+      .auth-view {
+        display: flex;
+        flex-direction: column;
+        padding: 22px;
+      }
+      .auth-hero { min-height: auto; }
+      .hero-strip { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 620px) {
+      .topbar { grid-template-columns: 46px 1fr 46px; padding: 0 18px; }
+      .top-right .top-add { display: none; }
+      .screen-title { font-size: 24px; }
+      .page { padding: 22px 18px 118px; }
+      .menu-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+      .menu-tile { min-height: 92px; border-radius: 20px; }
+      .menu-tile span { font-size: 12.2px; }
+      .mini-stats, .filters, .tutorial-grid { grid-template-columns: 1fr; }
+      .auth-hero h1 { font-size: 38px; }
+      .auth-view { padding: 18px; }
+    }
+
+    @media (max-width: 390px) {
+      .menu-grid { grid-template-columns: repeat(3, 1fr); }
+      .balance-top { grid-template-columns: 1fr; }
+      .wallet-btn { width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="shell">
+    <div class="statusbar">
+      <span id="clockText">06.16</span>
+      <div class="status-icons">
+        <span>◔</span><span>▂▃▅</span><span>4G</span><span>▰</span>
+      </div>
+    </div>
+
+    <main id="authView" class="auth-view">
+      <section class="auth-hero">
+        <div>
+          <div class="brand-mark">
+            <svg viewBox="0 0 24 24" width="36" height="36" fill="none"><path d="M4 7h16v11H4z" stroke="currentColor" stroke-width="2"/><path d="M16 12h4v4h-4a2 2 0 0 1 0-4Z" stroke="currentColor" stroke-width="2"/></svg>
+          </div>
+          <h1>DompetRapi Finance Pro</h1>
+          <p>Aplikasi keuangan dan kasir ringan untuk mencatat saldo, pemasukan, pengeluaran, produk, pesanan, pelanggan, laporan, kurs, backup data, dan pengaturan profil dalam satu file HTML.</p>
+        </div>
+
+        <div class="hero-strip">
+          <div class="hero-mini"><b>Keuangan</b><span>Saldo, dompet, transaksi, riwayat, dan laporan.</span></div>
+          <div class="hero-mini"><b>Kasir</b><span>Produk, pesanan, pelanggan, dan penjualan.</span></div>
+          <div class="hero-mini"><b>Mandiri</b><span>Data lokal, export/import, dan reset kode via email.</span></div>
+        </div>
+      </section>
+
+      <section class="auth-card">
+        <div class="auth-tabs" id="authTabs">
+          <button class="active" id="loginTab" type="button">Login</button>
+          <button id="registerTab" type="button">Register</button>
+        </div>
+
+        <form class="form" id="loginForm">
+          <div class="field"><label>Email</label><input class="input" id="loginEmail" type="email" autocomplete="email" required></div>
+          <div class="field"><label>Password</label><input class="input" id="loginPassword" type="password" autocomplete="current-password" required></div>
+          <button class="btn teal full" type="submit">Masuk</button>
+          <button class="text-btn" id="forgotBtn" type="button">Lupa password?</button>
+        </form>
+
+        <form class="form hidden" id="registerForm">
+          <div class="field"><label>Nama</label><input class="input" id="registerName" type="text" autocomplete="name" required></div>
+          <div class="field"><label>Email</label><input class="input" id="registerEmail" type="email" autocomplete="email" required></div>
+          <div class="field"><label>Password</label><input class="input" id="registerPassword" type="password" autocomplete="new-password" required></div>
+          <button class="btn teal full" type="submit">Buat Akun</button>
+        </form>
+
+        <form class="form hidden" id="forgotForm">
+          <div class="field"><label>Email akun</label><input class="input" id="forgotEmail" type="email" required></div>
+          <button class="btn teal full" type="submit">Minta Kode Reset</button>
+          <button class="text-btn" id="backLogin1" type="button">Kembali ke login</button>
+          <div class="info-box hidden" id="emailInfo"></div>
+        </form>
+
+        <form class="form hidden" id="resetForm">
+          <div class="field"><label>Kode reset</label><input class="input" id="resetCode" inputmode="numeric" required></div>
+          <div class="field"><label>Password baru</label><input class="input" id="newPassword" type="password" required></div>
+          <button class="btn teal full" type="submit">Ganti Password</button>
+          <button class="text-btn" id="backLogin2" type="button">Kembali ke login</button>
+        </form>
+      </section>
+    </main>
+
+    <section id="mainApp" class="main-app">
+      <header class="topbar">
+        <button class="icon-btn" id="hamburgerBtn" type="button" aria-label="Menu">
+          <svg viewBox="0 0 24 24" width="31" height="31" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        </button>
+        <div class="screen-title" id="screenTitle">Dasbor</div>
+        <div class="top-right">
+          <button class="top-add" data-screen="dompet" type="button">+ Catat</button>
+          <button class="icon-btn" id="bellBtn" type="button" aria-label="Notifikasi">
+            <svg viewBox="0 0 24 24" width="27" height="27" fill="none"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" stroke="currentColor" stroke-width="2"/><path d="M10 21h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </header>
+
+      <main class="page">
+        <section id="dashboardPanel" class="content-panel active">
+          <div class="user-strip">
+            <label class="avatar">
+              <input id="avatarInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+              <img id="avatarImg" class="hidden" alt="Foto profil">
+              <span id="avatarFallback">
+                <svg viewBox="0 0 24 24" width="36" height="36" fill="none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 21a8 8 0 0 1 16 0" fill="currentColor"/></svg>
+              </span>
+            </label>
+            <div>
+              <b id="userNameText">Pengguna</b>
+              <span id="userEmailText"></span>
+            </div>
+            <button class="icon-btn" id="bellBtn2" type="button">
+              <svg viewBox="0 0 24 24" width="27" height="27" fill="none"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" stroke="currentColor" stroke-width="2"/><path d="M10 21h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+
+          <div class="balance-card">
+            <div class="balance-top">
+              <div>
+                <span>Saldo</span>
+                <strong id="saldoText">Rp0</strong>
+              </div>
+              <button class="wallet-btn" data-screen="dompet" type="button">Dompet</button>
+            </div>
+            <div class="flow-row">
+              <button class="flow-btn" id="quickIncome" type="button"><span class="round-icon">↓</span><span>Pemasukan</span></button>
+              <button class="flow-btn" id="quickExpense" type="button"><span class="round-icon">↑</span><span>Pengeluaran</span></button>
+            </div>
+          </div>
+
+          <div class="menu-grid" id="menuGrid"></div>
+
+          <div class="hybrid-note">
+            <h3>Aplikasi keuangan dengan fitur kasir tambahan.</h3>
+            <p>Gunakan untuk catatan pribadi, usaha kecil, kas harian, produk, pesanan, pelanggan, karyawan, laporan, kalkulator, kurs, dan backup data.</p>
+          </div>
+        </section>
+
+        <section id="dompetPanel" class="content-panel"></section>
+        <section id="kasirPanel" class="content-panel"></section>
+        <section id="produkPanel" class="content-panel"></section>
+        <section id="ordersPanel" class="content-panel"></section>
+        <section id="historyPanel" class="content-panel"></section>
+        <section id="customersPanel" class="content-panel"></section>
+        <section id="employeesPanel" class="content-panel"></section>
+        <section id="reportsPanel" class="content-panel"></section>
+        <section id="calculatorPanel" class="content-panel"></section>
+        <section id="currencyPanel" class="content-panel"></section>
+        <section id="storagePanel" class="content-panel"></section>
+        <section id="settingsPanel" class="content-panel"></section>
+      </main>
+    </section>
+
+    <nav class="bottom-nav hidden" id="bottomNav">
+      <button data-screen="dashboard" type="button" class="active">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" stroke="currentColor" stroke-width="2"/></svg>
+        <span>Home</span>
+      </button>
+      <button data-screen="settings" type="button">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="2"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.5-2.4 1a8 8 0 0 0-1.7-1L14.5 3h-5l-.3 3a8 8 0 0 0-1.7 1L5 6 3 9.5 5 11a7 7 0 0 0 0 2l-2 1.5L5 18l2.5-1a8 8 0 0 0 1.7 1l.3 3h5l.3-3a8 8 0 0 0 1.7-1l2.5 1 2-3.5-2-1.5c.1-.3.1-.7.1-1Z" stroke="currentColor" stroke-width="2"/></svg>
+        <span>Seting</span>
+      </button>
+    </nav>
+
+    <div class="drawer-backdrop" id="drawerBackdrop">
+      <aside class="drawer">
+        <div class="drawer-profile">
+          <label class="avatar">
+            <input id="drawerAvatarInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+            <img id="drawerAvatarImg" class="hidden" alt="Foto profil">
+            <span id="drawerAvatarFallback">
+              <svg viewBox="0 0 24 24" width="36" height="36" fill="none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 21a8 8 0 0 1 16 0" fill="currentColor"/></svg>
+            </span>
+          </label>
+          <div>
+            <b id="drawerName">Pengguna</b>
+            <span id="drawerEmail"></span>
+            <span class="role">Admin</span>
+          </div>
+          <button class="icon-btn" id="drawerBellBtn" type="button">
+            <svg viewBox="0 0 24 24" width="27" height="27" fill="none"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" stroke="currentColor" stroke-width="2"/><path d="M10 21h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+
+        <div class="balance-card">
+          <div class="balance-top">
+            <div>
+              <span>Saldo</span>
+              <strong id="drawerSaldo">Rp0</strong>
+            </div>
+            <button class="wallet-btn" data-screen="dompet" type="button">Dompet</button>
+          </div>
+        </div>
+
+        <nav class="drawer-menu" id="drawerMenu"></nav>
+
+        <div class="drawer-footer">
+          <button class="drawer-logout" id="logoutBtn" type="button">Keluar</button>
+          <span class="version">v10.0</span>
+        </div>
+      </aside>
+    </div>
+
+    <div class="modal" id="notifModal">
+      <div class="modal-card">
+        <div class="panel-title">
+          <div><h2>Notifikasi</h2><p>Aktivitas terbaru aplikasi.</p></div>
+          <button class="icon-btn" id="closeNotif" type="button">×</button>
+        </div>
+        <div class="list" id="notifList"></div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    "use strict";
+
+    const STORAGE = {
+      USERS: "dompetrapi_v10_users",
+      SESSION: "dompetrapi_v10_session",
+      TX: "dompetrapi_v10_tx_",
+      PRODUCTS: "dompetrapi_v10_products_",
+      ORDERS: "dompetrapi_v10_orders_",
+      CUSTOMERS: "dompetrapi_v10_customers_",
+      EMPLOYEES: "dompetrapi_v10_employees_",
+      NOTIF: "dompetrapi_v10_notif_",
+      APPSET: "dompetrapi_v10_appset_"
+    };
+
+    const icons = {
+      dashboard: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" stroke="currentColor" stroke-width="2"/></svg>',
+      dompet: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16v11H4z" stroke="currentColor" stroke-width="2"/><path d="M16 12h4v4h-4a2 2 0 0 1 0-4Z" stroke="currentColor" stroke-width="2"/></svg>',
+      kasir: '<svg viewBox="0 0 24 24" fill="none"><path d="M4 5h2l2 12h10l2-8H8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M10 21h.01M17 21h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg>',
+      produk: '<svg viewBox="0 0 24 24" fill="none"><path d="m12 3 8 4-8 4-8-4 8-4Z" stroke="currentColor" stroke-width="2"/><path d="M4 7v10l8 4 8-4V7M12 11v10" stroke="currentColor" stroke-width="2"/></svg>',
+      orders: '<svg viewBox="0 0 24 24" fill="none"><path d="M6 3h12v18l-2-1-2 1-2-1-2 1-2-1-2 1V3Z" stroke="currentColor" stroke-width="2"/><path d="M9 8h6M9 12h6M9 16h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+      history: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3v18M16 7c-1-2-7-2-7 1s7 2 7 5-6 4-8 1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M3 12a9 9 0 1 0 4-7" stroke="currentColor" stroke-width="2" stroke-dasharray="2 2"/></svg>',
+      customers: '<svg viewBox="0 0 24 24" fill="none"><path d="M20 8c0 6-8 11-8 11S4 14 4 8a4 4 0 0 1 8-2 4 4 0 0 1 8 2Z" stroke="currentColor" stroke-width="2"/></svg>',
+      employees: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM5 21a7 7 0 0 1 14 0" stroke="currentColor" stroke-width="2"/></svg>',
+      reports: '<svg viewBox="0 0 24 24" fill="none"><path d="M6 3h12v18H6V3Z" stroke="currentColor" stroke-width="2"/><path d="M9 15l2-2 2 2 3-5M9 8h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+      calculator: '<svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="18" rx="3" stroke="currentColor" stroke-width="2"/><path d="M8 7h8M8 11h.01M12 11h.01M16 11h.01M8 15h.01M12 15h.01M16 15h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+      currency: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Z" stroke="currentColor" stroke-width="2"/><path d="M3.6 9h16.8M3.6 15h16.8M12 3c2.4 2.5 3.6 5.5 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.5-3.6-9S9.6 5.5 12 3Z" stroke="currentColor" stroke-width="2"/></svg>',
+      storage: '<svg viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="6" rx="7" ry="3" stroke="currentColor" stroke-width="2"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6" stroke="currentColor" stroke-width="2"/></svg>',
+      settings: '<svg viewBox="0 0 24 24" fill="none"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z" stroke="currentColor" stroke-width="2"/><path d="M19 12a7 7 0 0 0-.1-1l2-1.5-2-3.5-2.4 1a8 8 0 0 0-1.7-1L14.5 3h-5l-.3 3a8 8 0 0 0-1.7 1L5 6 3 9.5 5 11a7 7 0 0 0 0 2l-2 1.5L5 18l2.5-1a8 8 0 0 0 1.7 1l.3 3h5l.3-3a8 8 0 0 0 1.7-1l2.5 1 2-3.5-2-1.5c.1-.3.1-.7.1-1Z" stroke="currentColor" stroke-width="2"/></svg>'
+    };
+
+    const screens = [
+      ["dashboard", "Dasbor", icons.dashboard],
+      ["dompet", "Dompet", icons.dompet],
+      ["kasir", "Kasir", icons.kasir],
+      ["produk", "Produk", icons.produk],
+      ["orders", "Daftar Pesanan", icons.orders],
+      ["history", "Riwayat Penjualan", icons.history],
+      ["customers", "Pelanggan", icons.customers],
+      ["employees", "Karyawan", icons.employees],
+      ["reports", "Laporan", icons.reports],
+      ["calculator", "Kalkulator", icons.calculator],
+      ["currency", "Mata Uang", icons.currency],
+      ["storage", "Storage", icons.storage],
+      ["settings", "Seting", icons.settings]
+    ];
+
+    const categories = {
+      income: ["Penjualan", "Gaji", "Bonus", "Transfer Masuk", "Investasi", "Lainnya"],
+      expense: ["Belanja Produk", "Operasional", "Transportasi", "Tagihan", "Gaji Karyawan", "Lainnya"]
+    };
+
+    const state = {
+      users: [],
+      user: null,
+      screen: "dashboard",
+      txType: "income",
+      transactions: [],
+      products: [],
+      orders: [],
+      customers: [],
+      employees: [],
+      notifications: [],
+      calc: "0",
+      resetEmail: null,
+      resetOtp: null,
+      settings: { theme: "dark", accent: "teal", compact: "no", defaultCurrency: "IDR", notifications: "on" },
+      rates: { USD:1, IDR:16400, EUR:.92, JPY:157, GBP:.78, SGD:1.35, MYR:4.7, AUD:1.52, SAR:3.75, AED:3.67, CNY:7.25, KRW:1380, THB:36.7 }
+    };
+
+    const $ = q => document.querySelector(q);
+    const $$ = q => Array.from(document.querySelectorAll(q));
+
+    const els = {
+      clockText: $("#clockText"),
+      authView: $("#authView"),
+      mainApp: $("#mainApp"),
+      bottomNav: $("#bottomNav"),
+      loginTab: $("#loginTab"),
+      registerTab: $("#registerTab"),
+      loginForm: $("#loginForm"),
+      registerForm: $("#registerForm"),
+      forgotForm: $("#forgotForm"),
+      resetForm: $("#resetForm"),
+      forgotBtn: $("#forgotBtn"),
+      backLogin1: $("#backLogin1"),
+      backLogin2: $("#backLogin2"),
+      emailInfo: $("#emailInfo"),
+      hamburgerBtn: $("#hamburgerBtn"),
+      drawerBackdrop: $("#drawerBackdrop"),
+      drawerMenu: $("#drawerMenu"),
+      logoutBtn: $("#logoutBtn"),
+      screenTitle: $("#screenTitle"),
+      menuGrid: $("#menuGrid"),
+      saldoText: $("#saldoText"),
+      drawerSaldo: $("#drawerSaldo"),
+      userNameText: $("#userNameText"),
+      userEmailText: $("#userEmailText"),
+      drawerName: $("#drawerName"),
+      drawerEmail: $("#drawerEmail"),
+      avatarInput: $("#avatarInput"),
+      drawerAvatarInput: $("#drawerAvatarInput"),
+      avatarImg: $("#avatarImg"),
+      drawerAvatarImg: $("#drawerAvatarImg"),
+      avatarFallback: $("#avatarFallback"),
+      drawerAvatarFallback: $("#drawerAvatarFallback"),
+      quickIncome: $("#quickIncome"),
+      quickExpense: $("#quickExpense"),
+      bellBtn: $("#bellBtn"),
+      bellBtn2: $("#bellBtn2"),
+      drawerBellBtn: $("#drawerBellBtn"),
+      notifModal: $("#notifModal"),
+      closeNotif: $("#closeNotif"),
+      notifList: $("#notifList"),
+      toast: $("#toast")
+    };
+
+    function readJSON(key, fallback) { try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : fallback; } catch { return fallback; } }
+    function writeJSON(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+    function uid() { return "id_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 9); }
+    function nowISO() { return new Date().toISOString(); }
+    function normalizeEmail(email) { return String(email || "").trim().toLowerCase(); }
+    async function hash(value) {
+      if (crypto?.subtle) {
+        const data = new TextEncoder().encode(value);
+        const digest = await crypto.subtle.digest("SHA-256", data);
+        return Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, "0")).join("");
+      }
+      let h = 0; for (let i=0;i<value.length;i++) h = Math.imul(31,h) + value.charCodeAt(i) | 0;
+      return "h" + Math.abs(h);
+    }
+    function toast(msg) { els.toast.textContent = msg; els.toast.classList.add("show"); clearTimeout(window.__toast); window.__toast = setTimeout(() => els.toast.classList.remove("show"), 2600); }
+    function esc(s) { return String(s || "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c])); }
+    function rupiah(v) { return new Intl.NumberFormat("id-ID", { style:"currency", currency:"IDR", maximumFractionDigits:0 }).format(Number(v || 0)); }
+    function parseMoney(v) { const n = Number(String(v||"").replace(/[^\d,.-]/g,"").replace(/\./g,"").replace(",", ".")); return Number.isFinite(n) ? n : 0; }
+    function dt(iso) { return new Intl.DateTimeFormat("id-ID", { day:"2-digit", month:"short", year:"numeric", hour:"2-digit", minute:"2-digit" }).format(new Date(iso)); }
+    function monthKey(iso) { const d = new Date(iso); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}`; }
+    function monthLabel(key) { const [y,m] = key.split("-").map(Number); return new Intl.DateTimeFormat("id-ID", { month:"short" }).format(new Date(y, m-1, 1)); }
+    function key(prefix) { return prefix + state.user.id; }
+
+    function loadUsers() { state.users = readJSON(STORAGE.USERS, []); }
+    function saveUsers() { writeJSON(STORAGE.USERS, state.users); }
+    function loadAllData() {
+      state.transactions = readJSON(key(STORAGE.TX), []);
+      state.products = readJSON(key(STORAGE.PRODUCTS), []);
+      state.orders = readJSON(key(STORAGE.ORDERS), []);
+      state.customers = readJSON(key(STORAGE.CUSTOMERS), []);
+      state.employees = readJSON(key(STORAGE.EMPLOYEES), []);
+      state.notifications = readJSON(key(STORAGE.NOTIF), []);
+      state.settings = { ...state.settings, ...readJSON(key(STORAGE.APPSET), {}) };
+      applyTheme();
+    }
+    function saveData(type) {
+      const map = {
+        transactions:[STORAGE.TX,state.transactions],
+        products:[STORAGE.PRODUCTS,state.products],
+        orders:[STORAGE.ORDERS,state.orders],
+        customers:[STORAGE.CUSTOMERS,state.customers],
+        employees:[STORAGE.EMPLOYEES,state.employees],
+        notifications:[STORAGE.NOTIF,state.notifications],
+        settings:[STORAGE.APPSET,state.settings]
+      };
+      if (map[type]) writeJSON(key(map[type][0]), map[type][1]);
+    }
+
+    function applyTheme() {
+      document.body.classList.toggle("light", state.settings.theme === "light");
+    }
+
+    function setAuth(mode) {
+      $("#authTabs").classList.toggle("hidden", mode === "forgot" || mode === "reset");
+      els.loginForm.classList.toggle("hidden", mode !== "login");
+      els.registerForm.classList.toggle("hidden", mode !== "register");
+      els.forgotForm.classList.toggle("hidden", mode !== "forgot");
+      els.resetForm.classList.toggle("hidden", mode !== "reset");
+      els.loginTab.classList.toggle("active", mode === "login");
+      els.registerTab.classList.toggle("active", mode === "register");
+    }
+
+    async function register(e) {
+      e.preventDefault();
+      loadUsers();
+
+      const name = $("#registerName").value.trim();
+      const email = normalizeEmail($("#registerEmail").value);
+      const password = $("#registerPassword").value;
+
+      if (!name) return toast("Nama wajib diisi.");
+      if (!email) return toast("Email wajib diisi.");
+      if (password.length < 6) return toast("Password minimal 6 karakter.");
+      if (state.users.some(u => u.email === email)) return toast("Email sudah terdaftar.");
+
+      const user = {
+        id: uid(),
+        name,
+        email,
+        role: "Admin",
+        avatar: "",
+        profileCategory: "",
+        profileNote: "",
+        passwordHash: await hash(password),
+        createdAt: nowISO()
+      };
+
+      state.users.push(user);
+      saveUsers();
+      writeJSON(STORAGE.TX + user.id, []);
+      writeJSON(STORAGE.PRODUCTS + user.id, seedProducts());
+      writeJSON(STORAGE.ORDERS + user.id, []);
+      writeJSON(STORAGE.CUSTOMERS + user.id, []);
+      writeJSON(STORAGE.EMPLOYEES + user.id, []);
+      writeJSON(STORAGE.NOTIF + user.id, [{ id:uid(), text:"Akun berhasil dibuat.", createdAt: nowISO() }]);
+      writeJSON(STORAGE.APPSET + user.id, state.settings);
+
+      $("#loginEmail").value = email;
+      $("#loginPassword").value = "";
+      $("#registerName").value = "";
+      $("#registerEmail").value = "";
+      $("#registerPassword").value = "";
+      setAuth("login");
+      toast("Akun berhasil dibuat.");
+    }
+
+    async function login(e) {
+      e.preventDefault();
+      loadUsers();
+
+      const email = normalizeEmail($("#loginEmail").value);
+      const passwordHash = await hash($("#loginPassword").value);
+      const user = state.users.find(u => u.email === email && u.passwordHash === passwordHash);
+
+      if (!user) return toast("Email atau password salah.");
+
+      state.user = user;
+      writeJSON(STORAGE.SESSION, { userId:user.id, at:nowISO() });
+      loadAllData();
+      showApp();
+      toast("Berhasil masuk.");
+    }
+
+    function forgot(e) {
+      e.preventDefault();
+      loadUsers();
+
+      const email = normalizeEmail($("#forgotEmail").value);
+      if (!state.users.some(u => u.email === email)) return toast("Email tidak ditemukan.");
+
+      state.resetEmail = email;
+      state.resetOtp = String(Math.floor(100000 + Math.random() * 900000));
+      const subject = encodeURIComponent("Kode Reset Password DompetRapi");
+      const body = encodeURIComponent(`Kode reset password DompetRapi Anda adalah: ${state.resetOtp}\n\nMasukkan kode ini di halaman reset.`);
+      const mailto = `mailto:${email}?subject=${subject}&body=${body}`;
+
+      els.emailInfo.classList.remove("hidden");
+      els.emailInfo.innerHTML = `Kode reset disiapkan untuk <b>${esc(email)}</b>.<br><a href="${mailto}" style="color:var(--teal);font-weight:950;">Buka email untuk meminta kode</a><br><small>Kode demo: <b>${state.resetOtp}</b></small>`;
+      setTimeout(() => setAuth("reset"), 1200);
+      toast("Kode reset dibuat.");
+    }
+
+    async function resetPassword(e) {
+      e.preventDefault();
+
+      if ($("#resetCode").value.trim() !== state.resetOtp) return toast("Kode reset salah.");
+
+      const newPassword = $("#newPassword").value;
+      if (newPassword.length < 6) return toast("Password minimal 6 karakter.");
+
+      loadUsers();
+      const passwordHash = await hash(newPassword);
+      state.users = state.users.map(u => u.email === state.resetEmail ? { ...u, passwordHash } : u);
+      saveUsers();
+
+      $("#loginEmail").value = state.resetEmail;
+      $("#loginPassword").value = "";
+      $("#resetCode").value = "";
+      $("#newPassword").value = "";
+      state.resetEmail = null;
+      state.resetOtp = null;
+      setAuth("login");
+      toast("Password berhasil diganti.");
+    }
+
+    function restoreSession() {
+      const session = readJSON(STORAGE.SESSION, null);
+      if (!session?.userId) return false;
+
+      loadUsers();
+      const user = state.users.find(u => u.id === session.userId);
+      if (!user) return false;
+
+      state.user = user;
+      loadAllData();
+      showApp();
+      return true;
+    }
+
+    function showApp() {
+      els.authView.classList.add("hidden");
+      els.mainApp.classList.add("active");
+      els.bottomNav.classList.remove("hidden");
+      renderShell();
+      setScreen("dashboard");
+    }
+
+    function showAuth() {
+      els.authView.classList.remove("hidden");
+      els.mainApp.classList.remove("active");
+      els.bottomNav.classList.add("hidden");
+      setAuth("login");
+    }
+
+    function logout() {
+      localStorage.removeItem(STORAGE.SESSION);
+      state.user = null;
+      showAuth();
+      toast("Keluar berhasil.");
+    }
+
+    function balanceSummary() {
+      const income = state.transactions.filter(x => x.type === "income").reduce((s,x) => s + Number(x.amount), 0);
+      const expense = state.transactions.filter(x => x.type === "expense").reduce((s,x) => s + Number(x.amount), 0);
+      return { income, expense, balance: income - expense };
+    }
+
+    function addNotification(text) {
+      if (state.settings.notifications === "off") return;
+      state.notifications.unshift({ id:uid(), text, createdAt:nowISO() });
+      saveData("notifications");
+      renderNotifications();
+    }
+
+    function renderShell() {
+      els.userNameText.textContent = state.user.name;
+      els.userEmailText.textContent = state.user.profileCategory ? `${state.user.email} • ${state.user.profileCategory}` : state.user.email;
+      els.drawerName.textContent = state.user.name;
+      els.drawerEmail.textContent = state.user.profileCategory ? `${state.user.email} • ${state.user.profileCategory}` : state.user.email;
+      renderAvatar();
+      renderMenus();
+      renderBalance();
+      renderNotifications();
+    }
+
+    function renderAvatar() {
+      for (const [img, fallback] of [[els.avatarImg, els.avatarFallback], [els.drawerAvatarImg, els.drawerAvatarFallback]]) {
+        if (state.user.avatar) {
+          img.src = state.user.avatar;
+          img.classList.remove("hidden");
+          fallback.classList.add("hidden");
+        } else {
+          img.classList.add("hidden");
+          fallback.classList.remove("hidden");
+        }
+      }
+    }
+
+    function renderBalance() {
+      const s = balanceSummary();
+      els.saldoText.textContent = rupiah(s.balance);
+      els.drawerSaldo.textContent = rupiah(s.balance);
+    }
+
+    function renderMenus() {
+      els.menuGrid.innerHTML = "";
+      els.drawerMenu.innerHTML = "";
+
+      const dashboardTiles = screens.filter(x => !["dashboard","storage","settings"].includes(x[0]));
+      dashboardTiles.forEach(([id,label,icon]) => {
+        const tile = document.createElement("button");
+        tile.className = "menu-tile";
+        tile.type = "button";
+        tile.dataset.screen = id;
+        tile.innerHTML = `${icon}<span>${label}</span>`;
+        els.menuGrid.appendChild(tile);
+      });
+
+      screens.forEach(([id,label,icon]) => {
+        const item = document.createElement("button");
+        item.className = "drawer-item";
+        item.type = "button";
+        item.dataset.screen = id;
+        item.innerHTML = `<span>${icon}</span><span>${label}</span>`;
+        els.drawerMenu.appendChild(item);
+      });
+    }
+
+    function setScreen(screen) {
+      state.screen = screen;
+      els.screenTitle.textContent = screens.find(x => x[0] === screen)?.[1] || "Dasbor";
+
+      $$(".content-panel").forEach(p => p.classList.remove("active"));
+      const panel = $(`#${screen}Panel`);
+      if (panel) panel.classList.add("active");
+
+      $$("[data-screen]").forEach(b => b.classList.toggle("active", b.dataset.screen === screen));
+
+      closeDrawer();
+
+      if (screen !== "dashboard") renderPanel(screen);
+      renderBalance();
+    }
+
+    function renderPanel(screen) {
+      const map = {
+        dompet: renderDompet,
+        kasir: renderKasir,
+        produk: renderProduk,
+        orders: renderOrders,
+        history: renderHistory,
+        customers: renderCustomers,
+        employees: renderEmployees,
+        reports: renderReports,
+        calculator: renderCalculatorPage,
+        currency: renderCurrencyPage,
+        storage: renderStorage,
+        settings: renderSettings
+      };
+      map[screen]?.();
+    }
+
+    function panelStart(title, sub="") {
+      return `<div class="panel-card"><div class="panel-title"><div><h2>${title}</h2>${sub ? `<p>${sub}</p>` : ""}</div></div>`;
+    }
+
+    function renderDompet(type = state.txType) {
+      state.txType = type;
+      $("#dompetPanel").innerHTML = panelStart("Dompet", "Catat pemasukan dan pengeluaran manual.") + `
+        <form class="form" id="txForm">
+          <div class="segmented">
+            <button type="button" id="txIncome" class="${type === "income" ? "active" : ""}">Pemasukan</button>
+            <button type="button" id="txExpense" class="${type === "expense" ? "active" : ""}">Pengeluaran</button>
+          </div>
+          <div class="field"><label>Nominal</label><input class="input" id="txAmount" inputmode="numeric" placeholder="150000" required></div>
+          <div class="field"><label>Kategori</label><select class="select" id="txCategory">${categories[type].map(c => `<option>${c}</option>`).join("")}</select></div>
+          <div class="field"><label>Deskripsi</label><textarea class="textarea" id="txDesc" placeholder="Contoh: penjualan harian"></textarea></div>
+          <button class="btn teal full" type="submit">Simpan</button>
+        </form>
+      </div>
+      <div class="panel-card"><div class="panel-title"><div><h2>Transaksi Terakhir</h2></div></div><div class="list">${txList(state.transactions.slice(0,8))}</div></div>`;
+
+      $("#txIncome").onclick = () => renderDompet("income");
+      $("#txExpense").onclick = () => renderDompet("expense");
+      $("#txForm").onsubmit = e => {
+        e.preventDefault();
+        saveTransaction(type, $("#txAmount").value, $("#txCategory").value, $("#txDesc").value);
+      };
+    }
+
+    function saveTransaction(type, amountRaw, category, description) {
+      const amount = parseMoney(amountRaw);
+      if (!amount || amount <= 0) return toast("Nominal belum benar.");
+
+      state.transactions.unshift({ id:uid(), type, amount, category, description:description.trim(), createdAt:nowISO() });
+      saveData("transactions");
+      addNotification(`${type === "income" ? "Pemasukan" : "Pengeluaran"} disimpan.`);
+      renderBalance();
+      renderDompet(type);
+      toast("Transaksi disimpan.");
+    }
+
+    function renderKasir() {
+      $("#kasirPanel").innerHTML = panelStart("Kasir", "Buat pesanan dari produk.") + `
+        <form class="form" id="orderForm">
+          <div class="field"><label>Produk</label><select class="select" id="orderProduct">${state.products.map(p => `<option value="${p.id}">${esc(p.name)} — ${rupiah(p.price)}</option>`).join("")}</select></div>
+          <div class="field"><label>Jumlah</label><input class="input" id="orderQty" type="number" min="1" value="1"></div>
+          <div class="field"><label>Pelanggan</label><input class="input" id="orderCustomer" placeholder="Opsional"></div>
+          <button class="btn coral full" type="submit">Buat Pesanan</button>
+        </form>
+      </div>
+      <div class="panel-card"><div class="panel-title"><div><h2>Pesanan Baru</h2></div></div><div class="list">${orderList(state.orders.slice(0,5))}</div></div>`;
+
+      $("#orderForm").onsubmit = e => {
+        e.preventDefault();
+        const product = state.products.find(p => p.id === $("#orderProduct").value);
+        if (!product) return toast("Produk belum tersedia.");
+
+        const qty = Math.max(1, Number($("#orderQty").value || 1));
+        const total = product.price * qty;
+
+        state.orders.unshift({ id:uid(), productId:product.id, productName:product.name, qty, total, customer:$("#orderCustomer").value.trim(), status:"Selesai", createdAt:nowISO() });
+        state.transactions.unshift({ id:uid(), type:"income", amount:total, category:"Penjualan", description:`Kasir: ${product.name} x${qty}`, createdAt:nowISO() });
+
+        saveData("orders");
+        saveData("transactions");
+        addNotification("Pesanan kasir disimpan.");
+        renderKasir();
+        renderBalance();
+      };
+    }
+
+    function renderProduk() {
+      $("#produkPanel").innerHTML = panelStart("Produk", "Kelola produk jualan.") + `
+        <form class="form" id="productForm">
+          <div class="field"><label>Nama produk</label><input class="input" id="productName" required></div>
+          <div class="field"><label>Harga</label><input class="input" id="productPrice" inputmode="numeric" required></div>
+          <div class="field"><label>Stok</label><input class="input" id="productStock" type="number" min="0" value="0"></div>
+          <button class="btn coral full" type="submit">Tambah Produk</button>
+        </form>
+      </div>
+      <div class="panel-card"><div class="panel-title"><div><h2>Daftar Produk</h2></div></div><div class="list">${productList()}</div></div>`;
+
+      $("#productForm").onsubmit = e => {
+        e.preventDefault();
+        const name = $("#productName").value.trim();
+        const price = parseMoney($("#productPrice").value);
+        const stock = Number($("#productStock").value || 0);
+
+        if (!name || price <= 0) return toast("Produk belum lengkap.");
+
+        state.products.unshift({ id:uid(), name, price, stock, createdAt:nowISO() });
+        saveData("products");
+        addNotification("Produk ditambahkan.");
+        renderProduk();
+      };
+    }
+
+    function renderOrders() {
+      $("#ordersPanel").innerHTML = panelStart("Daftar Pesanan", "Pesanan dari kasir.") + `<div class="list">${orderList(state.orders)}</div></div>`;
+    }
+
+    function renderHistory() {
+      $("#historyPanel").innerHTML = panelStart("Riwayat Penjualan", "Transaksi terbaru.") + `
+        <div class="filters">
+          <input class="input" id="histSearch" placeholder="Cari...">
+          <select class="select" id="histType"><option value="all">Semua</option><option value="income">Masuk</option><option value="expense">Keluar</option></select>
+        </div>
+        <div class="list" id="histList">${txList(state.transactions)}</div>
+      </div>`;
+      $("#histSearch").oninput = filterHistory;
+      $("#histType").onchange = filterHistory;
+    }
+
+    function filterHistory() {
+      const q = $("#histSearch").value.toLowerCase();
+      const type = $("#histType").value;
+      const list = state.transactions.filter(t => (!q || `${t.category} ${t.description}`.toLowerCase().includes(q)) && (type === "all" || t.type === type));
+      $("#histList").innerHTML = txList(list);
+    }
+
+    function renderCustomers() {
+      $("#customersPanel").innerHTML = panelStart("Pelanggan", "Simpan data pelanggan.") + `
+        <form class="form" id="customerForm">
+          <div class="field"><label>Nama</label><input class="input" id="customerName" required></div>
+          <div class="field"><label>No. HP</label><input class="input" id="customerPhone"></div>
+          <button class="btn teal full" type="submit">Tambah</button>
+        </form>
+      </div>
+      <div class="panel-card"><div class="list">${simpleList(state.customers,"phone")}</div></div>`;
+
+      $("#customerForm").onsubmit = e => {
+        e.preventDefault();
+        const name = $("#customerName").value.trim();
+        if (!name) return;
+        state.customers.unshift({ id:uid(), name, phone:$("#customerPhone").value.trim(), createdAt:nowISO() });
+        saveData("customers");
+        addNotification("Pelanggan ditambahkan.");
+        renderCustomers();
+      };
+    }
+
+    function renderEmployees() {
+      $("#employeesPanel").innerHTML = panelStart("Karyawan", "Data karyawan.") + `
+        <form class="form" id="employeeForm">
+          <div class="field"><label>Nama</label><input class="input" id="employeeName" required></div>
+          <div class="field"><label>Jabatan</label><input class="input" id="employeeRole" placeholder="Kasir / Admin"></div>
+          <button class="btn teal full" type="submit">Tambah</button>
+        </form>
+      </div>
+      <div class="panel-card"><div class="list">${simpleList(state.employees,"role")}</div></div>`;
+
+      $("#employeeForm").onsubmit = e => {
+        e.preventDefault();
+        const name = $("#employeeName").value.trim();
+        if (!name) return;
+        state.employees.unshift({ id:uid(), name, role:$("#employeeRole").value.trim() || "Karyawan", createdAt:nowISO() });
+        saveData("employees");
+        addNotification("Karyawan ditambahkan.");
+        renderEmployees();
+      };
+    }
+
+    function renderReports() {
+      const s = balanceSummary();
+      $("#reportsPanel").innerHTML = panelStart("Laporan", "Ringkasan dan grafik sederhana.") + `
+        <div class="mini-stats">
+          <div class="mini-stat"><span>Saldo</span><b>${rupiah(s.balance)}</b></div>
+          <div class="mini-stat"><span>Pemasukan</span><b>${rupiah(s.income)}</b></div>
+          <div class="mini-stat"><span>Pengeluaran</span><b>${rupiah(s.expense)}</b></div>
+        </div>
+        <div class="chart" id="chartBox"></div>
+        <button class="btn teal full" id="exportCsvBtn" style="margin-top:12px;">Export CSV</button>
+      </div>`;
+      renderChart();
+      $("#exportCsvBtn").onclick = exportCSV;
+    }
+
+    function renderChart() {
+      const box = $("#chartBox");
+      if (!box) return;
+
+      const months = [];
+      const base = new Date();
+      for (let i=5; i>=0; i--) months.push(monthKey(new Date(base.getFullYear(), base.getMonth()-i, 1)));
+
+      const data = months.map(k => {
+        const tx = state.transactions.filter(t => monthKey(t.createdAt) === k);
+        const income = tx.filter(t => t.type==="income").reduce((s,t)=>s+Number(t.amount),0);
+        const expense = tx.filter(t => t.type==="expense").reduce((s,t)=>s+Number(t.amount),0);
+        return {k, income, expense};
+      });
+
+      const max = Math.max(...data.map(d => Math.max(d.income,d.expense)), 1);
+      box.innerHTML = data.map(d => {
+        const h = Math.max(8, Math.round((Math.max(d.income,d.expense)/max)*130));
+        return `<div class="bar-wrap"><div class="bar ${d.expense > d.income ? "red" : ""}" style="height:${h}px"></div><div class="bar-label">${monthLabel(d.k)}</div></div>`;
+      }).join("");
+    }
+
+    function renderCalculatorPage() {
+      $("#calculatorPanel").innerHTML = panelStart("Kalkulator", "Alat hitung biasa.") + `
+        <div class="calc-display" id="calcDisplay">${state.calc}</div>
+        <div class="calc-grid" id="calcGrid"></div>
+      </div>`;
+      bindCalculator();
+    }
+
+    function bindCalculator() {
+      const grid = $("#calcGrid");
+      if (!grid) return;
+      const buttons = [["C","clear"],["⌫","clear"],["%","op"],["÷","op"],["7",""],["8",""],["9",""],["×","op"],["4",""],["5",""],["6",""],["-","op"],["1",""],["2",""],["3",""],["+","op"],["00",""],["0",""],[".",""],["=","equal"]];
+      grid.innerHTML = "";
+      buttons.forEach(([label,cls]) => {
+        const b=document.createElement("button");
+        b.type="button";
+        b.textContent=label;
+        if(cls)b.className=cls;
+        b.onclick=()=>calcInput(label);
+        grid.appendChild(b);
+      });
+    }
+
+    function calcInput(label) {
+      if(label==="C") state.calc="0";
+      else if(label==="⌫") state.calc=state.calc.length<=1?"0":state.calc.slice(0,-1);
+      else if(label==="=") {
+        try {
+          const exp=state.calc.replace(/×/g,"*").replace(/÷/g,"/").replace(/%/g,"/100");
+          if(!/^[0-9+\-*/.() ]+$/.test(exp)) throw new Error();
+          const r=Function(`"use strict"; return (${exp})`)();
+          state.calc=Number.isFinite(r)?String(Math.round(r*1000000)/1000000):"0";
+        } catch { toast("Perhitungan tidak valid."); }
+      } else {
+        state.calc=state.calc==="0"&&/[0-9]/.test(label)?label:state.calc+label;
+      }
+      const display=$("#calcDisplay");
+      if(display) display.textContent=state.calc;
+    }
+
+    function renderCurrencyPage() {
+      const codes = Object.keys(state.rates).sort();
+      $("#currencyPanel").innerHTML = panelStart("Mata Uang", "Konversi kurs fallback.") + `
+        <div class="form">
+          <div class="field"><label>Nominal</label><input class="input" id="curAmount" value="1" inputmode="decimal"></div>
+          <div class="field"><label>Dari</label><select class="select" id="curFrom">${codes.map(c=>`<option ${c==="USD"?"selected":""}>${c}</option>`).join("")}</select></div>
+          <div class="field"><label>Ke</label><select class="select" id="curTo">${codes.map(c=>`<option ${c==="IDR"?"selected":""}>${c}</option>`).join("")}</select></div>
+          <button class="btn blue full" id="curBtn" type="button">Konversi</button>
+          <div class="info-box" id="curResult">-</div>
+        </div>
+      </div>`;
+      $("#curBtn").onclick = convertCurrency;
+    }
+
+    function convertCurrency() {
+      const amount = parseMoney($("#curAmount").value);
+      const from=$("#curFrom").value;
+      const to=$("#curTo").value;
+      const result = amount / state.rates[from] * state.rates[to];
+      $("#curResult").textContent = `${amount.toLocaleString("id-ID")} ${from} ≈ ${result.toLocaleString("id-ID", {maximumFractionDigits:2})} ${to}`;
+    }
+
+    function renderStorage() {
+      $("#storagePanel").innerHTML = panelStart("Storage", "Backup dan pemindahan data.") + `
+        <div class="form">
+          <button class="btn light full" id="exportJsonBtn">Export JSON</button>
+          <label class="btn light full" for="importJsonInput">Import JSON</label>
+          <input id="importJsonInput" type="file" accept="application/json" hidden>
+          <button class="btn danger full" id="clearDataBtn">Hapus Data Akun</button>
+        </div>
+      </div>`;
+      $("#exportJsonBtn").onclick=exportJSON;
+      $("#importJsonInput").onchange=importJSON;
+      $("#clearDataBtn").onclick=clearAllData;
+    }
+
+    function renderSettings() {
+      const avatar = state.user.avatar || "";
+      const category = state.user.profileCategory || "";
+      const note = state.user.profileNote || "";
+
+      $("#settingsPanel").innerHTML = panelStart("Seting", "Pengaturan akun, tampilan, backup, dan panduan aplikasi.") + `
+        <div class="setting-profile-box">
+          <label class="setting-avatar" for="settingAvatarInput" title="Pilih foto dari galeri">
+            <img id="settingAvatarPreview" class="${avatar ? "" : "hidden"}" src="${avatar}" alt="Foto profil">
+            <span id="settingAvatarFallback" class="${avatar ? "hidden" : ""}">
+              <svg viewBox="0 0 24 24" width="44" height="44" fill="none"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM4 21a8 8 0 0 1 16 0" fill="currentColor"/></svg>
+            </span>
+          </label>
+
+          <div class="setting-avatar-text">
+            <b>${esc(state.user.name || "Pengguna")}</b>
+            <span>${esc(state.user.email || "")}</span>
+            <span>${category ? "Kategori: " + esc(category) : "Belum ada kategori profil."}</span>
+          </div>
+        </div>
+
+        <form class="form" id="profileForm">
+          <input id="settingAvatarInput" type="file" accept="image/png,image/jpeg,image/webp" hidden>
+
+          <div class="field">
+            <label>Nama Profil</label>
+            <input class="input" id="profileName" value="${esc(state.user.name || "")}" placeholder="Nama pengguna">
+          </div>
+
+          <div class="field">
+            <label>Kategori Profil</label>
+            <select class="select" id="profileCategory">
+              <option value="">Pilih kategori</option>
+              ${["Pribadi","UMKM","Toko","Kas Harian","Keluarga","Lainnya"].map(x => `<option value="${x}" ${category === x ? "selected" : ""}>${x}</option>`).join("")}
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Keterangan</label>
+            <textarea class="textarea" id="profileNote" placeholder="Contoh: catatan keuangan toko, kas pribadi, atau dompet usaha">${esc(note)}</textarea>
+          </div>
+
+          <div class="field">
+            <label>Tema Tampilan</label>
+            <select class="select" id="appTheme">
+              <option value="dark" ${state.settings.theme === "dark" ? "selected" : ""}>Gelap Premium</option>
+              <option value="light" ${state.settings.theme === "light" ? "selected" : ""}>Terang Bersih</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Notifikasi</label>
+            <select class="select" id="appNotification">
+              <option value="on" ${state.settings.notifications === "on" ? "selected" : ""}>Aktif</option>
+              <option value="off" ${state.settings.notifications === "off" ? "selected" : ""}>Nonaktif</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Mata Uang Utama</label>
+            <select class="select" id="defaultCurrency">
+              <option value="IDR" ${state.settings.defaultCurrency === "IDR" ? "selected" : ""}>IDR - Rupiah</option>
+              <option value="USD" ${state.settings.defaultCurrency === "USD" ? "selected" : ""}>USD - Dollar</option>
+              <option value="SGD" ${state.settings.defaultCurrency === "SGD" ? "selected" : ""}>SGD - Singapore Dollar</option>
+            </select>
+          </div>
+
+          <div class="setting-actions">
+            <button class="btn teal full" type="submit">Simpan Seting</button>
+            <button class="btn light full" id="openStorageFromSetting" type="button">Backup Data</button>
+            <button class="btn danger full" id="logout2" type="button">Logout</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">
+          <div><h2>Pengertian Aplikasi</h2><p>Ringkasan fungsi DompetRapi.</p></div>
+        </div>
+        <div class="info-box">
+          DompetRapi Finance Pro adalah aplikasi pencatatan keuangan dan kasir ringan berbasis web. Aplikasi ini membantu pengguna mencatat pemasukan, pengeluaran, produk, pesanan, pelanggan, karyawan, laporan, kalkulator, kurs mata uang, serta backup data langsung dari perangkat.
+        </div>
+      </div>
+
+      <div class="panel-card">
+        <div class="panel-title">
+          <div><h2>Tutorial Aplikasi</h2><p>Tekan salah satu kolom tutorial.</p></div>
+        </div>
+
+        <div class="tutorial-grid" id="tutorialGrid">
+          <button class="tutorial-card active" data-tutorial="mulai" type="button"><b>Mulai Pakai</b><span>Login, seting profil, lalu buka dashboard.</span></button>
+          <button class="tutorial-card" data-tutorial="dompet" type="button"><b>Catat Dompet</b><span>Pemasukan dan pengeluaran manual.</span></button>
+          <button class="tutorial-card" data-tutorial="kasir" type="button"><b>Kasir & Produk</b><span>Tambah produk dan buat pesanan.</span></button>
+          <button class="tutorial-card" data-tutorial="backup" type="button"><b>Backup Data</b><span>Export dan import file JSON.</span></button>
+        </div>
+
+        <div class="tutorial-result" id="tutorialResult"></div>
+      </div>`;
+
+      const avatarInput = $("#settingAvatarInput");
+      if (avatarInput) avatarInput.onchange = uploadAvatar;
+
+      $("#profileForm").onsubmit = e => {
+        e.preventDefault();
+
+        state.user.name = $("#profileName").value.trim() || state.user.name;
+        state.user.profileCategory = $("#profileCategory").value.trim();
+        state.user.profileNote = $("#profileNote").value.trim();
+        state.settings.theme = $("#appTheme").value;
+        state.settings.notifications = $("#appNotification").value;
+        state.settings.defaultCurrency = $("#defaultCurrency").value;
+
+        saveData("settings");
+        loadUsers();
+        state.users = state.users.map(u => u.id === state.user.id ? state.user : u);
+        saveUsers();
+
+        applyTheme();
+        renderShell();
+        renderSettings();
+        toast("Seting profil disimpan.");
+      };
+
+      $("#openStorageFromSetting").onclick = () => setScreen("storage");
+      $("#logout2").onclick = logout;
+
+      bindTutorialCards();
+      showTutorial("mulai");
+    }
+
+    function bindTutorialCards() {
+      $$(".tutorial-card").forEach(card => {
+        card.onclick = () => {
+          $$(".tutorial-card").forEach(c => c.classList.remove("active"));
+          card.classList.add("active");
+          showTutorial(card.dataset.tutorial);
+        };
+      });
+    }
+
+    function showTutorial(key) {
+      const content = {
+        mulai: "<b>Mulai Pakai</b><br>1. Buat akun atau login. 2. Buka Seting untuk memasang foto profil dan kategori akun. 3. Cek saldo pada Home. 4. Gunakan menu Dompet atau Kasir sesuai kebutuhan.",
+        dompet: "<b>Catat Dompet</b><br>Buka menu Dompet, pilih Pemasukan atau Pengeluaran, masukkan nominal secara manual, pilih kategori, isi deskripsi, lalu tekan Simpan. Saldo akan berubah otomatis.",
+        kasir: "<b>Kasir & Produk</b><br>Masuk ke Produk untuk menambah barang atau jasa. Setelah produk tersedia, buka Kasir, pilih produk, isi jumlah, lalu buat pesanan. Pesanan otomatis masuk ke Riwayat dan menambah pemasukan.",
+        backup: "<b>Backup Data</b><br>Buka Seting lalu tekan Backup Data, atau buka menu Storage. Gunakan Export JSON untuk menyimpan backup. Gunakan Import JSON jika ingin memulihkan data ke perangkat lain."
+      };
+      const box = $("#tutorialResult");
+      if (box) box.innerHTML = content[key] || content.mulai;
+    }
+
+    function productList() {
+      return state.products.length
+        ? state.products.map(p=>`<div class="row-card"><div class="row-icon">${icons.produk}</div><div class="row-main"><b>${esc(p.name)}</b><span>Stok ${p.stock}</span></div><b>${rupiah(p.price)}</b></div>`).join("")
+        : `<div class="empty">Belum ada produk.</div>`;
+    }
+
+    function orderList(items) {
+      return items.length
+        ? items.map(o=>`<div class="row-card"><div class="row-icon">${icons.orders}</div><div class="row-main"><b>${esc(o.productName)} x${o.qty}</b><span>${esc(o.customer||"Tanpa pelanggan")} • ${dt(o.createdAt)}</span></div><b>${rupiah(o.total)}</b></div>`).join("")
+        : `<div class="empty">Belum ada pesanan.</div>`;
+    }
+
+    function txList(items) {
+      return items.length
+        ? items.map(t=>`<div class="row-card"><div class="row-icon ${t.type==="expense"?"red":""}">${t.type==="income"?"↓":"↑"}</div><div class="row-main"><b>${esc(t.description||t.category)}</b><span>${esc(t.category)} • ${dt(t.createdAt)}</span></div><b class="amount ${t.type==="expense"?"out":""}">${t.type==="expense"?"-":"+"}${rupiah(t.amount)}</b></div>`).join("")
+        : `<div class="empty">Belum ada transaksi.</div>`;
+    }
+
+    function simpleList(items, field) {
+      return items.length
+        ? items.map(x=>`<div class="row-card"><div class="row-icon">${icons.employees}</div><div class="row-main"><b>${esc(x.name)}</b><span>${esc(x[field]||"-")}</span></div></div>`).join("")
+        : `<div class="empty">Belum ada data.</div>`;
+    }
+
+    function renderNotifications() {
+      els.notifList.innerHTML = state.notifications.length
+        ? state.notifications.map(n=>`<div class="row-card"><div class="row-icon"><svg viewBox="0 0 24 24" fill="none"><path d="M18 9a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9Z" stroke="currentColor" stroke-width="2"/><path d="M10 21h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><div class="row-main"><b>${esc(n.text)}</b><span>${dt(n.createdAt)}</span></div></div>`).join("")
+        : `<div class="empty">Belum ada notifikasi.</div>`;
+    }
+
+    function exportCSV() {
+      const rows=[["Tanggal","Tipe","Kategori","Deskripsi","Nominal"], ...state.transactions.map(t=>[dt(t.createdAt),t.type,t.category,t.description||"",t.amount])];
+      download(rows.map(r=>r.map(c=>`"${String(c).replace(/"/g,'""')}"`).join(",")).join("\n"), `dompetrapi-${state.user.email}.csv`, "text/csv");
+    }
+
+    function exportJSON() {
+      const payload={user:{name:state.user.name,email:state.user.email,profileCategory:state.user.profileCategory,profileNote:state.user.profileNote},settings:state.settings,transactions:state.transactions,products:state.products,orders:state.orders,customers:state.customers,employees:state.employees,exportedAt:nowISO()};
+      download(JSON.stringify(payload,null,2), `dompetrapi-backup-${state.user.email}.json`, "application/json");
+    }
+
+    function importJSON(e) {
+      const file=e.target.files?.[0];
+      if(!file)return;
+      const reader=new FileReader();
+      reader.onload=()=>{
+        try{
+          const data=JSON.parse(reader.result);
+          if(!confirm("Import data ke akun ini?"))return;
+
+          state.transactions=Array.isArray(data.transactions)?data.transactions:[];
+          state.products=Array.isArray(data.products)?data.products:state.products;
+          state.orders=Array.isArray(data.orders)?data.orders:[];
+          state.customers=Array.isArray(data.customers)?data.customers:[];
+          state.employees=Array.isArray(data.employees)?data.employees:[];
+
+          if (data.settings) state.settings = { ...state.settings, ...data.settings };
+
+          ["transactions","products","orders","customers","employees","settings"].forEach(saveData);
+          applyTheme();
+          renderShell();
+          renderStorage();
+          toast("Import selesai.");
+        }catch{toast("File tidak valid.");}
+      };
+      reader.readAsText(file);
+    }
+
+    function clearAllData() {
+      if(!confirm("Hapus semua data akun ini?"))return;
+      state.transactions=[];
+      state.orders=[];
+      state.customers=[];
+      state.employees=[];
+      ["transactions","orders","customers","employees"].forEach(saveData);
+      renderShell();
+      renderStorage();
+      toast("Data dihapus.");
+    }
+
+    function download(content, filename, type) {
+      const blob=new Blob([content],{type});
+      const url=URL.createObjectURL(blob);
+      const a=document.createElement("a");
+      a.href=url;
+      a.download=filename;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function seedProducts() {
+      return [
+        {id:uid(),name:"Produk Contoh A",price:15000,stock:20,createdAt:nowISO()},
+        {id:uid(),name:"Produk Contoh B",price:25000,stock:12,createdAt:nowISO()}
+      ];
+    }
+
+    function uploadAvatar(e) {
+      const file=e.target.files?.[0];
+      if(!file)return;
+      if(!["image/jpeg","image/png","image/webp"].includes(file.type))return toast("Gunakan JPG, PNG, atau WEBP.");
+      if(file.size>2*1024*1024)return toast("Maksimal 2 MB.");
+
+      const reader=new FileReader();
+      reader.onload=()=>{
+        state.user.avatar=reader.result;
+        loadUsers();
+        state.users=state.users.map(u=>u.id===state.user.id?state.user:u);
+        saveUsers();
+        renderAvatar();
+        if(state.screen==="settings") renderSettings();
+        toast("Foto profil diganti.");
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function openDrawer(){ els.drawerBackdrop.classList.add("show"); }
+    function closeDrawer(){ els.drawerBackdrop.classList.remove("show"); }
+    function openNotif(){ renderNotifications(); els.notifModal.classList.add("show"); }
+
+    function bindEvents(){
+      els.loginTab.onclick=()=>setAuth("login");
+      els.registerTab.onclick=()=>setAuth("register");
+      els.forgotBtn.onclick=()=>setAuth("forgot");
+      els.backLogin1.onclick=()=>setAuth("login");
+      els.backLogin2.onclick=()=>setAuth("login");
+
+      els.registerForm.onsubmit=register;
+      els.loginForm.onsubmit=login;
+      els.forgotForm.onsubmit=forgot;
+      els.resetForm.onsubmit=resetPassword;
+
+      els.hamburgerBtn.onclick=openDrawer;
+      els.drawerBackdrop.onclick=e=>{if(e.target===els.drawerBackdrop)closeDrawer();};
+      els.logoutBtn.onclick=logout;
+
+      els.avatarInput.onchange=uploadAvatar;
+      els.drawerAvatarInput.onchange=uploadAvatar;
+
+      document.addEventListener("click", e=>{
+        const btn=e.target.closest("[data-screen]");
+        if(btn) setScreen(btn.dataset.screen);
+      });
+
+      els.quickIncome.onclick=()=>{setScreen("dompet"); setTimeout(()=>renderDompet("income"),0);};
+      els.quickExpense.onclick=()=>{setScreen("dompet"); setTimeout(()=>renderDompet("expense"),0);};
+
+      [els.bellBtn, els.bellBtn2, els.drawerBellBtn].forEach(b=>b.onclick=openNotif);
+      els.closeNotif.onclick=()=>els.notifModal.classList.remove("show");
+      els.notifModal.onclick=e=>{if(e.target===els.notifModal)els.notifModal.classList.remove("show");};
+    }
+
+    function tickClock(){
+      const d=new Date();
+      $("#clockText").textContent=`${String(d.getHours()).padStart(2,"0")}.${String(d.getMinutes()).padStart(2,"0")}`;
+    }
+
+    function boot(){
+      bindEvents();
+      tickClock();
+      setInterval(tickClock, 10000);
+      if(!restoreSession()) showAuth();
+    }
+
+    boot();
+  </script>
+</body>
+</html>
